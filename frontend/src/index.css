@@ -1,0 +1,128 @@
+@import '@fontsource/noto-sans/400.css';
+@import '@fontsource/noto-sans/500.css';
+@import '@fontsource/noto-sans/700.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Reddit-inspired dark mode transitions */
+:root {
+  --background-transition: background-color 0.3s ease;
+  --text-transition: color 0.3s ease;
+  --border-transition: border-color 0.3s ease;
+}
+
+* {
+  transition: var(--background-transition), var(--text-transition), var(--border-transition);
+}
+
+/* Reddit-inspired dark theme colors */
+.dark {
+  --background: #1a1a1b;
+  --foreground: #d7dadc;
+  --primary: #ff4500;
+  --primary-foreground: #ffffff;
+  --muted: #272729;
+  --muted-foreground: #818384;
+  --accent: #343536;
+  --border: #343536;
+  color-scheme: dark;
+}
+
+/* Reddit-inspired light theme colors */
+:root {
+  --background: #ffffff;
+  --foreground: #1c1c1c;
+  --primary: #ff4500;
+  --primary-foreground: #ffffff;
+  --muted: #f6f7f8;
+  --muted-foreground: #787c7e;
+  --accent: #f6f7f8;
+  --border: #edeff1;
+  color-scheme: light;
+}
+
+@layer components {
+  .interactive-hover {
+    @apply transition-transform duration-200 ease-out hover:scale-[1.03] active:scale-[0.97];
+  }
+  
+  .button-hover {
+    @apply interactive-hover hover:bg-[#ff4500] hover:text-white dark:hover:bg-[#ff4500] dark:hover:text-white;
+  }
+  
+  .card-hover {
+    @apply interactive-hover hover:shadow-lg dark:hover:shadow-orange-900/20;
+  }
+  
+  .input-focus {
+    @apply focus:ring-2 focus:ring-[#ff4500] dark:focus:ring-[#ff4500] focus:border-transparent;
+  }
+
+  .menu-hover {
+    @apply transition-all duration-200 ease-out hover:translate-x-1 hover:text-[#ff4500] dark:hover:text-[#ff4500];
+  }
+  
+  .reddit-fade-in {
+    @apply animate-fade-in;
+  }
+  
+  .reddit-slide-in {
+    @apply animate-slide-in;
+  }
+}
+
+@import '@fontsource/noto-sans/400.css';
+@import '@fontsource/noto-sans/500.css';
+@import '@fontsource/noto-sans/700.css';
+
+@layer base {
+  :root {
+    /* Reddit Light Theme */
+    --background: 0 0% 100%; /* White */
+    --foreground: 0 0% 10%; /* Near black for text */
+    --card: 0 0% 100%; /* White */
+    --card-foreground: 0 0% 10%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 10%;
+    --primary: 16 100% 50%; /* Reddit Orange #FF4500 */
+    --primary-foreground: 0 0% 100%;
+    --secondary: 207 100% 41%; /* Reddit Blue #0079D3 */
+    --secondary-foreground: 0 0% 100%;
+    --muted: 220 9% 46%; /* Reddit Gray #878A8C */
+    --muted-foreground: 0 0% 10%;
+    --accent: 16 100% 50%; /* Reddit Orange */
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 220 14% 90%; /* Light gray for borders */
+    --input: 220 14% 90%;
+    --ring: 16 100% 50%; /* Reddit Orange for focus rings */
+    --radius: 0.5rem;
+  }
+ 
+  .dark {
+    /* Reddit Dark Theme */
+    --background: 0 0% 10%; /* Dark background */
+    --foreground: 0 0% 100%;
+    --card: 0 0% 15%; /* Slightly lighter than background */
+    --card-foreground: 0 0% 100%;
+    --popover: 0 0% 15%;
+    --popover-foreground: 0 0% 100%;
+    --primary: 16 100% 50%; /* Reddit Orange #FF4500 */
+    --primary-foreground: 0 0% 100%;
+    --secondary: 207 100% 41%; /* Reddit Blue #0079D3 */
+    --secondary-foreground: 0 0% 100%;
+    --muted: 220 9% 46%; /* Reddit Gray #878A8C */
+    --muted-foreground: 0 0% 90%;
+    --accent: 16 100% 50%; /* Reddit Orange */
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 0 0% 20%; /* Darker borders for dark mode */
+    --input: 0 0% 20%;
+    --ring: 16 100% 50%; /* Reddit Orange for focus rings */
+  }
+}
+
