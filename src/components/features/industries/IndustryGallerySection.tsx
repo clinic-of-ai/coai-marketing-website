@@ -7,7 +7,14 @@ export function IndustryGallerySection() {
     <section className="container py-20">
       <SimpleGallery>
         {industries.map((industry) => (
-          <IndustryCard key={industry.tag} {...industry} layout="loosed" />
+          <IndustryCard
+            key={industry.tag}
+            imageSrc={industry.image}
+            title={industry.title}
+            paragraph={industry.description}
+            href={industry.href}
+            layout="loosed"
+          />
         ))}
       </SimpleGallery>
     </section>
