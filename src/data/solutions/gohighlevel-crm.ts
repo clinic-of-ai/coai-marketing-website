@@ -23,7 +23,7 @@ export default {
   hero: {
       title: "Ladia CRM Platform",
       heading: "The All-In-One CRM Built for Growth-Focused Teams",
-      paragraph: "Ditch clunky CRM setups. Ladia combines sales automation, client management, and team collaboration in one intuitive platform. Start converting leads faster tomorrow.",
+      paragraph: "Ditch clunky CRM setups. Ladia  combines sales automation, client management, and team collaboration in one intuitive platform. Start converting leads faster tomorrow.",
       imageSrc: "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/67971a3c4f0aeb52025cbb54.webp"
   },
   solutionOverview: {
