@@ -125,6 +125,10 @@ const config = {
           "0%, 100%": { transform: "scale(1)" },
           "50%": { transform: "scale(1.1)" },
         },
+        carousel: {
+          from: { transform: "translateX(0)" },
+          to: { transform: "translateX(-100%)" },
+        },
       },
       animation: {
         "bounce-right": "bounce-right 0.5s ease-in-out",
@@ -135,6 +139,7 @@ const config = {
         "spin-around": "spin-around calc(var(--speed) * 2) infinite linear",
         slide: "slide var(--speed) ease-in-out infinite alternate",
         spring: "spring 0.8s cubic-bezier(0.38,-0.06,0.27,0.81) infinite",
+        carousel: "carousel 40s linear infinite",
       },
       transitionDuration: {
         300: "300ms",

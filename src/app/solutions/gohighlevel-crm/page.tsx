@@ -1,18 +1,23 @@
-import React from "react";
-import { HeroSection } from "./_components/sections/HeroSection";
-import { BenefitSection } from "./_components/sections/BenefitSection";
-import { ServicesSection } from "./_components/sections/ServicesSection";
-import { ClientTestimonialSection } from "./_components/sections/ClientTestimonialSection";
-import { CallToActionSection } from "./_components/sections/CallToActionSection";
+import { Hero } from "@/components/features/solutions/hero";
+import { SolutionOverview } from "@/components/features/solutions/solution-overview";
+import { Benefits } from "@/components/features/solutions/benefits";
+import { HowItWorks } from "@/components/features/solutions/how-it-work";
+import { Features } from "@/components/features/solutions/features";
+import { Testimonials } from "@/components/features/solutions/testimonials";
+import { PricingCta } from "@/components/features/solutions/pricing-cta";
+
+import content from "@/data/solutions/gohighlevel-crm";
 
 export default function GoHighLevelCRMPage() {
   return (
     <>
-      <HeroSection />
-      <BenefitSection />
-      <ServicesSection />
-      <ClientTestimonialSection />
-      <CallToActionSection />
+      <Hero content={content.hero} />
+      <SolutionOverview content={content.solutionOverview} />
+      <Benefits content={content.benefits} />
+      <HowItWorks content={content.howItWorks} />
+      <Features />
+      <Testimonials content={content.testimonials} />
+      <PricingCta content={content.pricingCta} />
     </>
   );
 }
