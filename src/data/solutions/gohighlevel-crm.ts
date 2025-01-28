@@ -239,6 +239,7 @@ export default {
       title: "Pricing",
       heading: "Simple Pricing, Enterprise Power",
       description: "Start free then grow with usage-based plans. Unlimited seats included. Cancel anytime.",
-      buttonText: "Compare Plans"
+      buttonText: "Compare Plans",
+      imageSrc: "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/67971a3c4f0aeb52025cbb54.webp"
   }
 };
