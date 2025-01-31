@@ -1,6 +1,6 @@
 import { cn } from "@/libs/utils";
 import { DEFAULT_HEADER_HEIGHT } from "@/app/config";
-import { SectionHeader } from "@/components/SectionHeader";
+import { SectionHeader } from "@/components/common/section-header";
 import { IndustryGallerySection } from "@/components/features/industries/IndustryGallerySection";
 import { MoreIndustryNotice } from "@/components/features/industries/MoreIndustryNotice";
 

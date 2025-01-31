@@ -2,7 +2,7 @@ import { IntroTitle } from "@/components/IntroTitle";
 import { MethodCard } from "../cards/MethodCard";
 import { Button } from "@/components/ui/button";
 import { Settings2, Brain, Timer, Bolt } from "lucide-react";
-import { LeadForm } from "@/components/form/LeadForm";
+import { LeadForm } from "@/components/common/lead-form";
 import { avaBookingSource } from "@/app/config";
 
 const items = [

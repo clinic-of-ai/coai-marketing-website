@@ -1,54 +1,79 @@
 "use client";
 
+import * as React from "react";
 import Link from "next/link";
-import { cn } from "@/libs/utils";
-import { NavBar } from "@/components/Navigation/NavBar";
-import { CoAILogo } from "@/components/ui/logo/CoAILogo";
 import { Cross as Hamburger } from "hamburger-react";
-import { useScrollVisibility } from "@/hooks/useScrollVisibility";
+
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+} from "@/components/ui/navigation-menu";
 import { useToggleState } from "@/hooks/useToggleState";
-import { MobileMenu } from "../Navigation/MobileMenu";
-import { navTopLinks } from "@/constants/links";
-import { DEFAULT_HEADER_HEIGHT } from "@/app/config";
+
+import { ThemeToggleButton } from "./theme-toggle-button";
+import { MegaMenuContent } from "./navigation/mega-menu-content";
 
 export function Header() {
   const { isOpen, toggleMenu } = useToggleState();
-  const { isVisible, isAtTop } = useScrollVisibility();
 
   return (
-    <>
-      <header
-        className={cn(
-          "fixed z-[100] w-full transition-all duration-300 ease-in-out bg-inverse/60 backdrop-blur-sm",
-          isVisible ? "top-0" : "-top-full",
-          isAtTop ? `${DEFAULT_HEADER_HEIGHT}` : `h-16`,
-          isOpen ? "bg-transparent" : "",
-        )}
-      >
-        <div className="container flex h-full w-full items-center justify-between gap-16">
-          <Link href="/" aria-label="Home">
-            <CoAILogo size="sm" variant="onBlack" />
-          </Link>
+    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <div className="container flex h-16 items-center">
+        <Link href="/" className="mr-6 flex items-center space-x-2">
+          <span className="inline-block font-bold">HackTheBox</span>
+        </Link>
+        <NavigationMenu className="hidden lg:flex">
+          <NavigationMenuList>
+            <NavigationMenuItem>
+              <NavigationMenuTrigger>Products</NavigationMenuTrigger>
+              <NavigationMenuContent>
+                <MegaMenuContent />
+              </NavigationMenuContent>
+            </NavigationMenuItem>
+            <NavigationMenuItem>
+              <NavigationMenuTrigger>Solutions</NavigationMenuTrigger>
+              <NavigationMenuContent>
+                <MegaMenuContent />
+              </NavigationMenuContent>
+            </NavigationMenuItem>
+            <NavigationMenuItem>
+              <Link href="/pricing" legacyBehavior passHref>
+                <NavigationMenuLink>Pricing</NavigationMenuLink>
+              </Link>
+            </NavigationMenuItem>
+            <NavigationMenuItem>
+              <NavigationMenuTrigger>Resources</NavigationMenuTrigger>
+              <NavigationMenuContent>
+                <MegaMenuContent />
+              </NavigationMenuContent>
+            </NavigationMenuItem>
+            <NavigationMenuItem>
+              <NavigationMenuTrigger>Company</NavigationMenuTrigger>
+              <NavigationMenuContent>
+                <MegaMenuContent />
+              </NavigationMenuContent>
+            </NavigationMenuItem>
+          </NavigationMenuList>
+        </NavigationMenu>
 
-          <NavBar
-            className="hidden md:flex"
-            leftItems={navTopLinks.slice(0, 2)}
-            rightItems={navTopLinks.slice(2)}
-          />
-
-          <div className="md:hidden">
+        <div className="flex flex-1 items-center justify-end gap-x-2">
+          <div className="lg:hidden">
             <Hamburger
               toggled={isOpen}
               toggle={toggleMenu}
               direction="right"
-              color="#FFF"
               size={28}
               aria-label="Toggle menu"
             />
           </div>
+          <ThemeToggleButton />
         </div>
-      </header>
-      <MobileMenu toggleMenu={toggleMenu} isOpen={isOpen} items={navTopLinks} />
-    </>
+      </div>
+      {/* Mobile menu content panel goes here */}
+    </header>
   );
 }

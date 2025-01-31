@@ -1,7 +1,7 @@
 import { IntroTitle } from "@/components/IntroTitle";
-import { LeadForm } from "@/components/form/LeadForm";
+import { LeadForm } from "@/components/common/lead-form";
 import { discoveryCallBookingSource } from "@/app/config";
-import { AnimatedArrowButton } from "@/components/AnimatedArrowButton";
+import { AnimatedArrowButton } from "@/components/ui/animated-arrow-button";
 
 export function CallToActionSection() {
   return (

@@ -1,5 +1,5 @@
 import { BenefitCard } from "@/components/Card/BenefitCard";
-import { SectionHeader } from "@/components/SectionHeader";
+import { SectionHeader } from "@/components/common/section-header";
 
 const content = [
   {

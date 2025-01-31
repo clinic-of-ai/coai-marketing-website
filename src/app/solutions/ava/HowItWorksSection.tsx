@@ -1,4 +1,4 @@
-import { SectionHeader } from "@/components/SectionHeader";
+import { SectionHeader } from "@/components/common/section-header";
 import { FeatureSimpleCard } from "@/components/Card/FeatureSimpleCard";
 import { Settings, Sliders, RefreshCw, Clock } from "lucide-react";
 

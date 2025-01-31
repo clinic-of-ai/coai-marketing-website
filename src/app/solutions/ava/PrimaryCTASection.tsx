@@ -2,9 +2,9 @@
 
 import Image from "next/image";
 import { StarSolid } from "iconoir-react";
-import { LeadForm } from "@/components/form/LeadForm";
+import { LeadForm } from "@/components/common/lead-form";
 import { avaBookingSource } from "@/app/config";
-import { AnimatedArrowButton } from "@/components/AnimatedArrowButton";
+import { AnimatedArrowButton } from "@/components/ui/animated-arrow-button";
 
 export function PrimaryCTASection() {
   return (

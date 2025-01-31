@@ -1,5 +1,6 @@
 "use client";
-// import { ThemeProvider } from "next-themes";
+
+import { ThemeProvider } from "next-themes";
 
 interface AppProviderProps {
   children: React.ReactNode;
@@ -7,13 +8,13 @@ interface AppProviderProps {
 
 export function AppProvider({ children }: AppProviderProps) {
   return (
-    // <ThemeProvider
-    //   attribute="class"
-    //   defaultTheme="system"
-    //   enableSystem
-    //   disableTransitionOnChange
-    // >
-    // </ThemeProvider>
-    <>{children}</>
+    <ThemeProvider
+      attribute="class"
+      defaultTheme="system"
+      enableSystem
+      disableTransitionOnChange
+    >
+      {children}
+    </ThemeProvider>
   );
 }

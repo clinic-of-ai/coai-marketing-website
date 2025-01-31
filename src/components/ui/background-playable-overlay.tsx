@@ -2,8 +2,8 @@
 import { cn } from "@/libs/utils";
 import { ArrowUpRight, Check } from "lucide-react";
 import { motion } from "framer-motion";
-import { AnimatedArrowButton } from "../AnimatedArrowButton";
-import { LeadForm } from "../form/LeadForm";
+import { AnimatedArrowButton } from "./animated-arrow-button";
+import { LeadForm } from "../common/lead-form";
 
 interface BackgroundPlayableOverlayProps {
   backgroundImageUrl: string;

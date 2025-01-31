@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { SectionHeader } from "@/components/SectionHeader";
+import { SectionHeader } from "@/components/common/section-header";
 import {
   ExpandableCard,
   ExpandableCardProps,

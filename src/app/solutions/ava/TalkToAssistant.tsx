@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { SectionHeader } from "@/components/SectionHeader";
+import { SectionHeader } from "@/components/common/section-header";
 import { InteractWithAssistant } from "@/components/InteractWithAssistant";
 import { VideoCamera } from "iconoir-react";
 

@@ -6,8 +6,8 @@ import { SolutionSteps } from "@/components/features/industries/SolutionSteps";
 import { PricingSection } from "@/components/features/industries/PricingSection";
 import { CTASection } from "@/components/features/industries/CTASection";
 import { discoveryCallBookingSource } from "@/app/config";
-import { LeadForm } from "@/components/form/LeadForm";
-import { AnimatedArrowButton } from "@/components/AnimatedArrowButton";
+import { LeadForm } from "@/components/common/lead-form";
+import { AnimatedArrowButton } from "@/components/ui/animated-arrow-button";
 import { retailPricingPlans } from "@/data/pricing-plan";
 
 export default function RetailServices() {

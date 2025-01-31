@@ -1,5 +1,5 @@
 import { Iphone15Pro } from "@/components/ui/iphone-15-pro";
-import { AnimatedArrowButton } from "@/components/AnimatedArrowButton";
+import { AnimatedArrowButton } from "@/components/ui/animated-arrow-button";
 
 export function HeroSection() {
   return (
