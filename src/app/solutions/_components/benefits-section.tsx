@@ -42,7 +42,7 @@ function BenefitCard(props: BenefitCardProps) {
       <div className="relative w-full h-full rounded-md overflow-hidden flex-1">
         <Image
           fill
-          src="https://images.pexels.com/photos/3183150/pexels-photo-3183150.jpeg"
+          src="https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/678aa38c36fbb617438b2f3d.png"
           alt="Benefit illustration"
           className="object-cover rounded-lg"
         />

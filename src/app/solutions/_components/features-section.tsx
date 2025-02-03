@@ -136,10 +136,9 @@ export const SkeletonThree = () => {
     >
       <div className="w-full  mx-auto bg-transparent dark:bg-transparent group h-full">
         <div className="flex flex-1 w-full h-full flex-col space-y-2  relative">
-          {/* TODO */}
           <Youtube className="h-20 w-20 absolute z-10 inset-0 text-red-500 m-auto " />
           <Image
-            src="https://images.pexels.com/photos/1181671/pexels-photo-1181671.jpeg"
+            src="https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/678aa38c36fbb617438b2f3d.png"
             alt="header"
             width={800}
             height={800}
@@ -153,11 +152,11 @@ export const SkeletonThree = () => {
 
 export const SkeletonTwo = () => {
   const images = [
-    "https://images.pexels.com/photos/1181671/pexels-photo-1181671.jpeg",
-    "https://images.pexels.com/photos/1181675/pexels-photo-1181675.jpeg", 
-    "https://images.pexels.com/photos/1181677/pexels-photo-1181677.jpeg",
-    "https://images.pexels.com/photos/1181678/pexels-photo-1181678.jpeg",
-    "https://images.pexels.com/photos/1181679/pexels-photo-1181679.jpeg"
+    "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/678aa38c36fbb617438b2f3d.png",
+    "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/678aa38c36fbb617438b2f3d.png",
+    "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/678aa38c36fbb617438b2f3d.png",
+    "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/678aa38c36fbb617438b2f3d.png",
+    "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/678aa38c36fbb617438b2f3d.png"
   ];
 
   const imageVariants = {

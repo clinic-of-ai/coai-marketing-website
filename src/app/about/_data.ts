@@ -19,7 +19,7 @@ export default {
     heading: "Democratizing AI for Everyone",
     paragraph: "We are addressing inequality and democratizing AI, committed to helping everyone benefit from the new Intelligence Age.",
     image: {
-      url: "https://images.pexels.com/photos/6248751/pexels-photo-6248751.jpeg",
+      url: "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/678aa38c36fbb617438b2f3d.png",
       alt: "Our Mission",
     },
     values: [
@@ -74,7 +74,7 @@ export default {
   team: {
     title: "Meet the Team",
     heading: "The people that make it happen",
-    paragraph: "We’re a dynamic group of individuals who are passionate about what we do and dedicated to delivering the best results for our clients.",
+    paragraph: "We're a dynamic group of individuals who are passionate about what we do and dedicated to delivering the best results for our clients.",
     members: [
         {
           name: "Philippe Küng",

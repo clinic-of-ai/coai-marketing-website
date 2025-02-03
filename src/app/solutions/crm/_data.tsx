@@ -86,7 +86,7 @@ export default {
         heading: "Instant Setup",
         description: "Pre-built templates for your industry",
         image: {
-          src: "https://images.pexels.com/photos/1181671/pexels-photo-1181671.jpeg",
+          src: "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/678aa38c36fbb617438b2f3d.png",
           alt: "startup template"
         }
       },
@@ -95,7 +95,7 @@ export default {
         heading: "Customize",
         description: "Drag-and-drop pipeline builder",
         image: {
-          src: "https://images.pexels.com/photos/1181671/pexels-photo-1181671.jpeg",
+          src: "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/678aa38c36fbb617438b2f3d.png",
           alt: "startup template"
         }
       },
@@ -104,7 +104,7 @@ export default {
         heading: "Connect",
         description: "Integrate your existing stack",
         image: {
-          src: "https://images.pexels.com/photos/1181671/pexels-photo-1181671.jpeg",
+          src: "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/678aa38c36fbb617438b2f3d.png",
           alt: "startup template"
         }
       },
@@ -113,7 +113,7 @@ export default {
         heading: "Scale",
         description: "Add teams/clients with single click",
         image: {
-          src: "https://images.pexels.com/photos/1181671/pexels-photo-1181671.jpeg",
+          src: "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/678aa38c36fbb617438b2f3d.png",
           alt: "startup template"
         }
       }

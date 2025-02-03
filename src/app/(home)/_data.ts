@@ -207,7 +207,7 @@ export default {
           heading: "retail & services",
           paragraph: "Our cutting-edge AI solutions are tailored to address the specific challenges and objectives of the retail and services sector, enabling you to upgrade your operations and deliver unparalleled customer experiences.",
           image: {
-            src: "https://images.pexels.com/photos/5413724/pexels-photo-5413724.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+            src: "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/678aa38c36fbb617438b2f3d.png",
             alt: "Retail and services industry"
           },
           href: "/industries/retail-services",
@@ -216,7 +216,7 @@ export default {
           heading: "manufacturing",
           paragraph: "Our AI-driven solutions for manufacturing optimize production processes, enhance quality control, and streamline supply chain management, enabling you to boost efficiency and reduce costs while maintaining the highest standards of product quality.",
           image: {
-            src: "https://images.pexels.com/photos/73833/weld-hot-soldering-radio-welder-73833.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+            src: "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/678aa38c36fbb617438b2f3d.png",
             alt: "Manufacturing industry"
           },
           href: "#",
@@ -225,7 +225,7 @@ export default {
           heading: "agriculture",
           paragraph: "We leverage AI to transform agriculture, offering solutions for precision farming, crop yield prediction, and resource optimization, empowering farmers to make data-driven decisions and increase productivity sustainably.",
           image: {
-            src: "https://images.pexels.com/photos/163752/harvest-grain-combine-arable-farming-163752.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+            src: "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/678aa38c36fbb617438b2f3d.png",
             alt: "Agriculture industry"
           },
           href: "#",
