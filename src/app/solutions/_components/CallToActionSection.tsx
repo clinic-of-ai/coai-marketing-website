@@ -1,12 +1,12 @@
-import { IntroTitle } from "@/components/IntroTitle";
-import { LeadForm } from "@/components/common/lead-form";
-import { discoveryCallBookingSource } from "@/app/config";
+// import { IntroTitle } from "@/components/IntroTitle";
+// import { LeadForm } from "@/components/common/lead-form";
+// import { discoveryCallBookingSource } from "@/app/config";
 import { AnimatedArrowButton } from "@/components/ui/animated-arrow-button";
 
 export function CallToActionSection() {
   return (
     <section className="bg-primary py-24">
-      <div className="container">
+      {/* <div className="container">
         <IntroTitle
           heading="Book a Discovery Call Today"
           title="Ready to revolutionize your customer relationship management?"
@@ -29,7 +29,7 @@ export function CallToActionSection() {
         <p className="mt-8 text-center text-sm text-white/50">
           Note: GoHighLevel is a robust platform that can be customized to fit various industries and business models. Our team ensures that the setup aligns perfectly with your specific requirements.
         </p>
-      </div>
+      </div> */}
     </section>
   );
 }
