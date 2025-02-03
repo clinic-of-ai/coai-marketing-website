@@ -1,4 +1,4 @@
-import { IntroTitle } from "@/components/IntroTitle";
+// import { IntroTitle } from "@/components/IntroTitle";
 import { BenefitCard } from "./cards/BenefitCard";
 
 const items = [
@@ -29,13 +29,13 @@ export function BenefitSection() {
     <section className="py-[72px]">
       <div className="container grid grid-cols-1 grid-rows-1 gap-y-[56px]">
         <div className="flex flex-col gap-x-10 gap-y-4 lg:flex-row lg:items-center lg:justify-between">
-          <IntroTitle
+          {/* <IntroTitle
             align="left"
             heading="Why Choose GoHighLevel?"
             title="Experience the power of an all-in-one CRM solution"
             size="lg"
             className="max-w-[740px]"
-          />
+          /> */}
           <p className="leading-6 tracking-[-0.16px] text-black/50 lg:max-w-[432px]">
             GoHighLevel consolidates essential marketing and sales tools into a single platform, offering comprehensive solutions for your business needs.
           </p>
