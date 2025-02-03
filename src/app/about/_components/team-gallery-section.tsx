@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-import { SectionHeader } from "@/components/common/section-header";
+// import { SectionHeader } from "@/components/common/section-header";
 
 interface TeamGallerySectionProps {
   title: string;
@@ -20,11 +20,11 @@ interface TeamGallerySectionProps {
 export function TeamGallerySection(props: TeamGallerySectionProps) {
   return (
     <div className="container space-y-20 py-20">
-      <SectionHeader
+      {/* <SectionHeader
         subtitle={props.title}
         title={props.heading}
         description={props.paragraph}
-      />
+      /> */}
 
       <div className="container grid max-w-6xl grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:px-0">
         {props.members.map((member, index) => (
