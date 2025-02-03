@@ -1,5 +1,5 @@
 import { IntroTitle } from "@/components/IntroTitle";
-import { BenefitCard } from "../cards/BenefitCard";
+import { BenefitCard } from "./cards/BenefitCard";
 
 const items = [
   {

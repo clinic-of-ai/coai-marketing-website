@@ -7,7 +7,7 @@ export function ContactForm() {
         src="https://api.leadconnectorhq.com/widget/form/xohhaxBIHFNgzjxziz1J"
         style={{
           width: "100%",
-          height: "100%",
+          height: "100vh",
           border: "none",
           borderRadius: "3px",
         }}

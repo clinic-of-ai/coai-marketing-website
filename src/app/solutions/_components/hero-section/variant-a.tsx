@@ -1,6 +1,6 @@
-import { IntroTitle } from "@/components/IntroTitle";
-import { LeadForm } from "@/components/common/lead-form";
-import { discoveryCallBookingSource } from "@/app/config";
+import { TitleBlock } from "@/components/common/title-block";
+// import { LeadForm } from "@/components/common/lead-form";
+// import { discoveryCallBookingSource } from "@/app/config";
 import { AnimatedArrowButton } from "@/components/ui/animated-arrow-button";
 import Image from "next/image";
 
@@ -17,7 +17,7 @@ export function HeroSection() {
       <div className="absolute inset-0 bg-black/80">
         <div className="container mx-auto flex h-full flex-col items-center justify-center gap-8">
           <div className="">
-            <IntroTitle
+            <TitleBlock
               heading="Transform Your Business"
               title="ClinicOfAI&apos;s GoHighLevel CRM Setup Services"
               size="lg"
@@ -28,14 +28,14 @@ export function HeroSection() {
               Let us help you implement GoHighLevel—a comprehensive, all-in-one CRM platform—tailored to your business needs.
             </p>
           </div>
-          <LeadForm
+          {/* <LeadForm
             source={discoveryCallBookingSource.bookingUrl}
             id={discoveryCallBookingSource.bookingId}
           >
+          </LeadForm> */}
             <AnimatedArrowButton variant="secondary">
               Book Your Discovery Call
             </AnimatedArrowButton>
-          </LeadForm>
         </div>
       </div>
     </section>

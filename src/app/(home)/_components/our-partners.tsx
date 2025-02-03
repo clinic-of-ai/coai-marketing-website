@@ -23,7 +23,7 @@ interface OurPartnersProps {
 export function OurPartners(props: OurPartnersProps) {
   return (
     <section className="space-y-10 py-8 px-8">
-      <div className="container bg-muted py-10 rounded-lg flex w-full flex-col gap-x-[50px] lg:gap-x-[100px] gap-y-[50px] sm:flex-row">
+      <div className="container bg-secondary py-10 rounded-lg flex w-full flex-col gap-x-[50px] lg:gap-x-[100px] gap-y-[50px] sm:flex-row">
         <div className="max-w-[580px] space-y-8">
           <TitleBlock {...props} size="lg" className="pb-0" align="left" />
           <p className="max-w-[640px] text-black/60">{props.paragraph}</p>

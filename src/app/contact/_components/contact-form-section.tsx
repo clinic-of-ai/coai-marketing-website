@@ -1,3 +1,6 @@
+import { TitleBlock } from "@/components/common/title-block";
+import { ScrollArea } from "@/components/ui/scroll-area";
+
 interface ContactFormSectionProps {
   heading: string;
   paragraph: string;
@@ -6,20 +9,16 @@ interface ContactFormSectionProps {
 
 export function ContactFormSection(props: ContactFormSectionProps) {
   return (
-    <section className="bg-inverse text-inverse-foreground">
-      <div className="isolate px-6 py-24 pt-48 sm:py-32 lg:px-8">
-        <div className="space-y-12">
-          <div className="mx-auto max-w-2xl text-center">
-            <h2 className="text-xl font-bold tracking-tight sm:text-3xl">
-              {props.heading}
-            </h2>
-            <p className="mx-auto mt-2 max-w-[460px] text-sm leading-6 text-muted-foreground">
-              {props.paragraph}
-            </p>
-          </div>
-
-          <div className="mx-auto max-w-xl">{props.form}</div>
+    <section className="h-screen">
+      <div className="container grid grid-cols-1 gap-12 lg:grid-cols-2 h-full">
+        <div className="space-y-8 pt-24 lg:py-32">
+          <TitleBlock title="Contact Us" heading={props.heading} align="left" />
+          <p className="max-w-[400px] text-muted-foreground">
+            {props.paragraph}
+          </p>
         </div>
+
+        <ScrollArea className="h-full w-full">{props.form}</ScrollArea>
       </div>
     </section>
   );

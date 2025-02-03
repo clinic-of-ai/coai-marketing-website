@@ -35,6 +35,30 @@ const config = {
         mono: ["var(--font-jetbrains-mono)", ...defaultFontFamily.mono],
       },
       colors: {
+        coral: {
+          DEFAULT: "hsl(var(--coral))",
+          foreground: "hsl(var(--coral-foreground))",
+          subtle: "hsl(var(--coral-subtle))",
+          "subtle-foreground": "hsl(var(--coral-subtle-foreground))",
+        },
+        teal: {
+          DEFAULT: "hsl(var(--teal))",
+          foreground: "hsl(var(--teal-foreground))",
+          subtle: "hsl(var(--teal-subtle))",
+          "subtle-foreground": "hsl(var(--teal-subtle-foreground))",
+        },
+        navy: {
+          DEFAULT: "hsl(var(--navy))",
+          foreground: "hsl(var(--navy-foreground))",
+          subtle: "hsl(var(--navy-subtle))",
+          "subtle-foreground": "hsl(var(--navy-subtle-foreground))",
+        },
+        mustard: {
+          DEFAULT: "hsl(var(--mustard))",
+          foreground: "hsl(var(--mustard-foreground))",
+          subtle: "hsl(var(--mustard-subtle))",
+          "subtle-foreground": "hsl(var(--mustard-subtle-foreground))",
+        },
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",

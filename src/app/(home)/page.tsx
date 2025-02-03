@@ -18,7 +18,7 @@ export default function Home() {
       <Hero {...content.hero} />
       <VideoIntroduction {...content.videoIntro} />
       <OurPartners {...content.ourPartners} />
-      <ClientGains {...content.clientGains} />
+      {/* <ClientGains {...content.clientGains} /> */}
       <DiscoveryProcess {...content.discoveryProcess} />
       <ClientBenefits {...content.clientBenefits} />
       <Quote {...content.quote} />

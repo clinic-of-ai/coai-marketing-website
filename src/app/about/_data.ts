@@ -22,29 +22,48 @@ export default {
       url: "https://images.pexels.com/photos/6248751/pexels-photo-6248751.jpeg",
       alt: "Our Mission",
     },
-    features: [
+    values: [
       {
-        heading: "Democratizing AI",
+        id: "1",
+        name: "Democratizing AI",
         paragraph: "We are committed to addressing inequality by making AI accessible to everyone, not just Fortune 100 companies.",
         link: "#",
         icon: HeartHandshake,
-
       },
       {
-        heading: "Ecosystem of Solutions",
+        id: "2", 
+        name: "Ecosystem of Solutions",
         paragraph: "Building a wide variety of easy-to-use AI-driven products and services for real-life everyday problems.",
         link: "#",
         icon: Puzzle,
-
       },
-
       {
-        heading: "Empowering All Businesses",
+        id: "3",
+        name: "Empowering All Businesses", 
         paragraph: "Creating AI solutions that benefit software developers, data scientists, businesses of all sizes, and ordinary people.",
         link: "#",
-
         icon: Key,
-
+      },
+      {
+        id: "4",
+        name: "Ethical AI Development",
+        paragraph: "Ensuring responsible and transparent AI development that prioritizes user privacy and data security.",
+        link: "#",
+        icon: Key,
+      },
+      {
+        id: "5",
+        name: "Innovation & Research",
+        paragraph: "Continuously exploring and implementing cutting-edge AI technologies to solve complex challenges.",
+        link: "#",
+        icon: Puzzle,
+      },
+      {
+        id: "6",
+        name: "Community Empowerment",
+        paragraph: "Building a strong community of AI practitioners and enthusiasts through knowledge sharing and collaboration.",
+        link: "#",
+        icon: HeartHandshake,
       },
     ],
   },
@@ -118,6 +137,9 @@ export default {
 
         },
       ]
-    }   
+    }  ,
+    officeMapLocation: {
+      src: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2702.518774160157!2d8.5489448!3d47.3627925!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x479aa7f798204207%3A0xee823a5ecdbfd65c!2sResilient%20Studios!5e0!3m2!1sen!2sng!4v1722356233796!5m2!1sen!2sng"
+    }
   
 };

@@ -1,13 +1,13 @@
-import { cn } from "@/libs/utils";
-import { DEFAULT_HEADER_HEIGHT } from "@/app/config";
-import { SectionHeader } from "@/components/common/section-header";
-import { IndustryGallerySection } from "@/components/features/industries/IndustryGallerySection";
-import { MoreIndustryNotice } from "@/components/features/industries/MoreIndustryNotice";
+// import { cn } from "@/libs/utils";
+// import { DEFAULT_HEADER_HEIGHT } from "@/app/config";
+// import { SectionHeader } from "@/components/common/section-header";
+// import { IndustryGallerySection } from "@/components/features/industries/IndustryGallerySection";
+// import { MoreIndustryNotice } from "@/components/features/industries/MoreIndustryNotice";
 
 export default function Industries() {
   return (
     <>
-      <section className="pt-20 md:pt-24">
+      {/* <section className="pt-20 md:pt-24">
         <div className={cn(DEFAULT_HEADER_HEIGHT)} />
         <SectionHeader
           subtitle="Industries"
@@ -16,7 +16,7 @@ export default function Industries() {
         />
       </section>
       <IndustryGallerySection />
-      <MoreIndustryNotice />
+      <MoreIndustryNotice /> */}
     </>
   );
 }

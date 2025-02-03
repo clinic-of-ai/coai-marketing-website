@@ -1,23 +1,23 @@
-import { industries } from "@/data/industries";
-import { HeroBackgroundImageCTA } from "@/components/features/industries/Hero/HeroBackgroundImageCTA";
-import { FeatureHighlightSection } from "@/components/features/industries/FeatureHighlightSection";
-import { ValueChainDiagramSection } from "@/components/features/industries/ValueChainDiagramSection";
-import { SolutionSteps } from "@/components/features/industries/SolutionSteps";
-import { PricingSection } from "@/components/features/industries/PricingSection";
-import { CTASection } from "@/components/features/industries/CTASection";
-import { discoveryCallBookingSource } from "@/app/config";
-import { LeadForm } from "@/components/common/lead-form";
-import { AnimatedArrowButton } from "@/components/ui/animated-arrow-button";
-import { retailPricingPlans } from "@/data/pricing-plan";
+// import { industries } from "@/data/industries";
+// import { HeroBackgroundImageCTA } from "@/components/features/industries/Hero/HeroBackgroundImageCTA";
+// import { FeatureHighlightSection } from "@/components/features/industries/FeatureHighlightSection";
+// import { ValueChainDiagramSection } from "@/components/features/industries/ValueChainDiagramSection";
+// import { SolutionSteps } from "@/components/features/industries/SolutionSteps";
+// import { PricingSection } from "@/components/features/industries/PricingSection";
+// import { CTASection } from "@/components/features/industries/CTASection";
+// import { discoveryCallBookingSource } from "@/app/config";
+// import { LeadForm } from "@/components/common/lead-form";
+// import { AnimatedArrowButton } from "@/components/ui/animated-arrow-button";
+// import { retailPricingPlans } from "@/data/pricing-plan";
 
 export default function RetailServices() {
-  const { href, ...restRetail } = industries.find(
-    (industry) => industry.tag === "retail & services",
-  ) as (typeof industries)[number];
+  // const { href, ...restRetail } = industries.find(
+  //   (industry) => industry.tag === "retail & services",
+  // ) as (typeof industries)[number];
 
   return (
     <>
-      <HeroBackgroundImageCTA
+      {/* <HeroBackgroundImageCTA
         content={{
           ...restRetail,
           cta: {
@@ -56,7 +56,7 @@ export default function RetailServices() {
         }}
       />
       <PricingSection content={retailPricingPlans} />
-      <CTASection />
+      <CTASection /> */}
     </>
   );
 }
