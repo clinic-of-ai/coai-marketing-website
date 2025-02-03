@@ -3,7 +3,7 @@ import { cn } from "@/libs/utils";
 import { ArrowUpRight, Check } from "lucide-react";
 import { motion } from "framer-motion";
 import { AnimatedArrowButton } from "./animated-arrow-button";
-import { LeadForm } from "../common/lead-form";
+// import { LeadForm } from "../common/lead-form";
 
 interface BackgroundPlayableOverlayProps {
   backgroundImageUrl: string;
@@ -110,13 +110,13 @@ export function BackgroundPlayableOverlay({
             </motion.div>
           </div>
         </div>
-        <LeadForm id={formId || ""} source={formSource || ""}>
+        {/* <LeadForm id={formId || ""} source={formSource || ""}>
           <AnimatedArrowButton
             className={`${buttonColor} w-fit text-xs font-semibold text-white`}
           >
-            {buttonText}
           </AnimatedArrowButton>
-        </LeadForm>
+        </LeadForm> */}
+            {buttonText}
       </div>
     </motion.div>
   );
