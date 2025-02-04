@@ -26,7 +26,7 @@ export function OurPartners(props: OurPartnersProps) {
       <div className="container bg-secondary py-10 rounded-lg flex w-full flex-col gap-x-[50px] lg:gap-x-[100px] gap-y-[50px] sm:flex-row">
         <div className="max-w-[580px] space-y-8">
           <TitleBlock {...props} size="lg" className="pb-0" align="left" />
-          <p className="max-w-[640px] text-black/60">{props.paragraph}</p>
+          <p className="max-w-[640px] text-secondary-foreground">{props.paragraph}</p>
         </div>
 
         <div className="relative flex sm:h-[400px] h-[300px] w-full flex-row items-center justify-center gap-x-[40px] overflow-hidden rounded-lg md:w-[500px]">

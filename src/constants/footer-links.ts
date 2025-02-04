@@ -13,19 +13,20 @@ export const footerLinks: FooterLink = [
     sub: [
       {
         label: "terms",
-        href: "/",
+        href: "/terms",
       },
       {
         label: "policy",
-        href: "/",
+        href: "/policy",
       },
       {
         label: "gdpr",
-        href: "/",
+        href: "/gdpr",
       },
+
       {
         label: "contact",
-        href: "/",
+        href: "/contact",
       },
     ],
   },

@@ -84,7 +84,7 @@ export default {
           heading: "We'll deploy AI solutions strategically to transform your operations.",
           paragraph: "Our team implements AI solutions in a phased approach, starting with quick wins and progressing to long-term system developments. We deploy AI virtual assistants to handle various tasks, streamline operations, and eliminate inefficiencies. It's like hiring a team of super-efficient interns, but faster and more cost-effective.",
           media: {
-            src: "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/678a891dae51f4650d4b2481.mp4",
+            src: "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/67a236f5b1b7b228e2bb4948.mp4",
             alt: "",
           },
         },
@@ -205,7 +205,7 @@ export default {
           heading: "retail & services",
           paragraph: "Our cutting-edge AI solutions are tailored to address the specific challenges and objectives of the retail and services sector, enabling you to upgrade your operations and deliver unparalleled customer experiences.",
           image: {
-            src: "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/678aa38c36fbb617438b2f3d.png",
+            src: "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/67a23892d3d094a8ed2718bf.webp",
             alt: "Retail and services industry"
           },
           href: "/industries/retail-services",
@@ -214,7 +214,7 @@ export default {
           heading: "manufacturing",
           paragraph: "Our AI-driven solutions for manufacturing optimize production processes, enhance quality control, and streamline supply chain management, enabling you to boost efficiency and reduce costs while maintaining the highest standards of product quality.",
           image: {
-            src: "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/678aa38c36fbb617438b2f3d.png",
+            src: "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/67a238aca36fec3e335d5733.jpeg",
             alt: "Manufacturing industry"
           },
           href: "#",
@@ -223,7 +223,7 @@ export default {
           heading: "agriculture",
           paragraph: "We leverage AI to transform agriculture, offering solutions for precision farming, crop yield prediction, and resource optimization, empowering farmers to make data-driven decisions and increase productivity sustainably.",
           image: {
-            src: "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/678aa38c36fbb617438b2f3d.png",
+            src: "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/67a238cdd7ce7837e40fda81.jpeg",
             alt: "Agriculture industry"
           },
           href: "#",
