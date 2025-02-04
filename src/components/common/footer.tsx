@@ -9,8 +9,8 @@ import config from "@/app/config";
 
 export function Footer() {
   return (
-    <footer className="border-t border-border bg-background pt-16 text-sm text-foreground">
-      <div className="container flex w-full max-w-6xl flex-col justify-between gap-y-12 pb-12 sm:flex-row">
+    <footer className="border-t border-border bg-background text-sm text-foreground">
+      <div className="container border-x border-border pt-16  flex w-full flex-col justify-between gap-y-12 pb-12 sm:flex-row">
         <div className="space-y-12">
           <CoAILogo variant="onBlack" />
 

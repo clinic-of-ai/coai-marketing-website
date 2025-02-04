@@ -25,7 +25,7 @@ export function IndustryCard(props: IndustryCardProps) {
   return (
     <motion.div
       className={cn(
-        "group relative h-[347px]  min-w-[255px] rounded-[12px] bg-slate-500",
+        "group relative h-[347px]  min-w-[255px] rounded-lg bg-slate-500",
         props.layout === "loosed" ? "h-[480px]" : "h-[347px]",
         props.className,
       )}
