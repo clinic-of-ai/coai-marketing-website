@@ -4,9 +4,6 @@ import React from "react";
 
 import { Separator } from "@/components/ui/separator";
 import { TitleBlock } from "@/components/common/title-block";
-// import { LeadForm } from "@/components/common/lead-form";
-// import { discoveryCallBookingSource } from "@/app/config";
-import { AnimatedArrowButton } from "@/components/ui/animated-arrow-button";
 import { Timeline } from "@/components/ui/timeline";
 
 interface DiscoveryProcessProps {
@@ -44,9 +41,6 @@ export function DiscoveryProcess(props: DiscoveryProcessProps) {
             className="h-full w-full object-cover"
           />
         </div>
-        <AnimatedArrowButton className="rounded-full">
-          Book a call
-        </AnimatedArrowButton>
       </div>
     ),
   }));
