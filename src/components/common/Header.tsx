@@ -3,7 +3,7 @@
 import * as React from "react";
 import Link from "next/link";
 import { useState } from "react";
-import { Cross as Hamburger } from "hamburger-react";
+import Hamburger from "hamburger-react"; 
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -35,17 +35,15 @@ export default function Header() {
         <Link href="/" className="mr-6 flex items-center space-x-2">
           <span className="inline-block font-bold">HackTheBox</span>
         </Link>
+        <div className="flex lg:hidden absolute top-2 right-16">
+      <Hamburger
+        toggled={isMobileMenuOpen}
+        toggle={toggleMobileMenu}
+        size={24}
+        color={document.documentElement.classList.contains('dark') ? 'white' : 'black'} 
+      />
+    </div>
 
-        {/* Hamburger Icon for Mobile */}
-        <button
-          className="lg:hidden flex items-center space-x-2"
-          onClick={toggleMobileMenu}
-          aria-label="Open navigation"
-        >
-          <span className="block w-6 h-1 bg-black dark:bg-white"></span>
-        </button>
-
-        {/* Desktop Navigation */}
         <NavigationMenu className="hidden lg:flex">
           <NavigationMenuList>
             <NavigationMenuItem>
