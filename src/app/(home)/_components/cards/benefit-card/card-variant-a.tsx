@@ -13,17 +13,21 @@ export interface CardVariantAProps {
 export function CardVariantA(props: CardVariantAProps) {
 
   return (
-    <div className="h-full w-full overflow-hidden rounded-lg bg-[#09D2F1] text-slate-950">
+    <div className="h-full w-full overflow-hidden rounded-lg bg-primary text-primary-foreground">
       <div className="relative h-[280px] w-full rounded-lg">
         <AnimatedBeamDemo className="absolute right-5 top-2 h-[300px] border-none transition-all duration-300 ease-out [mask-image:linear-gradient(to_top,transparent_10%,#000_100%)] group-hover:scale-105" />
       </div>
 
       <TitleBlock
-        heading={props.title}
-        title={props.description}
+        title={props.title}
+        heading={props.description}
         align="left"
         size="md"
-        className="max-w-[660px] p-6"
+        classNames={{
+          title: "text-primary-foreground/60",
+          container: "max-w-[660px] p-6"
+        }}
+
       />
     </div>
   );

@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { TitleBlock } from "@/components/common/title-block";
-
+ 
 export type CardVariantBProps = {
   title: string;
   heading: string;
@@ -20,7 +20,9 @@ export function CardVariantB(props: CardVariantBProps) {
           {...props}
           align="left"
           size="lg"
-          className="py-0"
+          classNames={{
+            title: "text-white/60"
+          }}
         />
 
         <p className="font-sans leading-6 tracking-[-0.16px]">{props.description}</p>

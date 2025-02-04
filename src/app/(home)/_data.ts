@@ -1,5 +1,3 @@
-import { PillBottle, Handshake, ShieldCheck, Calendar } from "lucide-react";
-
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
     hero: {
@@ -43,20 +41,20 @@ export default {
       benefits: [
         {
           label: "Transparent partnership",
-          icon: Handshake
         },
+
         {
           label: "No hidden fees",
-          icon: PillBottle
         },
+
         {
           label: "Pragmatic approach",
-          icon: ShieldCheck
         },
+
         {
-          label: "Results guaranteed in 15 days",
-          icon: Calendar
+            label: "Results guaranteed in 15 days",
         }
+
       ],
     },
     discoveryProcess: {
@@ -160,7 +158,7 @@ export default {
             src: "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/678aa38c849817949cc73821.png",
             alt: "AI virtual assistant"
           },
-          color: "#048399",
+          color: "bg-teal text-teal-foreground hover:bg-teal/80",
         },
         {
           heading: "AI Workflow Automation",
@@ -171,7 +169,7 @@ export default {
             src: "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/678aa38ca2e973af1e801019.png",
             alt: "AI workflow automation"
           },
-          color: "#26459F",
+          color: "bg-mustard text-mustard-foreground hover:bg-mustard/80",
         },
         {
           title: "Value Chain Analysis",
@@ -182,7 +180,7 @@ export default {
             src: "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/678aa38c36fbb617438b2f3d.png",
             alt: "Value chain analysis"
           },
-          color: "#B96B85",
+          color: "bg-navy text-navy-foreground hover:bg-navy/80",
         },
         {
           title: "Education & Consultancy",
@@ -193,7 +191,7 @@ export default {
             src: "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/678aa38cae51f47a7e4b4d0c.png",
             alt: "AI education and consultancy"
           },
-          color: "#FC401D",
+          color: "bg-coral text-coral-foreground hover:bg-coral/80",
         },
       ]
     },

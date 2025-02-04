@@ -1,5 +1,5 @@
 import { Hero } from "./_components/hero";
-// import { ClientGains } from "./_components/client-gains";
+import { ClientGains } from "./_components/client-gains";
 import { OurPartners } from "./_components/our-partners";
 import { VideoIntroduction } from "./_components/video-introduction";
 import { DiscoveryProcess } from "./_components/discovery-process";
@@ -18,7 +18,7 @@ export default function Home() {
       <Hero {...content.hero} />
       <VideoIntroduction {...content.videoIntro} />
       <OurPartners {...content.ourPartners} />
-      {/* <ClientGains {...content.clientGains} /> */}
+      <ClientGains {...content.clientGains} />
       <DiscoveryProcess {...content.discoveryProcess} />
       <ClientBenefits {...content.clientBenefits} />
       <Quote {...content.quote} />

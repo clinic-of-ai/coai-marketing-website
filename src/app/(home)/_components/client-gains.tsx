@@ -1,4 +1,4 @@
-import { LucideProps } from "lucide-react";
+import { PillBottle, Handshake, ShieldCheck, Calendar } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { TitleBlock } from "@/components/common/title-block";
@@ -9,14 +9,13 @@ interface ClientGainsProps {
   videoSrc: string;
   benefits: {
     label: string;
-    icon: React.FC<LucideProps>;
   }[];
 }
 
 export function ClientGains(props: ClientGainsProps) {
   return (
-    <section className="space-y-6 py-8 font-sans">
-      <div className="container">
+    <section className=" font-sans border-y border-border">
+      <div className="container border-x border-border py-8 space-y-6 ">
         <div className="flex w-full flex-col-reverse gap-4 lg:flex-row">
           <div className="pt-6 lg:my-auto lg:flex-1">
             <TitleBlock {...props} size="lg" align="left" />
@@ -27,7 +26,18 @@ export function ClientGains(props: ClientGainsProps) {
                   variant="secondary"
                   className="flex items-center gap-x-2 px-4 py-2"
                 >
-                  <benefit.icon strokeWidth="1.5" className="size-5" />
+                  {benefit.label === "Transparent partnership" && (
+                    <Handshake strokeWidth="1.5" className="size-5" />
+                  )}
+                  {benefit.label === "No hidden fees" && (
+                    <PillBottle strokeWidth="1.5" className="size-5" />
+                  )}
+                  {benefit.label === "Pragmatic approach" && (
+                    <ShieldCheck strokeWidth="1.5" className="size-5" />
+                  )}
+                  {benefit.label === "Results guaranteed in 15 days" && (
+                    <Calendar strokeWidth="1.5" className="size-5" />
+                  )}
                   <span className="whitespace-nowrap leading-6 tracking-[-0.16px]">
                     {benefit.label}
                   </span>
