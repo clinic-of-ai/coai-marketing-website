@@ -1,5 +1,3 @@
-import { PillBottle, Handshake, ShieldCheck, Calendar } from "lucide-react";
-
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
     hero: {
@@ -43,20 +41,20 @@ export default {
       benefits: [
         {
           label: "Transparent partnership",
-          icon: Handshake
         },
+
         {
           label: "No hidden fees",
-          icon: PillBottle
         },
+
         {
           label: "Pragmatic approach",
-          icon: ShieldCheck
         },
+
         {
-          label: "Results guaranteed in 15 days",
-          icon: Calendar
+            label: "Results guaranteed in 15 days",
         }
+
       ],
     },
     discoveryProcess: {

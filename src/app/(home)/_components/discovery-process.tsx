@@ -24,7 +24,7 @@ export function DiscoveryProcess(props: DiscoveryProcessProps) {
   const timelineData = props.processes.map((process) => ({
     title: process.title,
     content: (
-      <div className="space-y-8">
+      <div className="space-y-8 overflow-hidden bg-background">
         <div className="space-y-4">
           <h2 className="text-xl font-semibold tracking-tight lg:pr-8">
             {process.heading}
@@ -46,7 +46,7 @@ export function DiscoveryProcess(props: DiscoveryProcessProps) {
   }));
 
   return (
-    <section className="space-y-20 py-20 lg:px-6 border-b border-border">
+    <section className="space-y-20 bg-background py-20 lg:px-6 border-b border-border">
       <div className="container space-y-10">
         <TitleBlock size="md" {...props} />
         <Separator className="bg-muted-foreground/10" />

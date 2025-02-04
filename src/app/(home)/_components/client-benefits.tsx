@@ -20,7 +20,7 @@ interface ClientBenefitsProps {
 
 export function ClientBenefits(props: ClientBenefitsProps) {
   return (
-    <section className="pt-[108px]">
+    <section className="pt-[108px] bg-background overflow-hidden">
       <div className="container mx-auto grid grid-cols-1 gap-y-12 px-6">
         <div className="flex flex-col gap-x-[105px] gap-y-6 lg:flex-row">
           <h1 className="max-w-[360px] text-4xl leading-[48px] -tracking-[1.8px]">
