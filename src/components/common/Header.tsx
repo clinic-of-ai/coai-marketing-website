@@ -2,8 +2,8 @@
 
 import * as React from "react";
 import Link from "next/link";
+import { useState } from "react";
 import { Cross as Hamburger } from "hamburger-react";
-
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -12,69 +12,135 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
-import { useToggleState } from "@/hooks/useToggleState";
-
 import { ThemeToggleButton } from "./theme-toggle-button";
-import { MegaMenuContent } from "./navigation/mega-menu-content";
+import ProductPanel from "@/components/common/navigation/dropdown-panel/product-panel";
+import SolutionPanel from "@/components/common/navigation/dropdown-panel/solution-panel";
+import ResourcePanel from "@/components/common/navigation/dropdown-panel/resource-panel";
+import CompanyPanel from "@/components/common/navigation/dropdown-panel/company-panel";
 
-export function Header() {
-  const { isOpen, toggleMenu } = useToggleState();
+export default function Header() {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
+
+  const closeMobileMenu = () => {
+    setIsMobileMenuOpen(false);
+  };
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container flex h-16 items-center">
+      <div className="container flex h-16 items-center justify-between">
         <Link href="/" className="mr-6 flex items-center space-x-2">
           <span className="inline-block font-bold">HackTheBox</span>
         </Link>
+
+        {/* Hamburger Icon for Mobile */}
+        <button
+          className="lg:hidden flex items-center space-x-2"
+          onClick={toggleMobileMenu}
+          aria-label="Open navigation"
+        >
+          <span className="block w-6 h-1 bg-black dark:bg-white"></span>
+        </button>
+
+        {/* Desktop Navigation */}
         <NavigationMenu className="hidden lg:flex">
           <NavigationMenuList>
             <NavigationMenuItem>
-
               <NavigationMenuTrigger>Products</NavigationMenuTrigger>
               <NavigationMenuContent>
-                <MegaMenuContent />
+                <ProductPanel />
               </NavigationMenuContent>
             </NavigationMenuItem>
+
             <NavigationMenuItem>
               <NavigationMenuTrigger>Solutions</NavigationMenuTrigger>
               <NavigationMenuContent>
-                <MegaMenuContent />
+                <SolutionPanel />
               </NavigationMenuContent>
             </NavigationMenuItem>
+
             <NavigationMenuItem>
               <Link href="/pricing" legacyBehavior passHref>
                 <NavigationMenuLink>Pricing</NavigationMenuLink>
               </Link>
             </NavigationMenuItem>
+
             <NavigationMenuItem>
               <NavigationMenuTrigger>Resources</NavigationMenuTrigger>
               <NavigationMenuContent>
-                <MegaMenuContent />
+                <ResourcePanel />
               </NavigationMenuContent>
             </NavigationMenuItem>
+
             <NavigationMenuItem>
               <NavigationMenuTrigger>Company</NavigationMenuTrigger>
               <NavigationMenuContent>
-                <MegaMenuContent />
+                <CompanyPanel />
               </NavigationMenuContent>
             </NavigationMenuItem>
           </NavigationMenuList>
         </NavigationMenu>
 
-        <div className="flex flex-1 items-center justify-end gap-x-2">
-          <div className="lg:hidden">
-            <Hamburger
-              toggled={isOpen}
-              toggle={toggleMenu}
-              direction="right"
-              size={28}
-              aria-label="Toggle menu"
-            />
+        {/* Mobile Menu Overlay */}
+        <div
+          className={`lg:hidden fixed top-0 left-0 z-40 w-full h-full bg-white bg-opacity-75 dark:bg-black dark:bg-opacity-75 transition-all duration-300 ${
+            isMobileMenuOpen ? "block" : "hidden"
+          }`}
+          onClick={closeMobileMenu}
+        ></div>
+
+        {/* Mobile Menu Container (Card Style) */}
+        <div
+          className={`lg:hidden fixed top-0 left-0 z-50 w-full h-full transform transition-transform duration-300 ${
+            isMobileMenuOpen ? "translate-x-0" : "-translate-x-full"
+          } ${isMobileMenuOpen ? "bg-white dark:bg-black" : ""}`}
+        >
+          {/* Close Button */}
+          <button
+            className="absolute top-4 right-5 text-2xl font-bold text-black dark:text-white"
+            onClick={closeMobileMenu}
+            aria-label="Close menu"
+          >
+            &times; {/* Cross Symbol */}
+          </button>
+
+          <div className="flex flex-col mt-20 space-y-6 p-8 bg-white dark:bg-black shadow-lg rounded-lg">
+            <Link href="/" passHref>
+              <p className="text-[16px] font-semibold text-black dark:text-white" onClick={closeMobileMenu}>
+                Products →
+              </p>
+            </Link>
+            <Link href="/" passHref>
+              <p className="text-[16px] font-semibold text-black dark:text-white" onClick={closeMobileMenu}>
+                Solutions →
+              </p>
+            </Link>
+            <Link href="/pricing" passHref>
+              <p className="text-[16px] font-semibold text-black dark:text-white" onClick={closeMobileMenu}>
+                Pricing
+              </p>
+            </Link>
+            <Link href="/" passHref>
+              <p className="text-[16px] font-semibold text-black dark:text-white" onClick={closeMobileMenu}>
+                Resources →
+              </p>
+            </Link>
+            <Link href="/" passHref>
+              <p className="text-[16px] font-semibold text-black dark:text-white" onClick={closeMobileMenu}>
+                Company →
+              </p>
+            </Link>
           </div>
+        </div>
+
+        {/* Right Side Theme Toggle Button */}
+        <div className="flex flex-1 items-center justify-end gap-x-2">
           <ThemeToggleButton />
         </div>
       </div>
-      {/* Mobile menu content panel goes here */}
     </header>
   );
 }
