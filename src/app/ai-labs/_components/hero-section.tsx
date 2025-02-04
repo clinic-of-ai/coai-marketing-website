@@ -4,7 +4,7 @@ interface HeroSectionProps {
   title: string;
   heading: string;
   paragraph: string;
-  videoSrc: string;
+  videosrc: string;
 }
 
 export function HeroSection(props: HeroSectionProps) {
@@ -14,7 +14,7 @@ export function HeroSection(props: HeroSectionProps) {
         <div className="relative flex items-center **lg:col-span-8 lg:border-r lg:border-border">
           <div className="absolute inset-0">
             <video
-              src={props.videoSrc}
+              src={props.videosrc}
               autoPlay
               loop
               muted

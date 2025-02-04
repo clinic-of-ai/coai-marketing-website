@@ -6,8 +6,8 @@ import { AnimatedArrowButton } from "@/components/ui/animated-arrow-button";
 interface SectionDProps {
   title: string;
   heading: string;
-  buttonText: string;
-  videoSrc: string;
+  buttontext: string;
+  videosrc: string;
   href: string;
 }
 
@@ -16,7 +16,7 @@ export function SectionD(props: SectionDProps) {
   return (
     <section className="relative h-[400px] w-full overflow-hidden bg-muted lg:h-[480px]">
       <video
-        src={props.videoSrc}
+        src={props.videosrc}
         className="h-full w-full object-cover"
         autoPlay
         loop
@@ -39,7 +39,7 @@ export function SectionD(props: SectionDProps) {
           >
           </LeadForm> */}
           <AnimatedArrowButton className="w-fit rounded-full">
-            {props.buttonText}
+            {props.buttontext}
           </AnimatedArrowButton>
         </div>
       </div>

@@ -11,7 +11,7 @@ interface BackgroundPlayableOverlayProps {
   id: string;
   title: string;
   description: string;
-  buttonText: string;
+  buttontext: string;
   bulletPoints?: string[];
   bgColor: string;
   textColor: string;
@@ -30,7 +30,7 @@ export function BackgroundPlayableOverlay({
   description,
   backgroundImageUrl,
   hoverImageUrl,
-  buttonText,
+  buttontext,
   bulletPoints,
   bgColor,
   textColor,
@@ -116,7 +116,7 @@ export function BackgroundPlayableOverlay({
           >
           </AnimatedArrowButton>
         </LeadForm> */}
-            {buttonText}
+            {buttontext}
       </div>
     </motion.div>
   );

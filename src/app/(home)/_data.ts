@@ -9,7 +9,7 @@ export default {
     },
 
     videoIntro: {
-      videoSrc: "https://www.youtube.com/embed/-YQ6NNfP3hg?si=V3NVguCXXpjijoPm",
+      videosrc: "https://www.youtube.com/embed/-YQ6NNfP3hg?si=V3NVguCXXpjijoPm",
       thumbnailSrc: "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/678e9f99565e9a2d16ffe56a.webp",
       thumbnailAlt: "Hero Video",
     },
@@ -36,7 +36,7 @@ export default {
       title: "What You Stand to Gain",
       heading:
         "Our framework uses tried-and-tested GenAI technologies so SMEs and small business owners can benefit from the same AI gains at lower costs and risks.",
-      videoSrc:
+      videosrc:
         "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/678a891b95673c419d91f15f.mp4",
       benefits: [
         {
@@ -234,7 +234,7 @@ export default {
     insights: {
       title: "Expert advice",
       heading: "Discover tools and insights to help you navigate the AI landscape.",
-      blogLink: "https://blog.clinicofai.com",
+      bloglink: "https://blog.clinicofai.com",
       articles: [
         {
           heading: "Critical Thinking and Polymathy: The Epistemic Pillars of Innovation",
@@ -275,10 +275,10 @@ export default {
       ]
     },
     mainCta: {
-      videoSrc: "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/6790dcf2c21e375952ac5283.mp4",
+      videosrc: "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/6790dcf2c21e375952ac5283.mp4",
       title: "Ready to Transform Your Business?",
       heading: "Every industry stands to gain from the benefits of AI. It all starts with a simple 15-minute call.",
-      buttonText: "Get Started",
+      buttontext: "Get Started",
       href: "/contact"
     }
   };

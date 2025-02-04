@@ -19,7 +19,7 @@ type AnimationStyle =
 
 interface HeroVideoProps {
   animationStyle?: AnimationStyle;
-  videoSrc: string;
+  videosrc: string;
   thumbnailSrc: string;
   thumbnailAlt?: string;
   className?: string;
@@ -70,7 +70,7 @@ const animationVariants = {
 
 export function HeroVideoDialog({
   animationStyle = "from-center",
-  videoSrc,
+  videosrc,
   thumbnailSrc,
   thumbnailAlt = "Video thumbnail",
   className,
@@ -126,7 +126,7 @@ export function HeroVideoDialog({
               </motion.button>
               <div className="size-full border-2 border-white rounded-2xl overflow-hidden isolate z-[1] relative">
                 <iframe
-                  src={videoSrc}
+                  src={videosrc}
                   className="size-full rounded-2xl"
                   allowFullScreen
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"

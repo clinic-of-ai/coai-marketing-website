@@ -5,7 +5,7 @@ export default {
     title: "First Movers R&D AI Labs",
     heading: "Upskill Into a New Playing Field with First Movers R&D AI Labs",
     paragraph: "Launching Q1 2025, our First Movers R&D AI Labs is a fresh, powerful and vibrant way to learn AI skills. One simple monthly fee, access EVERYTHING in the Labs.",
-    videoSrc: "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/6790dcf2c21e375952ac5283.mp4",
+    videosrc: "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/6790dcf2c21e375952ac5283.mp4",
   },
   sectionA: {
     title: "WHY GRANTS STACK?",
@@ -101,8 +101,8 @@ export default {
   sectionD: {
     title: "Why First Movers R&D AI Labs?",
     heading: "In today’s rapidly changing AI landscape, early adopters become tomorrow’s market leaders. Don’t wait to react—equip yourself to define the industry’s direction.",
-    buttonText: "Claim Your Spot",
-    videoSrc: "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/6790dcf2c21e375952ac5283.mp4",
+    buttontext: "Claim Your Spot",
+    videosrc: "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/6790dcf2c21e375952ac5283.mp4",
     href: "/contact",
   },
   sectionE: {

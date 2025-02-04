@@ -6,7 +6,7 @@ import { TitleBlock } from "@/components/common/title-block";
 interface ClientGainsProps {
   title: string;
   heading: string;
-  videoSrc: string;
+  videosrc: string;
   benefits: {
     label: string;
   }[];
@@ -48,7 +48,7 @@ export function ClientGains(props: ClientGainsProps) {
 
           <div className="relative h-[380px] w-full rounded-lg bg-muted lg:h-[460px] lg:w-[460px] xl:w-[560px]">
             <video
-              src={props.videoSrc}
+              src={props.videosrc}
               className="h-full w-full rounded-lg object-cover"
               autoPlay
               loop

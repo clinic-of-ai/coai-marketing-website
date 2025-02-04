@@ -8,8 +8,8 @@ import { AnimatedArrowButton } from "@/components/ui/animated-arrow-button";
 interface GetStartedSectionProps {
   title: string;
   heading: string;
-  buttonText: string;
-  videoSrc: string;
+  buttontext: string;
+  videosrc: string;
   href: string;
 }
 
@@ -17,7 +17,7 @@ export function GetStartedSection(props: GetStartedSectionProps) {
   return (
     <section className="relative h-[400px] w-full bg-muted lg:h-[640px]">
       <video
-        src={props.videoSrc}
+        src={props.videosrc}
         className="h-full w-full object-cover"
         autoPlay
         loop
@@ -42,7 +42,7 @@ export function GetStartedSection(props: GetStartedSectionProps) {
           >
           </LeadForm> */}
           <AnimatedArrowButton className="w-fit rounded-full">
-            {props.buttonText}
+            {props.buttontext}
           </AnimatedArrowButton>
         </div>
       </div>

@@ -15,7 +15,7 @@ import { TitleBlock } from "@/components/common/title-block";
 interface InsightSectionProps {
   title: string;
   heading: string;
-  blogLink: string;
+  bloglink: string;
   articles: InsightCardProps[];
 }
 
@@ -31,7 +31,7 @@ export function Insight(props: InsightSectionProps) {
             align="left"
           />
 
-          <a href={props.blogLink} target="_blank" rel="noopener noreferrer">
+          <a href={props.bloglink} target="_blank" rel="noopener noreferrer">
             <AnimatedArrowButton size="sm" className="text-xs md:mr-10">
               View All
             </AnimatedArrowButton>
