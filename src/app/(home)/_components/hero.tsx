@@ -1,0 +1,39 @@
+import { cn } from "@/libs/utils";
+import { AnimatedGridPattern } from "@/components/ui/animated-grid-pattern";
+import { AnimatedArrowButton } from "@/components/ui/animated-arrow-button";
+
+interface HeroProps {
+  heading: string;
+  paragraph: string;
+  cta: {
+    label: string;
+  };
+}
+
+export function Hero(props: HeroProps) {
+  return (
+    <section className="relative flex h-[660px] sm:h-[540px] w-full items-center justify-center overflow-hidden rounded-lg border">
+      <div className="container">
+        <div className="grid h-fit w-full gap-10 lg:grid-cols-2">
+          <h1 className="max-w-[572px] text-[40px] leading-[48px] tracking-[-2px]">
+            {props.heading}
+          </h1>
+          <div className="space-y-12">
+            <p className="prose max-w-[554px] text-muted-foreground">{props.paragraph}</p>
+            <AnimatedArrowButton>{props.cta.label}</AnimatedArrowButton>
+          </div>
+        </div>
+      </div>
+      <AnimatedGridPattern
+        numSquares={30}
+        maxOpacity={0.1}
+        duration={3}
+        repeatDelay={1}
+        className={cn(
+          "[mask-image:radial-gradient(700px_circle_at_center,white,transparent)]",
+          "inset-x-0 inset-y-[-30%] h-[200%] skew-y-12",
+        )}
+      />
+    </section>
+  );
+}
