@@ -9,7 +9,7 @@ import config from "@/app/config";
 
 export function Footer() {
   return (
-    <footer className="border-t border-inverse-foreground/15 bg-inverse pt-16 text-sm text-inverse-foreground">
+    <footer className="border-t border-border bg-background pt-16 text-sm text-foreground">
       <div className="container flex w-full max-w-6xl flex-col justify-between gap-y-12 pb-12 sm:flex-row">
         <div className="space-y-12">
           <CoAILogo variant="onBlack" />
@@ -62,7 +62,7 @@ export function Footer() {
         </div>
       </div>
 
-      <div className="border-t border-inverse-foreground/15">
+      <div className="border-t border-border">
         <FooterStrip />
       </div>
     </footer>
