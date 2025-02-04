@@ -34,7 +34,7 @@ export function Industries(props: IndustriesSectionProps) {
             {props.industries.map((industry, index) => (
               <>
                 <div
-                  key={`industry-${index}`}
+                  key={`industry-${index}-${industry.heading}`}
                   className="min-w-[355px] px-2"
                 >
                   <IndustryCard {...industry} layout="loosed" />
