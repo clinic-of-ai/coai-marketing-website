@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect} from "react";
 import Hamburger from "hamburger-react"; 
 import {
   NavigationMenu,
@@ -20,10 +20,33 @@ import CompanyPanel from "@/components/common/navigation/dropdown-panel/company-
 
 export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(false);
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
+
+  useEffect(() => {
+    const checkDarkMode = () => {
+      setIsDarkMode(document.documentElement.classList.contains('dark'));
+    };
+
+    checkDarkMode();
+
+    const themeObserver = new MutationObserver(() => {
+      checkDarkMode();
+    });
+
+    themeObserver.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['class'],
+    });
+
+    return () => {
+      themeObserver.disconnect();
+    };
+  }, []);
+
 
   const closeMobileMenu = () => {
     setIsMobileMenuOpen(false);
@@ -40,7 +63,7 @@ export default function Header() {
         toggled={isMobileMenuOpen}
         toggle={toggleMobileMenu}
         size={24}
-        color={document.documentElement.classList.contains('dark') ? 'white' : 'black'} 
+        color={isDarkMode ? 'white' : 'black'}
       />
     </div>
 
