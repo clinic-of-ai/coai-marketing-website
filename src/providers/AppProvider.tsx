@@ -1,5 +1,3 @@
-"use client";
-
 import { ThemeProvider } from "next-themes";
 
 interface AppProviderProps {
@@ -10,7 +8,7 @@ export function AppProvider({ children }: AppProviderProps) {
   return (
     <ThemeProvider
       attribute="class"
-      defaultTheme="system"
+      defaultTheme="dark"
       enableSystem
       disableTransitionOnChange
     >

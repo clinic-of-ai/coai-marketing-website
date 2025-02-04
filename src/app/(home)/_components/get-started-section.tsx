@@ -32,6 +32,7 @@ export function GetStartedSection(props: GetStartedSectionProps) {
             align="center"
             classNames={{
               container: "max-w-[740px] mx-auto text-center",
+              heading: "text-white"
             }}
           />
 
