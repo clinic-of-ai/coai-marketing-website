@@ -6,7 +6,7 @@ import { Analytics } from "@vercel/analytics/react";
 import { GHLChatBot } from "@/components/common/widgets/ghl-chatbot";
 
 import { Footer } from "@/components/common/footer";
-import  { Header }  from "@/components/common/header";
+import  { Header }  from "@/components/common/Header";
 
 import { AppProvider } from "@/providers/AppProvider";
 
