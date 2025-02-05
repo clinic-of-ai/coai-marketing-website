@@ -5,7 +5,7 @@ import { lab } from "@/constants/nav-links";
 
 export function LabsPanel() {
   return (
-    <div className="min-w-[900px]">
+    <div className="min-w-[1100px]">
       <div className="bg-background py-6  text-foreground">
         <div className="mx-auto grid max-w-7xl grid-cols-1 gap-12 px-4 md:grid-cols-2">
           {/* Left Column */}

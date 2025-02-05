@@ -57,7 +57,6 @@ export function Header() {
 
           <NavBar />
 
-
         {/* Mobile Menu Overlay */}
         <div
           className={`fixed left-0 top-0 z-40 h-full w-full bg-white bg-opacity-75 transition-all duration-300 dark:bg-black dark:bg-opacity-75 lg:hidden ${
