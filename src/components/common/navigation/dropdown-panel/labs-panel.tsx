@@ -22,7 +22,7 @@ export function LabsPanel() {
                 <p className="text-muted-foreground text-sm">{item.description}</p>
                 <Link
                   href="#"
-                  className="inline-flex items-center text-sm text-muted-foreground transition-colors hover:text-primary"
+                  className="inline-flex items-center text-sm transition-colors hover:text-primary"
                 >
                   {item.cta}
                   <ArrowRight className="ml-2 h-4 w-4" />
@@ -44,7 +44,7 @@ export function LabsPanel() {
                         <div key={index}>
                           <Link
                             href={item.href}
-                            className="block text-sm py-2 text-muted-foreground transition-colors hover:text-primary"
+                            className="block text-sm py-2 transition-colors hover:text-primary"
                           >
                             {item.name}
                           </Link>
