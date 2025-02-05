@@ -17,7 +17,7 @@ import config from "./config";
 type RootLayoutProps = Readonly<{
   children: React.ReactNode;
 }>;
-
+ 
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="en" suppressHydrationWarning>
