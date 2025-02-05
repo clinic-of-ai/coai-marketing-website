@@ -7,29 +7,25 @@ export const products = {
     ],
     industries: [
       { name: "Government", href: "#" },
-      { name: "Finance", href: "#" },
-      { name: "Manufacturing", href: "#"},
       { name: "Healthcare", href: "#" },
       { name: "Consulting", href: "#" },
     ],
     useCases: [
-      { name: "Technical onboarding", href: "#" },
-      { name: "Team benchmarking", href: "#"},
-      { name: "Candidate assessment", href: "#"},
+      { name: "Onboarding", href: "#" },
+      { name: "Benchmarking", href: "#"},
+      { name: "Assessment", href: "#"},
     ],
   };
   
   export const solutions = {
     jobRoles: [
-      { name: "Security Engineers", href: "#" },
-      { name: "Compliance Officers", href: "#" },
-      { name: "Incident Response Teams", href: "#" },
+      { name: "Engineers", href: "#" },
+      { name: "Officers", href: "#" },
+      { name: "Response Teams", href: "#" },
     ],
     industries: [
       { name: "Tech", href: "#" },
-      { name: "Retail", href: "#"},
-      { name: "Telecommunications", href: "#"},
-    ],
+      { name: "Retail", href: "#"}    ],
     useCases: [
       { name: "Cloud Security", href: "#" },
       { name: "Risk Management", href: "#" },

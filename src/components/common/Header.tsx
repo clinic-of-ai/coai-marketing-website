@@ -17,6 +17,7 @@ import ProductPanel from "@/components/common/navigation/dropdown-panel/product-
 import SolutionPanel from "@/components/common/navigation/dropdown-panel/solution-panel";
 import ResourcePanel from "@/components/common/navigation/dropdown-panel/resource-panel";
 import CompanyPanel from "@/components/common/navigation/dropdown-panel/company-panel";
+import { CoAILogo } from "@/components/ui/logo/CoAILogo";
 
 export function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -55,9 +56,7 @@ export function Header() {
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-16 items-center justify-between">
-        <Link href="/" className="mr-6 flex items-center space-x-2">
-          <span className="inline-block font-bold">HackTheBox</span>
-        </Link>
+      <CoAILogo variant="onBlack" size="sm" className="mr-4" />
         <div className="flex lg:hidden absolute top-2 right-16">
       <Hamburger
         toggled={isMobileMenuOpen}
@@ -67,8 +66,8 @@ export function Header() {
       />
     </div>
 
-        <NavigationMenu className="hidden lg:flex">
-          <NavigationMenuList>
+    <NavigationMenu className="hidden lg:flex flex-1 justify-between">
+    <NavigationMenuList className="flex w-full justify-between"> 
             <NavigationMenuItem>
               <NavigationMenuTrigger>Products</NavigationMenuTrigger>
               <NavigationMenuContent>
@@ -84,7 +83,7 @@ export function Header() {
             </NavigationMenuItem>
 
             <NavigationMenuItem>
-              <Link href="/pricing" legacyBehavior passHref>
+              <Link href="/pricing" legacyBehavior passHref className="mr-2 ml-2">
                 <NavigationMenuLink>Pricing</NavigationMenuLink>
               </Link>
             </NavigationMenuItem>

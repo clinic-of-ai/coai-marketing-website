@@ -5,26 +5,26 @@ import { resources } from "@/components/common/navigation/data";
 
 export default function ResourcePanel() {
   return (
-    <div className="grid w-[800px] grid-cols-4 gap-6 p-6">
-      <div className="col-span-1">
-        <h3 className="mb-4 text-sm font-medium text-muted-foreground">Job Roles</h3>
+    <div className="grid w-[800px] grid-cols-3 gap-6 p-6">
+       <div className="col-span-1 border-r-2 border-gray pr-6">
+      <h3 className="mb-4 text-[12px] font-medium text-muted-foreground text-center">Job Roles</h3>
         <div className="space-y-2">
           {resources.jobRoles.map((role, index) => (
-            <Link key={index} href={role.href} className="block text-sm text-foreground hover:text-primary">
+            <Link key={index} href={role.href}   className="block text-sm text-foreground hover:bg-secondary py-2 px-4 text-center rounded-lg">
               {role.name}
             </Link>
           ))}
         </div>
       </div>
 
-      <div className="col-span-1">
-        <h3 className="mb-4 text-sm font-medium text-muted-foreground">Industries</h3>
+      <div className="col-span-1 border-r-2 border-gray pr-6">
+      <h3 className="mb-4 text-[12px] font-medium text-muted-foreground text-center">Industries</h3>
         <div className="space-y-2">
           {resources.industries.map((industry, index) => (
             <Link
               key={index}
               href={industry.href}
-              className="flex items-center space-x-2 text-sm text-foreground hover:text-primary"
+                className="block text-sm text-foreground hover:bg-secondary py-2 px-4 text-center rounded-lg"
             >
 
               <span>{industry.name}</span>
@@ -33,15 +33,16 @@ export default function ResourcePanel() {
         </div>
       </div>
 
-      <div className="col-span-2">
-        <h3 className="mb-4 text-sm font-medium text-muted-foreground">Use Cases</h3>
-        <div className="grid gap-4">
-          {resources.useCases.map((useCase, index) => (
-            <Link key={index} href={useCase.href} className="group grid gap-1">
-              <div className="flex items-center space-x-2">
-                <span className="text-sm font-medium group-hover:text-primary">{useCase.name}</span>
-              </div>
-
+      <div className="col-span-1 pr-6">
+        <h3 className="mb-4 text-[12px] font-medium text-muted-foreground text-center">Use Cases</h3>
+        <div className="space-y-2">
+          {resources.useCases.map((industry, index) => (
+            <Link
+              key={index}
+              href={industry.href}
+              className="block text-sm text-foreground hover:bg-secondary py-2 px-4 text-center rounded-lg"
+            >
+              <span>{industry.name}</span>
             </Link>
           ))}
         </div>
@@ -49,3 +50,4 @@ export default function ResourcePanel() {
     </div>
   );
 }
+
