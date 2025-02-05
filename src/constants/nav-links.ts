@@ -157,10 +157,19 @@ export const solutions = [
 export type SolutionPanel = typeof solutions;
 
 export const lab = [
-  { name: "Team Upskilling" },
-  { name: "Corporate Courses" },
+  {
+    name: "Team Upskilling",
+    description: "Comprehensive educational resources for teams, schools and organizations.",
+    cta: "Explore all resources",
+  },
+  {
+    name: "Corporate Courses",
+    description: "Join over 250K professionals upskilling through our corporate training programs.",
+    cta: "View courses",
+  },
   {
     name: "Industry Micro-CoHorts",
+    description: "Specialized training for specific industries",
     list: [
       { name: "Manufacturing", href: "#" },
       { name: "Agriculture", href: "#" },

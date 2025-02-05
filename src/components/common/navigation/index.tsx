@@ -24,7 +24,7 @@ export function NavBar() {
               <NavigationMenuItem key={item.name}>
                 <NavigationMenuTrigger>{item.name}</NavigationMenuTrigger>
                 <NavigationMenuContent>
-                  {/* {item.name === "Lab" && <LabsPanel content={item.menu} />} */}
+                  {item.name === "Lab" && <LabsPanel />}
                   {item.name === "Solutions" && <SolutionPanel />}
                 </NavigationMenuContent>
               </NavigationMenuItem>
