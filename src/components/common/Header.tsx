@@ -18,7 +18,7 @@ import SolutionPanel from "@/components/common/navigation/dropdown-panel/solutio
 import ResourcePanel from "@/components/common/navigation/dropdown-panel/resource-panel";
 import CompanyPanel from "@/components/common/navigation/dropdown-panel/company-panel";
 
-export default function Header() {
+export function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
 
