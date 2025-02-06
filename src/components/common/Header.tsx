@@ -45,7 +45,9 @@ export function Header() {
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-16 items-center justify-between">
-        <CoAILogo variant="onBlack" size="sm" className="mr-10" />
+        <Link href="/">
+          <CoAILogo variant="onBlack" size="sm" className="mr-10" />
+        </Link>
         <div className="absolute right-16 top-2 flex lg:hidden">
           <Hamburger
             toggled={isMobileMenuOpen}
