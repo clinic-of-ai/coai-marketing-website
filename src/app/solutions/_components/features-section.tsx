@@ -6,39 +6,39 @@ import Image from "next/image";
 import createGlobe from "cobe";
 import { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
-import { Youtube } from "lucide-react";
+import { BarChart2, Brain, Shield, Zap } from "lucide-react";
 import Link from "next/link";
 import { TitleBlock } from "@/components/common/title-block";
 
 export function FeaturesSection() {
   const features = [
     {
-      title: "Track issues effectively",
+      title: "AI-Powered Analytics",
       description:
-        "Track and manage your project issues with ease using our intuitive interface.",
+        "Get real-time insights and predictive analytics to make data-driven decisions.",
       skeleton: <SkeletonOne />,
       className:
         "col-span-1 lg:col-span-4 border-b lg:border-r dark:border-neutral-800",
     },
     {
-      title: "Capture pictures with AI",
+      title: "Smart Lead Scoring",
       description:
-        "Capture stunning photos effortlessly using our advanced AI technology.",
+        "Automatically identify and prioritize high-value opportunities using advanced AI algorithms.",
       skeleton: <SkeletonTwo />,
       className: "border-b col-span-1 lg:col-span-2 dark:border-neutral-800",
     },
     {
-      title: "Watch our AI on YouTube",
+      title: "Intelligent Automation",
       description:
-        "Whether its you or Tyler Durden, you can get to know about our product on YouTube",
+        "Automate repetitive tasks and workflows with AI-driven process optimization.",
       skeleton: <SkeletonThree />,
       className:
-        "col-span-1 lg:col-span-3 lg:border-r  dark:border-neutral-800",
+        "col-span-1 lg:col-span-3 lg:border-r dark:border-neutral-800",
     },
     {
-      title: "Deploy in seconds",
+      title: "Real-time Insights",
       description:
-        "With our blazing fast, state of the art, cutting edge, we are so back cloud servies (read AWS) - you can deploy your model in seconds.",
+        "Access instant customer behavior analysis and engagement metrics powered by our AI engine.",
       skeleton: <SkeletonFour />,
       className: "col-span-1 lg:col-span-3 border-b lg:border-none",
     },
@@ -46,11 +46,10 @@ export function FeaturesSection() {
   return (
     <div className="relative z-20 py-10 lg:py-40 container border-x border-border">
       <div className="px-8 max-w-2xl mx-auto">
-        <TitleBlock title="Features" size="lg" heading="Packed with thousands of features" />
+        <TitleBlock title="Features" size="lg" heading="AI-Powered CRM Features That Drive Growth" />
 
         <p className="text-sm lg:text-base my-4 text-muted-foreground text-center">
-          From Image generation to video generation, Everything AI has APIs for
-          literally everything. It can even create this website copy for you.
+          Transform your customer relationships with our comprehensive suite of AI-powered CRM tools designed for modern enterprises.
         </p>
       </div>
 
@@ -60,7 +59,7 @@ export function FeaturesSection() {
             <FeatureCard key={feature.title} className={feature.className}>
               <FeatureTitle>{feature.title}</FeatureTitle>
               <FeatureDescription>{feature.description}</FeatureDescription>
-              <div className=" h-full w-full">{feature.skeleton}</div>
+              <div className="h-full w-full">{feature.skeleton}</div>
             </FeatureCard>
           ))}
         </div>
@@ -85,7 +84,7 @@ const FeatureCard = ({
 
 const FeatureTitle = ({ children }: { children?: React.ReactNode }) => {
   return (
-    <p className=" max-w-5xl mx-auto text-left tracking-tight text-black dark:text-white text-xl md:text-2xl md:leading-snug">
+    <p className="max-w-5xl mx-auto text-left tracking-tight text-black dark:text-white text-xl md:text-2xl md:leading-snug">
       {children}
     </p>
   );
@@ -95,7 +94,7 @@ const FeatureDescription = ({ children }: { children?: React.ReactNode }) => {
   return (
     <p
       className={cn(
-        "text-sm md:text-base  max-w-4xl text-left mx-auto",
+        "text-sm md:text-base max-w-4xl text-left mx-auto",
         "text-neutral-500 text-center font-normal dark:text-neutral-300",
         "text-left max-w-sm mx-0 md:text-sm my-2"
       )}
@@ -108,12 +107,11 @@ const FeatureDescription = ({ children }: { children?: React.ReactNode }) => {
 export const SkeletonOne = () => {
   return (
     <div className="relative flex py-8 px-2 gap-10 h-full">
-      <div className="w-full  p-5  mx-auto bg-white dark:bg-neutral-900 shadow-2xl group h-full">
-        <div className="flex flex-1 w-full h-full flex-col space-y-2  ">
-          {/* TODO */}
+      <div className="w-full p-5 mx-auto bg-white dark:bg-neutral-900 shadow-2xl group h-full">
+        <div className="flex flex-1 w-full h-full flex-col space-y-2">
           <Image
-            src="/linear.webp"
-            alt="header"
+            src="https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/analytics-dashboard.webp"
+            alt="AI Analytics Dashboard"
             width={800}
             height={800}
             className="h-full w-full aspect-square object-cover object-left-top rounded-sm"
@@ -130,16 +128,15 @@ export const SkeletonOne = () => {
 export const SkeletonThree = () => {
   return (
     <Link
-      href="https://www.youtube.com/watch?v=RPa3_AD1_Vs"
-      target="__blank"
-      className="relative flex gap-10  h-full group/image"
+      href="#"
+      className="relative flex gap-10 h-full group/image"
     >
-      <div className="w-full  mx-auto bg-transparent dark:bg-transparent group h-full">
-        <div className="flex flex-1 w-full h-full flex-col space-y-2  relative">
-          <Youtube className="h-20 w-20 absolute z-10 inset-0 text-red-500 m-auto " />
+      <div className="w-full mx-auto bg-transparent dark:bg-transparent group h-full">
+        <div className="flex flex-1 w-full h-full flex-col space-y-2 relative">
+          <Brain className="h-20 w-20 absolute z-10 inset-0 text-blue-500 m-auto" />
           <Image
-            src="https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/678aa38c36fbb617438b2f3d.png"
-            alt="header"
+            src="https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/automation-flow.webp"
+            alt="AI Automation"
             width={800}
             height={800}
             className="h-full w-full aspect-square object-cover object-center rounded-sm blur-none group-hover/image:blur-md transition-all duration-200"
@@ -152,11 +149,11 @@ export const SkeletonThree = () => {
 
 export const SkeletonTwo = () => {
   const images = [
-    "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/678aa38c36fbb617438b2f3d.png",
-    "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/678aa38c36fbb617438b2f3d.png",
-    "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/678aa38c36fbb617438b2f3d.png",
-    "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/678aa38c36fbb617438b2f3d.png",
-    "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/678aa38c36fbb617438b2f3d.png"
+    "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/lead-scoring-1.webp",
+    "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/lead-scoring-2.webp",
+    "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/lead-scoring-3.webp",
+    "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/lead-scoring-4.webp",
+    "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/lead-scoring-5.webp"
   ];
 
   const imageVariants = {
@@ -173,7 +170,6 @@ export const SkeletonTwo = () => {
   };
   return (
     <div className="relative flex flex-col items-start p-8 gap-10 h-full overflow-hidden">
-      {/* TODO */}
       <div className="flex flex-row -ml-20">
         {images.map((image, idx) => (
           <motion.div
@@ -188,7 +184,7 @@ export const SkeletonTwo = () => {
           >
             <Image
               src={image}
-              alt="bali images"
+              alt="lead scoring visualization"
               width="500"
               height="500"
               className="rounded-lg h-20 w-20 md:h-40 md:w-40 object-cover flex-shrink-0"
@@ -210,7 +206,7 @@ export const SkeletonTwo = () => {
           >
             <Image
               src={image}
-              alt="bali images"
+              alt="lead scoring visualization"
               width="500"
               height="500"
               className="rounded-lg h-20 w-20 md:h-40 md:w-40 object-cover flex-shrink-0"
@@ -219,15 +215,15 @@ export const SkeletonTwo = () => {
         ))}
       </div>
 
-      <div className="absolute left-0 z-[100] inset-y-0 w-20 bg-gradient-to-r from-white dark:from-black to-transparent  h-full pointer-events-none" />
-      <div className="absolute right-0 z-[100] inset-y-0 w-20 bg-gradient-to-l from-white dark:from-black  to-transparent h-full pointer-events-none" />
+      <div className="absolute left-0 z-[100] inset-y-0 w-20 bg-gradient-to-r from-white dark:from-black to-transparent h-full pointer-events-none" />
+      <div className="absolute right-0 z-[100] inset-y-0 w-20 bg-gradient-to-l from-white dark:from-black to-transparent h-full pointer-events-none" />
     </div>
   );
 };
 
 export const SkeletonFour = () => {
   return (
-    <div className="h-60 md:h-60  flex flex-col items-center relative bg-transparent dark:bg-transparent mt-10">
+    <div className="h-60 md:h-60 flex flex-col items-center relative bg-transparent dark:bg-transparent mt-10">
       <Globe className="absolute -right-10 md:-right-10 -bottom-80 md:-bottom-72" />
     </div>
   );
@@ -255,13 +251,10 @@ export const Globe = ({ className }: { className?: string }) => {
       markerColor: [0.1, 0.8, 1],
       glowColor: [1, 1, 1],
       markers: [
-        // longitude latitude
         { location: [37.7595, -122.4367], size: 0.03 },
         { location: [40.7128, -74.006], size: 0.1 },
       ],
       onRender: (state) => {
-        // Called on every animation frame.
-        // `state` will be an empty object, return updated params.
         state.phi = phi;
         phi += 0.01;
       },
