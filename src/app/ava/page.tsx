@@ -18,7 +18,7 @@ export default function AVA() {
       <MethodSection />
       <FeatureSection />
       <ClientTestimonialSection />
-      <PricingSection />
+      {/* <PricingSection /> */}
       <FAQSection />
     </>
   );

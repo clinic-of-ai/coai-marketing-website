@@ -4,7 +4,6 @@ import {
 } from "../cards/PricingPlanCard";
 import { TitleBlock } from "@/components/common/title-block";
 
-
 const content: PricingPlanCardProps[] = [
   {
     name: "Starter Plan",

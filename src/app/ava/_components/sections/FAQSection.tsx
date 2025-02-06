@@ -6,7 +6,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-// import { IntroTitle } from "@/components/IntroTitle";
+import { TitleBlock } from "@/components/common/title-block";
 
 const content = [
   {
@@ -40,11 +40,14 @@ export function FAQSection() {
   return (
     <section className="bg-inverse py-24 text-inverse-foreground">
       <div className="container mx-auto max-w-2xl space-y-16">
-        {/* <IntroTitle
-          heading="Frequently asked questions"
-          title=" Everything you need to know about the product and billing."
-          className="mx-auto"
-        /> */}
+        <TitleBlock
+          title="Frequently asked questions"
+          heading="Everything you need to know about the product and billing."
+          classNames={{
+            container: "mx-auto"
+          }}
+
+        />
 
         <div className="space-y-4">
           <Accordion type="single" collapsible className="w-full">

@@ -5,7 +5,7 @@ export const solutions = [
       {
         name: "AI customer voice assistant",
         href: "/ava",
-        icon: "wallet",
+        icon: "bot",
         description: "Advanced voice bot for seamless customer service interactions.",
       },
       {
@@ -58,7 +58,7 @@ export const solutions = [
       {
         name: "AI customer voice assistant",
         href: "/ava",
-        icon: "wallet",
+        icon: "bot",
         description: "Advanced voice bot for seamless customer service interactions.",
       },
       {
@@ -111,7 +111,7 @@ export const solutions = [
       {
         name: "AI customer voice assistant",
         href: "/ava",
-        icon: "wallet",
+        icon: "bot",
         description: "Advanced voice bot for seamless customer service interactions.",
       },
       {

@@ -46,7 +46,7 @@ const items = [
 
 export function FeatureSection() {
   return (
-    <section className="bg-[#E0E8EB]">
+    <section className="bg-secondary">
       <div className="container">
         <div className="h-auto border-x border-black">
           <div className="py-[72px]">
@@ -58,20 +58,22 @@ export function FeatureSection() {
                 container: "mx-auto max-w-[740px]"
               }}
             />
-            <p className="mx-auto max-w-[565px] text-center text-black/50">
+            <p className="mx-auto max-w-[565px] text-center text-secondary-foreground/40">
               Discover how AVA can transform your hospitality or dining business
               with AI-powered efficiency, 24/7 customer service, and streamlined
               operations.
+
             </p>
           </div>
 
           <div className="pb-[72px]">
-            <div className="grid grid-cols-1 md:grid-cols-2 border-y border-black xl:grid-cols-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 border-y border-black/50 xl:grid-cols-4">
               {items.map((item, index) => (
-                <div key={index} className="border border-black">
+                <div key={index} className="border border-black/50">
                   <FeatureCard key={index} content={item} />
                 </div>
               ))}
+
             </div>
           </div>
         </div>
