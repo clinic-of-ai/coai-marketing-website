@@ -1,30 +1,6 @@
 import { Settings, Keyboard, BarChart3, Users } from "lucide-react";
 /* eslint-disable import/no-anonymous-default-export */
 export default {
-  newSection: {
-    title: "We identify the best solution for you.",
-    ctaText: "Ready to get started? Contact us",
-    sections: [
-      {
-        title: "Meet growing tenant demand",
-        description:
-          "With EV ownership on the rise, home charging is set to become an essential requirement for an increasing number of tenants. Preparing for this growing demand now will help to future-proof your site and increase appeal among current and future tenants.",
-      },
-    ],
-    fundedSolution: {
-      title: "A funded solution",
-      description:
-        "We remove many of the financial and operational barriers to large-scale EV infrastructure investment for residential landlords by offering a fully funded, maintained and managed EV charging solution.",
-    },
-    contactText: {
-      prefix: "Contact us",
-      suffix: "to find out more about our funded solutions.",
-    },
-    image: {
-      src: "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/67a50891ce60a017d8931173.webp",
-      alt: "EV charging station installed at a residential building",
-    },
-  },
   hero: {
     title: "First Movers R&D AI Labs",
     heading: "Upskill Into a New Playing Field with First Movers R&D AI Labs",

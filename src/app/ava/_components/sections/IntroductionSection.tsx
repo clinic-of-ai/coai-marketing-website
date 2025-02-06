@@ -15,7 +15,7 @@ export function IntroductionSection() {
               container: "max-w-[740px]"
             }}
           />
-          <p className="leading-6 tracking-[-0.16px] text-black/50 lg:max-w-[432px]">
+          <p className="leading-6 tracking-[-0.16px] text-foreground lg:max-w-[432px]">
             In the dynamic world of hospitality, delivering exceptional guest
             experiences while managing daily operations can be challenging.
             Introducing AVA, your AI-powered virtual assistant designed to

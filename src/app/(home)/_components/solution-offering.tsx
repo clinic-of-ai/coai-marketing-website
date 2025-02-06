@@ -14,7 +14,7 @@ export function SolutionOffering(props: SolutionOfferingSectionProps) {
   const [hoveredCard, setHoveredCard] = useState<any>(null);
 
   return (
-    <section className="bg-secondary py-[108px]">
+    <section className="bg-secondary py-[80px] md:py-[108px]">
       <div className="container grid grid-cols-1 gap-y-12">
         <TitleBlock
           align="left"

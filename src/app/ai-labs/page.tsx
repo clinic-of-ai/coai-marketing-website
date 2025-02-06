@@ -5,7 +5,6 @@ import { SectionC } from "./_components/section-c";
 import { SectionD } from "./_components/section-d";
 import { SectionE } from "./_components/section-e";
 import { SectionF } from "./_components/section-f";
-import { EVSolutionsSection } from "./_components/ev-solution-section";
 
 import data from "./_data";
 
@@ -13,7 +12,6 @@ export default function AILabsPage() {
   return (
     <>
       <HeroSection {...data.hero} />
-      <EVSolutionsSection {...data.newSection} />
       <SectionA {...data.sectionA} />
       <SectionF {...data.sectionF} />
       <SectionB {...data.sectionB} />

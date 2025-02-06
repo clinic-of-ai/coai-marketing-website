@@ -27,7 +27,7 @@ export function ClientBenefits(props: ClientBenefitsProps) {
             {props.heading}
           </h1>
           <div className="flex flex-col gap-y-6">
-            <p className="max-w-[460px] leading-6 tracking-[-0.16px] text-black/60">
+            <p className="max-w-[460px] leading-6 tracking-[-0.16px] text-foreground">
               {props.paragraph}
             </p>
 
@@ -42,7 +42,7 @@ export function ClientBenefits(props: ClientBenefitsProps) {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 gap-3 rounded-lg border border-border p-3 lg:grid-cols-12">
+        <div className="grid grid-cols-1 gap-3 rounded-lg md:border md:border-border md:p-3 lg:grid-cols-12">
           <div className="lg:col-span-8">
             <CardVariantB {...props.cards.card1} />
           </div>
