@@ -14,11 +14,11 @@ export default function CRMPage() {
       <HeroSection {...content.hero} connections={{
         base: <Icons.notion />,
         nodes: [
-          <Icons.notion key="node-1" />,
-          <Icons.notion key="node-2" />,
-          <Icons.notion key="node-3" />,
-          <Icons.notion key="node-4" />,
-          <Icons.notion key="node-5" />,
+          "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/67a5385385dd55e6ac6613d1.png",
+          "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/67a538519769a790bf5a2bdc.png",
+          "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/67a5383e5f27ac55cfd94c5e.png",
+         "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/67a5383a9769a7af9c5a2bd0.png",
+          "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/67a538389769a73dc65a2bce.png",
           <Icons.notion key="node-6" />,
           <Icons.notion key="node-7" />,
           <Icons.notion key="node-8" />,
