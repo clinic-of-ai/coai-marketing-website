@@ -25,12 +25,12 @@ export function IntroductionSection() {
         </div>
         <div className="relative overflow-hidden rounded-[12px]">
           <HeroVideoDialog
-            className="block dark:hidden"
+            className="block"
             animationStyle="top-in-bottom-out"
             videosrc={
-              "https://res.cloudinary.com/dd4yjjtql/video/upload/v1733327833/Transform_Your_Hospitality_with_Ava_ocmstb.mp4"
+              "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/678a891b671b4d807ced0b35.mp44"
             }
-            thumbnailSrc="/image/thumbnail/businessman-provides-information-front-desk-department-in-hotel-check-procedure-travelling-work-purposes-attend-official-conference-receptionist-greeting-professional-client-lobby-1024x683.webp"
+            thumbnailSrc="https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/6790d9cd427b592eaf748291.webp"
             thumbnailAlt=""
           />
         </div>

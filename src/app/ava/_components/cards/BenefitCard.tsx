@@ -9,11 +9,11 @@ export function BenefitCard(props: BenefitCardProps) {
   const { title, label, imgSrc } = props;
 
   return (
-    <div className="space-y-3 rounded-xl border border-black p-2">
+    <div className="space-y-3 rounded-xl border border-border p-2">
       <div className="relative h-[320px] w-full overflow-hidden rounded-xl">
         <Image fill src={imgSrc} alt="" className="object-cover" />
         <div className="absolute inset-0 left-2 top-2 flex h-fit w-fit items-center justify-center rounded-xl bg-black/50 px-3 py-2">
-          <p className="font-mono text-sm uppercase text-white">{label}</p>
+          <p className="font-mono text-sm uppercase text-foreground">{label}</p>
         </div>
       </div>
 

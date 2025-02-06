@@ -34,7 +34,7 @@ export const TestimonialCard: FC<TestimonialCardProps> = (props) => {
   const displayCompany = company;
 
   return (
-    <div className={cn("flex flex-col justify-between space-y-16 rounded-xl bg-[#E0E8EB] p-4 pb-6", className)}>
+    <div className={cn("flex flex-col justify-between space-y-16 rounded-xl bg-secondary p-4 pb-6", className)}>
       <div className="relative size-[64px] overflow-hidden rounded-full bg-gray-300">
         {displayImage && (
           <Image
