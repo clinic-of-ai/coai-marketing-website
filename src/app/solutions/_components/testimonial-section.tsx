@@ -66,7 +66,7 @@ export function TestimonialSection(props: TestimonialsProps) {
             {props.quotes.map((testimonial, index) => (
               <CarouselItem
                 key={`${testimonial.id}-${index}`}
-                className="min-w-0 basis-1/2 pl-4"
+                className="min-w-0 basis-full md:basis-1/2 pl-4"
               >
                 <TestimonialCard
                   key={`${testimonial.id}-${index}`}
