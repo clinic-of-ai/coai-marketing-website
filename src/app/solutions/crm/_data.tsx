@@ -86,7 +86,7 @@ export default {
         heading: "Smart Onboarding",
         description: "AI-driven data migration and setup",
         image: {
-          src: "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/678aa38c36fbb617438b2f3d.png",
+          src: "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/67a5483ccb87a7687c53807e.jpeg",
           alt: "AI onboarding process"
         }
       },
@@ -95,7 +95,7 @@ export default {
         heading: "AI Configuration",
         description: "Intelligent workflow customization",
         image: {
-          src: "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/678aa38c36fbb617438b2f3d.png",
+          src: "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/67a54962a25bdd44eeac6068.jpeg",
           alt: "AI configuration"
         }
       },
@@ -104,7 +104,7 @@ export default {
         heading: "Integration",
         description: "Seamless tech stack synchronization",
         image: {
-          src: "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/678aa38c36fbb617438b2f3d.png",
+          src: "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/67a549cd100f290269f64660.jpeg",
           alt: "System integration"
         }
       },
@@ -113,7 +113,7 @@ export default {
         heading: "Optimization",
         description: "Continuous AI learning and adaptation",
         image: {
-          src: "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/678aa38c36fbb617438b2f3d.png",
+          src: "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/67a54aaa3553cd13f0a77b6f.jpeg",
           alt: "AI optimization"
         }
       }
