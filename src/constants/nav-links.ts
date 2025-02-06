@@ -3,6 +3,12 @@ export const solutions = [
     name: "AI-Enterprise Engine",
     list: [
       {
+        name: "AI customer voice assistant",
+        href: "/ava",
+        icon: "wallet",
+        description: "Advanced voice bot for seamless customer service interactions.",
+      },
+      {
         name: "Full infrastructure audit and automation",
         href: "#",
         icon: "search",
@@ -50,6 +56,12 @@ export const solutions = [
     name: "Growth OS",
     list: [
       {
+        name: "AI customer voice assistant",
+        href: "/ava",
+        icon: "wallet",
+        description: "Advanced voice bot for seamless customer service interactions.",
+      },
+      {
         name: "Fluid AI-powered infrastructure",
         href: "#",
         icon: "line-chart",
@@ -66,12 +78,6 @@ export const solutions = [
         href: "#",
         icon: "bar-chart-3",
         description: "Comprehensive marketing tools integration powered by AI.",
-      },
-      {
-        name: "AI customer service voice bot",
-        href: "#",
-        icon: "wallet",
-        description: "Advanced voice bot for seamless customer service interactions.",
       },
       {
         name: "Automated content creation",
@@ -102,6 +108,12 @@ export const solutions = [
   {
     name: "Solo-Entrepreneur",
     list: [
+      {
+        name: "AI customer voice assistant",
+        href: "/ava",
+        icon: "wallet",
+        description: "Advanced voice bot for seamless customer service interactions.",
+      },
       {
         name: "Gym Trainer website builder",
         href: "#",
