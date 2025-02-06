@@ -15,7 +15,7 @@ interface GetStartedSectionProps {
 
 export function GetStartedSection(props: GetStartedSectionProps) {
   return (
-    <section className="relative h-[400px] w-full bg-muted lg:h-[640px]">
+    <section className="relative h-[480px] w-full bg-muted lg:h-[640px]">
       <video
         src={props.videosrc}
         className="h-full w-full object-cover"

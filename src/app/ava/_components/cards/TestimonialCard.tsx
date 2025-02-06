@@ -55,10 +55,11 @@ export const TestimonialCard: FC<TestimonialCardProps> = (props) => {
         <div className="h-auto w-1 border-l-2 border-primary" />
         <div className="space-y-2">
           <p className="tracking-tight">{name}</p>
-          <div className="flex flex-col space-y-1 font-mono text-xs uppercase text-black/50">
+          <div className="flex flex-col space-y-1 font-mono text-xs uppercase text-secondary-foreground/50">
             <p>{displayRole}</p>
             {displayCompany && <p>{displayCompany}</p>}
           </div>
+
         </div>
       </div>
     </div>

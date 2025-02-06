@@ -10,7 +10,7 @@ export function HeroSection() {
       <Image
         fill
         alt=""
-        src="/image/thumbnail/banner-image.png"
+        src="https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/67a531244325e175f15172af.jpeg"
         className="object-cover"
         priority
       />

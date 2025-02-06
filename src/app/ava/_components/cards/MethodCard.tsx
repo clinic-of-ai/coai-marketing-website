@@ -28,7 +28,7 @@ export function MethodCard(props: MethodCardProps) {
         <h2 className="font-mono uppercase">{content.label}</h2>
       </div>
 
-      <h3 className="px-4 pb-4 text-2xl leading-8 tracking-[-1.2px]">
+      <h3 className="pb-4 text-2xl leading-8 tracking-[-1.2px]">
         {content.description}
       </h3>
     </div>

@@ -38,11 +38,12 @@ const content = [
 
 export function FAQSection() {
   return (
-    <section className="bg-inverse py-24 text-inverse-foreground">
-      <div className="container mx-auto max-w-2xl space-y-16">
+    <section className="py-24">
+      <div className="container space-y-16">
         <TitleBlock
           title="Frequently asked questions"
           heading="Everything you need to know about the product and billing."
+          align="left"
           classNames={{
             container: "mx-auto"
           }}
