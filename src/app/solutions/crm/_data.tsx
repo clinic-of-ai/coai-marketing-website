@@ -21,127 +21,127 @@ export interface Feature {
 
 export default {
   hero: {
-    title: "Ladia CRM Platform",
-    heading: "The All-In-One CRM Built for Growth-Focused Teams",
-    paragraph: "Introducing the Grove AI PRM™, the most intelligent AI-powered participant relationship management platform for leading sites, CROs, and sponsors.",
+    title: "Nexus AI CRM Platform",
+    heading: "AI-Powered CRM That Transforms Customer Relationships",
+    paragraph: "Experience the future of customer relationship management with Nexus AI CRM - where artificial intelligence meets enterprise-grade relationship building to drive unprecedented growth and efficiency.",
     cta: {
-      label: "Book a Demo",
+      label: "Schedule Demo",
     }
   },
   solutionOverview: {
-    title: "Why Ladia?",
-    heading: "More than CRM - your revenue growth engine",
-    paragraph: "Ladia's unified platform eliminates tool sprawl while delivering enterprise-grade capabilities:",
+    title: "Why Nexus?",
+    heading: "Beyond Traditional CRM - Your AI-Powered Growth Engine",
+    paragraph: "Nexus combines cutting-edge AI with enterprise CRM capabilities to deliver unprecedented results:",
     features: [
       {
         icon: PenLine,
-        heading: "Smart Pipelines",
-        paragraph: "Visual deal flows with AI-powered next-step guidance",
+        heading: "AI Deal Intelligence",
+        paragraph: "Predictive analytics and smart opportunity scoring",
         iconBgColor: "bg-navy-subtle border border-navy-subtle-foreground",
         iconColor: "text-navy-subtle-foreground"
       },
       {
         icon: Brain,
-        heading: "AI Assistant",
-        paragraph: "Automated lead scoring, email drafting, & meeting prep",
+        heading: "Smart Assistant",
+        paragraph: "Context-aware recommendations and automated tasks",
         iconBgColor: "bg-mustard-subtle border border-mustard",
         iconColor: "text-mustard-subtle-foreground"
       },
       {
         icon: Zap,
-        heading: "Live Sync",
-        paragraph: "Bi-directional sync with 50+ marketing tools",
+        heading: "Real-time Insights",
+        paragraph: "Live customer behavior tracking and analysis",
         iconBgColor: "bg-coral-subtle border border-coral",
         iconColor: "text-coral-subtle-foreground"
       },
       {
         icon: Shield,
-        heading: "Built Security",
-        paragraph: "SOC2 compliance & granular access controls",
+        heading: "Enterprise Security",
+        paragraph: "Military-grade encryption and compliance",
         iconBgColor: "bg-teal-subtle border border-teal",
         iconColor: "text-teal-subtle-foreground"
       }
     ]
   },
   benefits: {
-    title: "Results",
-    heading: "What Ladia Users Gain in 30 Days",
-    paragraph: "Average outcomes reported by Ladia customers:",
+    title: "Impact",
+    heading: "Proven Results Within First Month",
+    paragraph: "Our customers consistently report these transformative outcomes:",
     benefits: [
-      { title: "4.7x ROI on CRM investment" },
-      { title: "63% faster deal closure" },
-      { title: "18hr/month saved per rep" },
-      { title: "91% team adoption rate" },
-      { title: "360° customer visibility" },
-      { title: "24/7 priority support" }
+      { title: "5.2x ROI on platform investment" },
+      { title: "72% faster deal velocity" },
+      { title: "22hr/month saved per employee" },
+      { title: "95% user adoption rate" },
+      { title: "Real-time customer insights" },
+      { title: "15min average response time" }
     ]
   },
   howItWorks: {
-    title: "How it works",
-    heading: "Here is a timeline of your journey",
-    paragraph:  "I&apos;ve been working on Ladia for the past 2 years. Here&apos;s  a timeline of my journey.",
+    title: "Implementation",
+    heading: "Your Journey to AI-Powered CRM",
+    paragraph: "A streamlined four-step process to transform your customer relationships.",
     process: [
       {
         number: "01",
-        heading: "Instant Setup",
-        description: "Pre-built templates for your industry",
+        heading: "Smart Onboarding",
+        description: "AI-driven data migration and setup",
         image: {
           src: "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/678aa38c36fbb617438b2f3d.png",
-          alt: "startup template"
+          alt: "AI onboarding process"
         }
       },
       {
         number: "02",
-        heading: "Customize",
-        description: "Drag-and-drop pipeline builder",
+        heading: "AI Configuration",
+        description: "Intelligent workflow customization",
         image: {
           src: "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/678aa38c36fbb617438b2f3d.png",
-          alt: "startup template"
+          alt: "AI configuration"
         }
       },
       {
         number: "03",
-        heading: "Connect",
-        description: "Integrate your existing stack",
+        heading: "Integration",
+        description: "Seamless tech stack synchronization",
         image: {
           src: "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/678aa38c36fbb617438b2f3d.png",
-          alt: "startup template"
+          alt: "System integration"
         }
       },
       {
         number: "04",
-        heading: "Scale",
-        description: "Add teams/clients with single click",
+        heading: "Optimization",
+        description: "Continuous AI learning and adaptation",
         image: {
           src: "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/678aa38c36fbb617438b2f3d.png",
-          alt: "startup template"
+          alt: "AI optimization"
         }
       }
     ]
   },
   features: {
-    title: "Core Capabilities",
-    heading: "Everything You Need - Nothing You Don't",
+    title: "Key Features",
+    heading: "AI-Powered Features That Drive Results",
     items: [
       {
         icon: Settings,
-        heading: "Workflow Builder",
-        paragraph: "Create complex automations without coding"
+        heading: "Intelligent Automation",
+        paragraph: "Self-optimizing workflows and processes"
       },
       {
         icon: BarChart2,
-        heading: "Executive Views",
-        paragraph: "Real-time revenue dashboards & forecasts"
+        heading: "Predictive Analytics",
+        paragraph: "AI-driven forecasting and insights"
       },
       {
         icon: Smartphone,
-        heading: "Field Ready",
-        paragraph: "Full mobile CRM with offline access"
+        heading: "Smart Mobile CRM",
+        paragraph: "AI-enhanced mobile experience"
       },
       {
         icon: FileCheck,
-        heading: "Audit Trail",
-        paragraph: "Complete GDPR/CCPA compliance toolkit"
+        heading: "Compliance AI",
+        paragraph: "Automated regulatory compliance"
       }
     ]
   },
@@ -149,7 +149,7 @@ export default {
     quotes: [
       {
         id: 1,
-        quote: "Switched from Salesforce to Ladia and saw 40% cost savings with better functionality. Our reps actually enjoy using it!",
+        quote: "The AI-powered insights have revolutionized how we understand and serve our customers. Revenue is up 45% since implementation.",
         author: {
           name: "Emma Wilson",
           title: "VP Sales, TechScale",
@@ -158,7 +158,7 @@ export default {
       },
       {
         id: 2,
-        quote: "Ladia's AI suggestions helped us identify 18% more upsell opportunities in Q1. Game changer.",
+        quote: "The predictive lead scoring has transformed our sales approach. We're seeing a 35% higher conversion rate.",
         author: {
           name: "Diego Martinez",
           title: "Growth Lead, SaaS.co",
@@ -167,7 +167,7 @@ export default {
       },
       {
         id: 3,
-        quote: "The automation capabilities have transformed our sales process. We're closing deals 30% faster now.",
+        quote: "AI automation has eliminated 80% of our manual data entry. Our team can finally focus on strategic activities.",
         author: {
           name: "Sarah Chen",
           title: "Sales Director, CloudTech",
@@ -176,7 +176,7 @@ export default {
       },
       {
         id: 4,
-        quote: "Best customer support I've experienced. Issues get resolved in minutes, not days.",
+        quote: "The AI assistant's meeting summaries and follow-up suggestions are incredibly accurate. It's like having a digital sales coach.",
         author: {
           name: "Michael Brown",
           title: "Operations Manager, GrowthCo",
@@ -185,7 +185,7 @@ export default {
       },
       {
         id: 5,
-        quote: "The mobile app is a game-changer for our field sales team. Everything syncs perfectly.",
+        quote: "Real-time AI insights during customer calls have boosted our upsell success rate by 40%.",
         author: {
           name: "Lisa Rodriguez",
           title: "Field Sales Lead, Enterprise Solutions",
@@ -194,7 +194,7 @@ export default {
       },
       {
         id: 6,
-        quote: "Integration with our marketing tools was seamless. Finally, a truly unified view of our pipeline.",
+        quote: "The AI-driven pipeline analysis caught deals we would have missed. It's like having a second brain for sales.",
         author: {
           name: "James Kim",
           title: "Marketing Director, B2B Solutions",
@@ -203,7 +203,7 @@ export default {
       },
       {
         id: 7,
-        quote: "The analytics dashboards give us insights we never had before. Revenue forecasting is now spot-on.",
+        quote: "Predictive analytics have made our forecasting 90% more accurate. Board meetings are much easier now.",
         author: {
           name: "Rachel Thompson",
           title: "Revenue Officer, SalesPro",
@@ -212,7 +212,7 @@ export default {
       },
       {
         id: 8,
-        quote: "Onboarding new team members takes hours instead of weeks. The interface is incredibly intuitive.",
+        quote: "The AI learning curve is surprisingly gentle. New hires are productive within days, not weeks.",
         author: {
           name: "David Patel",
           title: "Training Manager, ScaleUp Inc",
@@ -221,7 +221,7 @@ export default {
       },
       {
         id: 9,
-        quote: "The compliance features saved us months of work. GDPR certification was a breeze.",
+        quote: "AI-powered compliance checks have reduced our risk exposure while saving countless hours.",
         author: {
           name: "Sophie Anderson",
           title: "Compliance Head, DataSec",
@@ -230,7 +230,7 @@ export default {
       },
       {
         id: 10,
-        quote: "ROI was evident within the first month. Our conversion rate is up 25% since implementing Ladia.",
+        quote: "The AI insights have helped us reduce churn by 50%. Customer retention has never been stronger.",
         author: {
           name: "Alex Foster",
           title: "CEO, GrowthMetrics",
@@ -240,31 +240,30 @@ export default {
     ]
   },
   outro: {
-    title: "Ready to Modernize Your CRM?",
-    description: "Join 2,300+ teams accelerating growth with Ladia:",
+    title: "Transform Your Customer Relationships",
+    description: "Join 3,000+ companies leveraging AI to drive growth:",
     contactButton: "Start Free Trial",
     images: [
-      { src: "/ladia-mobile-view.jpg", alt: "Mobile CRM", width: 800, height: 600 },
-      { src: "/ladia-analytics.jpg", alt: "Analytics Dashboard", width: 800, height: 600 },
-      { src: "/ladia-automation.jpg", alt: "Workflow Builder", width: 800, height: 600 }
+      { src: "/nexus-mobile-ai.jpg", alt: "AI Mobile Experience", width: 800, height: 600 },
+      { src: "/nexus-insights.jpg", alt: "Predictive Dashboard", width: 800, height: 600 },
+      { src: "/nexus-automation.jpg", alt: "AI Workflow Engine", width: 800, height: 600 }
     ],
     stats: [
-      { number: "99.9%", label: "Uptime SLA" },
-      { number: "4.8/5", label: "User Rating" },
-      { number: "47s", label: "Avg. Support Response" }
+      { number: "99.99%", label: "AI Uptime" },
+      { number: "4.9/5", label: "User Rating" },
+      { number: "30s", label: "AI Response Time" }
     ]
   },
   cta: {
-    title: "Get Started",
-    heading: "Let&apos;s have a virtual coffee and chat about your goals",
-    paragraph: "Let&apos;s have a virtual coffee and chat about your goals and how our processes can help achieve them.",
+    title: "Experience AI CRM",
+    heading: "See how AI can transform your customer relationships",
+    paragraph: "Schedule a personalized demo to discover how our AI-powered CRM can drive growth for your business.",
     button: {
-      label: "Book a Demo"
+      label: "Book Demo"
     },
     image: {
       src: "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/67971a3c4f0aeb52025cbb54.webp",
-      alt: "Pricing illustration"
+      alt: "AI CRM Demo"
     }
   }
 };
-

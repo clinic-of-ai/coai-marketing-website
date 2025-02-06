@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import { forwardRef, useRef } from "react";
+import Image from "next/image";
 
 import { cn } from "@/libs/utils";
 import { TitleBlock } from "@/components/common/title-block";
@@ -18,7 +19,7 @@ interface HeroSectionProps {
   };
   connections: {
     base: JSX.Element;
-    nodes: JSX.Element[];
+    nodes: (JSX.Element | string)[];
   };
 }
 
@@ -59,11 +60,22 @@ export function HeroSection(props: HeroSectionProps) {
         >
           <div className="flex size-full h-[400px] max-w-xl flex-row items-stretch justify-between gap-10">
             <div className="flex flex-col justify-center gap-6">
-              {props.connections.nodes.slice(0, 5).map((node, index) => (
-                <Circle ref={nodeRefs[index]} key={index}>
-                  {node}
-                </Circle>
-              ))}
+              {props.connections.nodes.slice(0, 5).map((node, index) =>
+                typeof node === "string" ? (
+                  <div key={index} className="relative size-14 z-50 rounded-full p-3 ring-2 ring-border ring-offset-4 ring-offset-background" ref={nodeRefs[index]}>
+                    <Image
+                      fill
+                      className="rounded-full object-cover"
+                      src={node}
+                      alt=""
+                    />
+                  </div>
+                ) : (
+                  <Circle ref={nodeRefs[index]} key={index}>
+                    {node}
+                  </Circle>
+                ),
+              )}
             </div>
             <div className="flex flex-col justify-center">
               <Circle ref={baseRef} className="size-16">
@@ -71,11 +83,22 @@ export function HeroSection(props: HeroSectionProps) {
               </Circle>
             </div>
             <div className="flex flex-col justify-center gap-6">
-              {props.connections.nodes.slice(5).map((node, index) => (
-                <Circle ref={nodeRefs[index + 5]} key={index}>
-                  {node}
-                </Circle>
-              ))}
+              {props.connections.nodes.slice(5).map((node, index) =>
+                typeof node === "string" ? (
+                  <Image
+                    key={index}
+                    className="rounded-full"
+                    src={node}
+                    alt=""
+                    width={56}
+                    height={56}
+                  />
+                ) : (
+                  <Circle ref={nodeRefs[index + 5]} key={index}>
+                    {node}
+                  </Circle>
+                ),
+              )}
             </div>
           </div>
 

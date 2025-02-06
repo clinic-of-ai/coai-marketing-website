@@ -19,10 +19,12 @@ interface CTASectionProps {
 
 export function CTASection(props: CTASectionProps) {
   return (
-    <section className="bg-mustard text-mustard-foreground px-4 md:px-8 lg:px-12">
+    <section className="bg-primary text-primary-foreground px-4 md:px-8 lg:px-12">
       <div className="container py-14 lg:flex lg:items-start lg:justify-between lg:gap-12">
         {/* Logo */}
         <Link href="/" className="inline-block mb-24">
+
+
           {/* <Image
             src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/676e163a2c163a5c1e036805_Riotters-Home-Page-Section-CTA-LvUc5l46aEyuS2SFqKc8TsLneGl58z.webp"
             alt="Logo"

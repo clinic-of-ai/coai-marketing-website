@@ -199,8 +199,8 @@ export const navLinks = [
   { name: "Lab", menu: lab },
   { name: "Investors", href: "#" },
   { name: "Talent", href: "#" },
-  { name: "Contact", href: "#" },
-  { name: "About", href: "#" },
+  { name: "Contact", href: "/contact" },
+  { name: "About", href: "/about" },
 ];
 
 export type NavLink = (typeof navLinks)[number];
