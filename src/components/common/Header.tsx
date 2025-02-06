@@ -1,54 +1,134 @@
 "use client";
 
+import * as React from "react";
 import Link from "next/link";
-import { cn } from "@/libs/utils";
-import { NavBar } from "@/components/Navigation/NavBar";
+import { useState, useEffect } from "react";
+import Hamburger from "hamburger-react";
+import { ThemeToggleButton } from "./theme-toggle-button";
 import { CoAILogo } from "@/components/ui/logo/CoAILogo";
-import { Cross as Hamburger } from "hamburger-react";
-import { useScrollVisibility } from "@/hooks/useScrollVisibility";
-import { useToggleState } from "@/hooks/useToggleState";
-import { MobileMenu } from "../Navigation/MobileMenu";
-import { navTopLinks } from "@/constants/links";
-import { DEFAULT_HEADER_HEIGHT } from "@/app/config";
+
+import { NavBar } from "@/components/common/navigation";
 
 export function Header() {
-  const { isOpen, toggleMenu } = useToggleState();
-  const { isVisible, isAtTop } = useScrollVisibility();
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
+
+  useEffect(() => {
+    const checkDarkMode = () => {
+      setIsDarkMode(document.documentElement.classList.contains("dark"));
+    };
+
+    checkDarkMode();
+
+    const themeObserver = new MutationObserver(() => {
+      checkDarkMode();
+    });
+
+    themeObserver.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["class"],
+    });
+
+    return () => {
+      themeObserver.disconnect();
+    };
+  }, []);
+
+  const closeMobileMenu = () => {
+    setIsMobileMenuOpen(false);
+  };
 
   return (
-    <>
-      <header
-        className={cn(
-          "fixed z-[100] w-full transition-all duration-300 ease-in-out bg-inverse/60 backdrop-blur-sm",
-          isVisible ? "top-0" : "-top-full",
-          isAtTop ? `${DEFAULT_HEADER_HEIGHT}` : `h-16`,
-          isOpen ? "bg-transparent" : "",
-        )}
-      >
-        <div className="container flex h-full w-full items-center justify-between gap-16">
-          <Link href="/" aria-label="Home">
-            <CoAILogo size="sm" variant="onBlack" />
-          </Link>
-
-          <NavBar
-            className="hidden md:flex"
-            leftItems={navTopLinks.slice(0, 2)}
-            rightItems={navTopLinks.slice(2)}
+    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <div className="container flex h-16 items-center justify-between">
+        <CoAILogo variant="onBlack" size="sm" className="mr-10" />
+        <div className="absolute right-16 top-2 flex lg:hidden">
+          <Hamburger
+            toggled={isMobileMenuOpen}
+            toggle={toggleMobileMenu}
+            size={24}
+            color={isDarkMode ? "white" : "black"}
           />
+        </div>
 
-          <div className="md:hidden">
-            <Hamburger
-              toggled={isOpen}
-              toggle={toggleMenu}
-              direction="right"
-              color="#FFF"
-              size={28}
-              aria-label="Toggle menu"
-            />
+          <NavBar />
+
+        {/* Mobile Menu Overlay */}
+        <div
+          className={`fixed left-0 top-0 z-40 h-full w-full bg-white bg-opacity-75 transition-all duration-300 dark:bg-black dark:bg-opacity-75 lg:hidden ${
+            isMobileMenuOpen ? "block" : "hidden"
+          }`}
+          onClick={closeMobileMenu}
+        ></div>
+
+        {/* Mobile Menu Container (Card Style) */}
+        <div
+          className={`fixed left-0 top-0 z-50 h-full w-full transform transition-transform duration-300 lg:hidden ${
+            isMobileMenuOpen ? "translate-x-0" : "-translate-x-full"
+          } ${isMobileMenuOpen ? "bg-white dark:bg-black" : ""}`}
+        >
+          {/* Close Button */}
+          <button
+            className="absolute right-5 top-4 text-2xl font-bold text-black dark:text-white"
+            onClick={closeMobileMenu}
+            aria-label="Close menu"
+          >
+            &times; {/* Cross Symbol */}
+          </button>
+
+          <div className="mt-20 flex flex-col space-y-6 rounded-lg bg-white p-8 shadow-lg dark:bg-black">
+            <Link href="/" passHref>
+              <p
+                className="text-[16px] font-semibold text-black dark:text-white"
+                onClick={closeMobileMenu}
+              >
+                Products →
+              </p>
+            </Link>
+            <Link href="/" passHref>
+              <p
+                className="text-[16px] font-semibold text-black dark:text-white"
+                onClick={closeMobileMenu}
+              >
+                Solutions →
+              </p>
+            </Link>
+            <Link href="/pricing" passHref>
+              <p
+                className="text-[16px] font-semibold text-black dark:text-white"
+                onClick={closeMobileMenu}
+              >
+                Pricing
+              </p>
+            </Link>
+            <Link href="/" passHref>
+              <p
+                className="text-[16px] font-semibold text-black dark:text-white"
+                onClick={closeMobileMenu}
+              >
+                Resources →
+              </p>
+            </Link>
+            <Link href="/" passHref>
+              <p
+                className="text-[16px] font-semibold text-black dark:text-white"
+                onClick={closeMobileMenu}
+              >
+                Company →
+              </p>
+            </Link>
           </div>
         </div>
-      </header>
-      <MobileMenu toggleMenu={toggleMenu} isOpen={isOpen} items={navTopLinks} />
-    </>
+
+        {/* Right Side Theme Toggle Button */}
+        <div className="flex flex-1 items-center justify-end gap-x-2">
+          <ThemeToggleButton />
+        </div>
+      </div>
+    </header>
   );
 }

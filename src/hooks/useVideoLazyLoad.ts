@@ -6,7 +6,7 @@ interface UseVideoLazyLoadOptions {
 }
 
 export const useVideoLazyLoad = (
-  videoSrc: string,
+  videosrc: string,
   options: UseVideoLazyLoadOptions = {},
 ) => {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -18,7 +18,7 @@ export const useVideoLazyLoad = (
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             if (videoRef.current) {
-              videoRef.current.src = videoSrc;
+              videoRef.current.src = videosrc;
               videoRef.current.play();
               onIntersect?.();
             }
@@ -33,7 +33,7 @@ export const useVideoLazyLoad = (
     }
 
     return () => observer.disconnect();
-  }, [videoSrc, threshold, onIntersect]);
+  }, [videosrc, threshold, onIntersect]);
 
   return videoRef;
 };

@@ -1,20 +1,23 @@
+import NextTopLoader from "nextjs-toploader";
+
 import "@/styles/globals.css";
 
 import { Analytics } from "@vercel/analytics/react";
-import NextTopLoader from "nextjs-toploader";
+import { GHLChatBot } from "@/components/common/widgets/ghl-chatbot";
 
-import { Footer } from "@/components/common/Footer";
-import { Header } from "@/components/common/Header";
+import { Footer } from "@/components/common/footer";
+import  { Header }  from "@/components/common/Header";
+
 import { AppProvider } from "@/providers/AppProvider";
-import { ChatbotGHL } from "@/components/common/widgets/ChatbotGHL";
 
 import { plusJakartaSansFont, jetBrainsMonoFont } from "./font";
 export { meta as metadata } from "./metadata";
+import config from "./config";
 
 type RootLayoutProps = Readonly<{
   children: React.ReactNode;
 }>;
-
+ 
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="en" suppressHydrationWarning>
@@ -40,8 +43,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
           <main>{children}</main>
           <Footer />
         </AppProvider>
-
-        <ChatbotGHL widgetId="6747394e29fc591edbcaccce" />
+        <GHLChatBot {...config.chatbot.ghl} />
       </body>
     </html>
   );

@@ -1,15 +1,15 @@
 "use client";
 
+import { motion } from "motion/react";
 import { RefObject, useEffect, useId, useState } from "react";
-import { motion } from "framer-motion";
 
 import { cn } from "@/libs/utils";
 
 export interface AnimatedBeamProps {
   className?: string;
-  containerRef: RefObject<HTMLElement>; // Container ref
-  fromRef: RefObject<HTMLElement>;
-  toRef: RefObject<HTMLElement>;
+  containerRef: RefObject<HTMLElement | null>; // Container ref
+  fromRef: RefObject<HTMLElement | null>;
+  toRef: RefObject<HTMLElement | null>;
   curvature?: number;
   reverse?: boolean;
   pathColor?: string;
@@ -39,7 +39,7 @@ export const AnimatedBeam: React.FC<AnimatedBeamProps> = ({
   pathOpacity = 0.2,
   gradientStartColor = "#ffaa40",
   gradientStopColor = "#9c40ff",
-  startXOffset = 0, 
+  startXOffset = 0,
   startYOffset = 0,
   endXOffset = 0,
   endYOffset = 0,

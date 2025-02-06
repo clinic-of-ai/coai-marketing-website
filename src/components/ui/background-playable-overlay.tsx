@@ -2,8 +2,8 @@
 import { cn } from "@/libs/utils";
 import { ArrowUpRight, Check } from "lucide-react";
 import { motion } from "framer-motion";
-import { AnimatedArrowButton } from "../AnimatedArrowButton";
-import { LeadForm } from "../form/LeadForm";
+import { AnimatedArrowButton } from "./animated-arrow-button";
+// import { LeadForm } from "../common/lead-form";
 
 interface BackgroundPlayableOverlayProps {
   backgroundImageUrl: string;
@@ -11,7 +11,7 @@ interface BackgroundPlayableOverlayProps {
   id: string;
   title: string;
   description: string;
-  buttonText: string;
+  buttontext: string;
   bulletPoints?: string[];
   bgColor: string;
   textColor: string;
@@ -30,7 +30,7 @@ export function BackgroundPlayableOverlay({
   description,
   backgroundImageUrl,
   hoverImageUrl,
-  buttonText,
+  buttontext,
   bulletPoints,
   bgColor,
   textColor,
@@ -110,13 +110,13 @@ export function BackgroundPlayableOverlay({
             </motion.div>
           </div>
         </div>
-        <LeadForm id={formId || ""} source={formSource || ""}>
+        {/* <LeadForm id={formId || ""} source={formSource || ""}>
           <AnimatedArrowButton
             className={`${buttonColor} w-fit text-xs font-semibold text-white`}
           >
-            {buttonText}
           </AnimatedArrowButton>
-        </LeadForm>
+        </LeadForm> */}
+            {buttontext}
       </div>
     </motion.div>
   );

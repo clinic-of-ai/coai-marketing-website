@@ -1,22 +1,17 @@
-import { HQMapLocation } from "@/app/config";
-import { MapLocation } from "@/components/MapLocation";
-import { HeroSection } from "@/components/features/about/HeroSection";
-import { MissionSection } from "@/components/features/about/MissionSection";
-import { MotivationSection } from "@/components/features/about/MotivationSection";
-import { TeamGallerySection } from "@/components/features/about/TeamGallerySection";
+import { HeroSection } from "./_components/hero-section";
+import { CompanyMissionSection } from "./_components/company-mission-section";
+import { MotivationSection } from "./_components/motivation-section";
+import { OfficeMapLocationSection } from "./_components/office-map-location-section";
+
+import content from "./_data";
 
 export default function About() {
   return (
     <>
-      <HeroSection />
-      <MissionSection />
-      <MotivationSection />
-      <TeamGallerySection />
-      <section>
-        <div className="h-[31.25rem] xl:h-[26rem]">
-          <MapLocation src={HQMapLocation} />
-        </div>
-      </section>
+      <HeroSection {...content.hero} />
+      <CompanyMissionSection {...content.companyMission} />
+      <MotivationSection {...content.motivation} />
+      <OfficeMapLocationSection {...content.officeMapLocation} />
     </>
   );
 }

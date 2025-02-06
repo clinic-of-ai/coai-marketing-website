@@ -1,5 +1,8 @@
 /** @type {import('tailwindcss').Config} */
-import { screens, fontFamily as defaultFontFamily } from "tailwindcss/defaultTheme";
+import {
+  screens,
+  fontFamily as defaultFontFamily,
+} from "tailwindcss/defaultTheme";
 import flattenColorPalette from "tailwindcss/lib/util/flattenColorPalette";
 
 const config = {
@@ -32,6 +35,30 @@ const config = {
         mono: ["var(--font-jetbrains-mono)", ...defaultFontFamily.mono],
       },
       colors: {
+        coral: {
+          DEFAULT: "hsl(var(--coral))",
+          foreground: "hsl(var(--coral-foreground))",
+          subtle: "hsl(var(--coral-subtle))",
+          "subtle-foreground": "hsl(var(--coral-subtle-foreground))",
+        },
+        teal: {
+          DEFAULT: "hsl(var(--teal))",
+          foreground: "hsl(var(--teal-foreground))",
+          subtle: "hsl(var(--teal-subtle))",
+          "subtle-foreground": "hsl(var(--teal-subtle-foreground))",
+        },
+        navy: {
+          DEFAULT: "hsl(var(--navy))",
+          foreground: "hsl(var(--navy-foreground))",
+          subtle: "hsl(var(--navy-subtle))",
+          "subtle-foreground": "hsl(var(--navy-subtle-foreground))",
+        },
+        mustard: {
+          DEFAULT: "hsl(var(--mustard))",
+          foreground: "hsl(var(--mustard-foreground))",
+          subtle: "hsl(var(--mustard-subtle))",
+          "subtle-foreground": "hsl(var(--mustard-subtle-foreground))",
+        },
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
@@ -129,6 +156,14 @@ const config = {
           from: { transform: "translateX(0)" },
           to: { transform: "translateX(-100%)" },
         },
+        marquee: {
+          from: { transform: "translateX(0)" },
+          to: { transform: "translateX(calc(-100% - var(--gap)))" },
+        },
+        "marquee-vertical": {
+          from: { transform: "translateY(0)" },
+          to: { transform: "translateY(calc(-100% - var(--gap)))" },
+        },
       },
       animation: {
         "bounce-right": "bounce-right 0.5s ease-in-out",
@@ -140,6 +175,8 @@ const config = {
         slide: "slide var(--speed) ease-in-out infinite alternate",
         spring: "spring 0.8s cubic-bezier(0.38,-0.06,0.27,0.81) infinite",
         carousel: "carousel 40s linear infinite",
+        marquee: "marquee var(--duration) linear infinite",
+        "marquee-vertical": "marquee-vertical var(--duration) linear infinite",
       },
       transitionDuration: {
         300: "300ms",
@@ -153,7 +190,11 @@ const config = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate"), addVariablesForColors],
+  plugins: [
+    require("tailwindcss-animate"),
+    require("@tailwindcss/typography"),
+    addVariablesForColors,
+  ],
 };
 
 // This plugin adds each Tailwind color as a global CSS variable, e.g. var(--gray-200).

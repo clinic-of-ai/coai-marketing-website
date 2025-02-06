@@ -8,35 +8,30 @@
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
 
-    --background-inverse: 222.2 84% 4.9%;
-    --foreground-inverse: 0 0% 100%;
-
-    /* Component colors */
+    /* Card and Popover */
     --card: 0 0% 100%;
     --card-foreground: 222.2 84% 4.9%;
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 0 0% 100%;
+    --popover: 0 0% 100%; 
+    --popover-foreground: 222.2 84% 4.9%;
 
-    /* Primary and secondary colors */
+    /* Primary and Secondary */
     --primary: 188 93% 49%;
-    --primary-foreground: 210 40% 98%;
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --primary-foreground: 217.2 32.6% 17.5%;
+    --secondary: 240 5.9% 90%;  /* stone-200 */
+    --secondary-foreground: 24 9.8% 10%; /* stone-900 */
 
-    /* Accent and muted colors */
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    /* Muted and Accent */
     --muted: 210 40% 96.1%;
     --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
 
     /* Utility colors */
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
-    --ring: 188 93% 49%;
-
-    /* Misc */
+    --ring: 221.2 83.2% 53.3%;
     --radius: 0.5rem;
 
     /* Chart colors */
@@ -45,30 +40,51 @@
     --chart-3: 197 37% 24%;
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
-  }
 
+    /* Decorative colors */
+    --coral: 16 100% 66%;
+    --coral-foreground: 0 0% 100%;
+    --coral-subtle: 16 100% 95%;
+    --coral-subtle-foreground: 16 100% 66%;
+    
+    --teal: 181 100% 25%;
+    --teal-foreground: 0 0% 100%;
+    --teal-subtle: 181 100% 95%;
+    --teal-subtle-foreground: 181 100% 26%;
+    
+    --navy: 211 97% 12%;
+    --navy-foreground: 0 0% 100%;
+    --navy-subtle: 211 97% 95%;
+    --navy-subtle-foreground: 211 97% 12%;
+    
+    --mustard: 44 100% 55%;
+    --mustard-foreground: 0 0% 0%;
+    --mustard-subtle: 44 100% 95%;
+    --mustard-subtle-foreground: 44 100% 55%;
+  }
+ 
   .dark {
     /* Base colors */
     --background: 222.2 84% 4.9%;
     --foreground: 210 40% 98%;
 
-    /* Component colors */
+    /* Card and Popover */
     --card: 222.2 84% 4.9%;
     --card-foreground: 210 40% 98%;
     --popover: 222.2 84% 4.9%;
     --popover-foreground: 210 40% 98%;
 
-    /* Primary and secondary colors */
-    --primary: 217.2 91.2% 59.8%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
+    /* Primary and Secondary */
+    --primary: 187.9 85.7% 53.3%;
+    --primary-foreground: 217.2 32.6% 17.5%;
+    --secondary: 217.2 32.6% 17.5%; /* slate-800 */
+    --secondary-foreground: 60 9.1% 97.8%; /* stone-50 */
 
-    /* Accent and muted colors */
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
+    /* Muted and Accent */
     --muted: 217.2 32.6% 17.5%;
     --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
 
     /* Utility colors */
     --destructive: 0 62.8% 30.6%;
@@ -84,8 +100,26 @@
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
 
-    --static-image: url("https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExNWlodTF3MjJ3NnJiY3Rlc2J0ZmE0c28yeWoxc3gxY2VtZzA5ejF1NSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/syEfLvksYQnmM/giphy.gif")
-    --hover-image: url("https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExNWlodTF3MjJ3NnJiY3Rlc2J0ZmE0c28yeWoxc3gxY2VtZzA5ejF1NSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/syEfLvksYQnmM/giphy.gif");
+    /* Decorative colors */
+    --coral: 16 100% 66%;
+    --coral-foreground: 0 0% 100%;
+    --coral-subtle: 16 100% 15%;
+    --coral-subtle-foreground: 16 100% 66%;
+    
+    --teal: 181 100% 35%;
+    --teal-foreground: 0 0% 100%; 
+    --teal-subtle: 181 100% 15%;
+    --teal-subtle-foreground: 181 100% 35%;
+    
+    --navy: 211 100% 11.8%;
+    --navy-foreground: 0 0% 100%;
+    --navy-subtle: 211 97% 15%;
+    --navy-subtle-foreground: 211 97% 25%;
+    
+    --mustard: 44 100% 65%;
+    --mustard-foreground: 0 0% 0%;
+    --mustard-subtle: 44 100% 15%;
+    --mustard-subtle-foreground: 44 100% 65%;
   }
 
   * {
@@ -113,5 +147,35 @@
     .sheet-content {
       min-width: 100%;
     }
+  }
+
+  @keyframes ring {
+    0% {
+      transform: scale(0);
+      opacity: 1;
+    }
+    100% {
+      transform: scale(6);
+      opacity: 0;
+    }
+  }
+  
+  .animate-ring {
+    animation: ring 1.2s cubic-bezier(0.4, 0, 0.6, 1) forwards;
+  }
+
+  @keyframes jelly-pulse {
+    0%, 100% {
+      transform: translate(-50%, -50%) scale(0.8);
+      opacity: 0.4;
+    }
+    50% {
+      transform: translate(-50%, -50%) scale(1.2);
+      opacity: 0.8;
+    }
+  }
+
+  .animate-jelly-pulse {
+    animation: jelly-pulse 3.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
   }
 }
