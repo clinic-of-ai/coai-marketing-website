@@ -3,11 +3,14 @@
 import * as React from "react";
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import Hamburger from "hamburger-react";
+
 import { ThemeToggleButton } from "./theme-toggle-button";
 import { CoAILogo } from "@/components/ui/logo/CoAILogo";
 
 import { NavBar } from "@/components/common/navigation";
+import { MobileNavigation } from "@/components/common/navigation/mobile-menu";
+
+import { navLinks, type NavLink } from "@/constants/nav-links";
 
 export function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -49,15 +52,10 @@ export function Header() {
           <CoAILogo variant="onBlack" size="sm" className="mr-10" />
         </Link>
         <div className="absolute right-16 top-2 flex lg:hidden">
-          <Hamburger
-            toggled={isMobileMenuOpen}
-            toggle={toggleMobileMenu}
-            size={24}
-            color={isDarkMode ? "white" : "black"}
-          />
+          <MobileNavigation navLinks={navLinks} />
         </div>
 
-          <NavBar />
+        <NavBar />
 
         {/* Mobile Menu Overlay */}
         <div

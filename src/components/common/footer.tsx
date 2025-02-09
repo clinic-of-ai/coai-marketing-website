@@ -51,12 +51,36 @@ export function Footer() {
             ))}
           </div>
 
-          <div className="grid-row-2 grid grid-cols-2 gap-2">
+          <div className="grid-row-2 grid grid-cols-2 gap-4">
             <Image
-              alt="Training Provider Badge"
+              alt=""
               src="https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/67a20932aaffd34d444db698.png"
-              height={150}
-              width={150}
+              height={80}
+              width={80}
+            />
+            <Image
+              alt=""
+              src="https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/67a8e87e4325e137ca596ea6.webp"
+              height={80}
+              width={80}
+            />
+            <Image
+              alt=""
+              src="https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/67a8e889fc7685c6e514b4b6.png"
+              height={80}
+              width={80}
+            />
+            <Image
+              alt=""
+              src="https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/67a8e88b9769a70884615920.webp"
+              height={80}
+              width={80}
+            />
+            <Image
+              alt=""
+              src="https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/67a8e892232902411c410166.webp"
+              height={80}
+              width={80}
             />
           </div>
         </div>
