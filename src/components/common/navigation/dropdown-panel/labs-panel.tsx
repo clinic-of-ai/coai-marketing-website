@@ -21,7 +21,7 @@ export function LabsPanel() {
                 </h2>
                 <p className="text-muted-foreground text-sm">{item.description}</p>
                 <Link
-                  href="#"
+                  href={item.href || ""}
                   className="inline-flex items-center text-sm transition-colors hover:text-primary"
                 >
                   {item.cta}

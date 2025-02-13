@@ -173,11 +173,13 @@ export const lab = [
     name: "Team Upskilling",
     description: "Comprehensive educational resources for teams, schools and organizations.",
     cta: "Explore all resources",
+    href: "/coming-soon",
   },
   {
-    name: "Corporate Courses",
-    description: "Join over 250K professionals upskilling through our corporate training programs.",
-    cta: "View courses",
+    name: "AI R&D Labs",
+    description: "Pioneering AI research and development for next-generation business solutions.",
+    cta: "View all labs",
+    href: "/ai-labs",
   },
   {
     name: "Industry Micro-CoHorts",
