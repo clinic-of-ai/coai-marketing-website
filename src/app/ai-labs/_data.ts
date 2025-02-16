@@ -1,4 +1,6 @@
 import { Settings, Keyboard, BarChart3, Users } from "lucide-react";
+import config from "@/app/config";
+
 /* eslint-disable import/no-anonymous-default-export */
 export default {
   hero: {
@@ -10,6 +12,11 @@ export default {
   sectionA: {
     title: "WHY GRANTS STACK?",
     heading: "A streamlined solution customized to your ecosystem's needs.",
+    cta: {
+      label: "Book a Call",
+      formId: config.bookings.discoveryCall.id,
+      formUrl: config.bookings.discoveryCall.url,
+    },
     features: [
       {
         icon: Settings,
@@ -96,14 +103,19 @@ export default {
     ],
     cta: {
       label: "Schedule a Demo",
+      formId: config.bookings.discoveryCall.id,
+      formUrl: config.bookings.discoveryCall.url,
     }
   },
   sectionD: {
     title: "Why First Movers R&D AI Labs?",
     heading: "In today’s rapidly changing AI landscape, early adopters become tomorrow’s market leaders. Don’t wait to react—equip yourself to define the industry’s direction.",
-    buttontext: "Claim Your Spot",
+    cta: {
+      label: "Claim Your Spot",
+      formId: config.bookings.discoveryCall.id,
+      formUrl: config.bookings.discoveryCall.url,
+    },
     videosrc: "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/6790dcf2c21e375952ac5283.mp4",
-    href: "/contact",
   },
   sectionE: {
     heading: "In today’s rapidly changing AI landscape, early adopters become tomorrow’s market leaders. Don’t wait to react—equip yourself to define the industry’s direction.",

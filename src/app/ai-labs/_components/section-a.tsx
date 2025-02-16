@@ -4,6 +4,7 @@ import { LucideProps } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { AnimatedArrowButton } from "@/components/ui/animated-arrow-button";
 import { TitleBlock } from "@/components/common/title-block";
+import { BookingForm } from "@/components/common/booking-form";
 
 interface FeatureProps {
   icon: React.FC<LucideProps>;
@@ -15,6 +16,11 @@ interface SectionAProps {
   title: string;
   heading: string;
   features: FeatureProps[];
+  cta: {
+    label: string;
+    formId: string;
+    formUrl: string;
+  };
 }
 
 export function SectionA(props: SectionAProps) {
@@ -29,21 +35,25 @@ export function SectionA(props: SectionAProps) {
           </div>
 
           <div className="space-y-16 lg:flex lg:items-start lg:justify-between lg:gap-12 lg:space-y-0">
-            <div className="lg:max-w-xl lg:flex-1 space-y-16">
+            <div className="space-y-16 lg:max-w-xl lg:flex-1">
               <TitleBlock
                 title={props.title}
                 classNames={{
                   container: "space-y-6",
-                  title: "bg-cyan-50 dark:bg-cyan-950 border-primary border text-cyan-500 w-fit rounded-full px-4 py-1.5",
+                  title:
+                    "bg-cyan-50 dark:bg-cyan-950 border-primary border text-cyan-500 w-fit rounded-full px-4 py-1.5",
                 }}
                 heading={props.heading}
                 align="left"
                 size="xl"
               />
 
-              <AnimatedArrowButton>
-                Schedule a Call
-              </AnimatedArrowButton>
+              <BookingForm
+                iframeUrl={props.cta.formUrl}
+                iframeId={props.cta.formId}
+              >
+                <AnimatedArrowButton>{props.cta.label}</AnimatedArrowButton>
+              </BookingForm>
             </div>
 
             <div className="grid gap-12 md:grid-cols-2 lg:flex-1 lg:gap-16">
@@ -69,8 +79,12 @@ function Feature(props: FeatureProps) {
         <props.icon strokeWidth={1.7} />
       </Button>
       <div className="space-y-2">
-        <h1 className="w-fit rounded-full py-1.5 font-mono uppercase">{props.label}</h1>
-        <p className="leading-relaxed text-muted-foreground">{props.description}</p>
+        <h1 className="w-fit rounded-full py-1.5 font-mono uppercase">
+          {props.label}
+        </h1>
+        <p className="leading-relaxed text-muted-foreground">
+          {props.description}
+        </p>
       </div>
     </div>
   );
