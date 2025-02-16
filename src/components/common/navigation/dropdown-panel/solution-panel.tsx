@@ -129,7 +129,7 @@ export function SolutionPanel() {
             <p className="text-muted-foreground text-sm">{activeItem.description}</p>
             <Link
               href={activeItem.href}
-              className="inline-flex items-center text-sm text-muted-foreground transition-colors hover:text-foreground text-primary"
+              className="inline-flex items-center text-sm transition-colors hover:text-foreground text-primary"
             >
               Learn more
               <ArrowRight className="ml-2 h-4 w-4" />
