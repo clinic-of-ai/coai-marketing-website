@@ -24,8 +24,17 @@ export default {
       chatWidgetUrl: "https://widgets.leadconnectorhq.com/chat-widget/loader.js",
     },
   },
-
   whatsapp: {
     link: "https://wa.link/g7avv0",
   },
+  bookings: {
+    ava: {
+      id: "T4GNZOQZ8OscdQXtBhOs_1732720366789",
+      url: "https://api.leadconnectorhq.com/widget/booking/T4GNZOQZ8OscdQXtBhOs"
+    },
+    discoveryCall: {
+      id: "Nx1uj9hpUtMgXrp6FcgY_1732720304666",
+      url: "https://api.leadconnectorhq.com/widget/booking/Nx1uj9hpUtMgXrp6FcgY"
+    }
+  }
 } as const;
