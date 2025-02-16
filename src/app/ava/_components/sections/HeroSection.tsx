@@ -3,14 +3,27 @@ import { TitleBlock } from "@/components/common/title-block";
 // import { LeadForm } from "@/components/common/lead-form";
 // import { avaBookingSource } from "@/app/config";
 import { AnimatedArrowButton } from "@/components/ui/animated-arrow-button";
+import { BookingForm } from "@/components/common/booking-form";
 
-export function HeroSection() {
+interface HeroProps {
+  title: string;
+  heading: string;
+  paragraph: string;
+  image: string;
+  cta: {
+    label: string;
+    formId: string;
+    formUrl: string;
+  };
+}
+
+export function HeroSection(props: HeroProps) {
   return (
     <section className="relative h-[740px] w-full bg-[#ccd7db]">
       <Image
         fill
         alt=""
-        src="https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/67a531244325e175f15172af.jpeg"
+        src={props.image}
         className="object-cover"
         priority
       />
@@ -18,29 +31,26 @@ export function HeroSection() {
         <div className="container mx-auto flex h-full flex-col items-center justify-center gap-8">
           <div className="">
             <TitleBlock
-              title="From hoteliers to hoteliers"
-              heading="Transform hospitality operations with AVA and See how AI can elevate your service today."
+              title={props.title}
+              heading={props.heading}
               size="lg"
               classNames={{
                 container: "max-w-[740px] text-white",
                 title: "text-white/60"
               }}
             />
-
             <p className="mx-auto max-w-[665px] text-center text-lg leading-7 text-white/70">
-              Let us show you how our Personalized Voice Agent can Simplify
-              Hospitality Operations. Delight Your Guests with AVA, Your 24/7 AI
-              Concierge, using the most advanced voice technology.
+              {props.paragraph}
             </p>
           </div>
-          {/* <LeadForm
-            source={avaBookingSource.bookingUrl}
-            id={avaBookingSource.bookingId}
+          <BookingForm
+            iframeUrl={props.cta.formUrl}
+            iframeId={props.cta.formId}
           >
-          </LeadForm> */}
             <AnimatedArrowButton variant="secondary">
-              Book a Call
+              {props.cta.label}
             </AnimatedArrowButton>
+          </BookingForm>
         </div>
       </div>
     </section>
