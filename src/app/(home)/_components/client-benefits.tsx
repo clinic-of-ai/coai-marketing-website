@@ -1,15 +1,19 @@
+import { AnimatedArrowButton } from "@/components/ui/animated-arrow-button";
+import { BookingForm } from "@/components/common/booking-form";
+
 import { CardVariantA, CardVariantAProps } from "./cards/benefit-card/card-variant-a";
 import { CardVariantB, CardVariantBProps } from "./cards/benefit-card/card-variant-b";
 import { CardVariantC, CardVariantCProps } from "./cards/benefit-card/card-variant-c";
 import { CardVariantD, CardVariantDProps } from "./cards/benefit-card/card-variant-d";
 
-import { AnimatedArrowButton } from "@/components/ui/animated-arrow-button";
-// import { LeadForm } from "@/components/common/lead-form";
-// import { discoveryCallBookingSource } from "@/app/config";
-
 interface ClientBenefitsProps {
   heading: string;
   paragraph: string;
+  cta: {
+    label: string;
+    formId: string;
+    formUrl: string;
+  };
   cards: {
     card1: CardVariantBProps;
     card2: CardVariantDProps;
@@ -30,15 +34,14 @@ export function ClientBenefits(props: ClientBenefitsProps) {
             <p className="max-w-[460px] leading-6 tracking-[-0.16px] text-foreground">
               {props.paragraph}
             </p>
-
-            {/* <LeadForm
-              source={discoveryCallBookingSource.bookingUrl}
-              id={discoveryCallBookingSource.bookingId}
+            <BookingForm
+              iframeUrl={props.cta.formUrl}
+              iframeId={props.cta.formId}
             >
-            </LeadForm> */}
               <AnimatedArrowButton className="w-fit rounded-full">
-                Book a call
+                {props.cta.label}
               </AnimatedArrowButton>
+            </BookingForm>
           </div>
         </div>
 

@@ -85,13 +85,14 @@ export function SolutionPanel() {
               return (
                 <div key={item.name}>
                   <button
-                    onClick={() => setActiveItem(item)}
-                    className={`text-sm flex w-full items-center gap-3 h-fit text-left transition-colors hover:text-primary ${
-                      activeItem.name === item.name ? "text-primary" : ""
+                    onMouseOver={() => setActiveItem(item)}
+                    onMouseOut={() => setActiveItem(activeItem)}
+                    className={`text-sm text-muted-foreground flex w-full items-center gap-3 h-fit text-left transition-colors hover:text-foreground hover:font-bold ${
+                      activeItem.name === item.name ? "text-black dark:text-white font-bold" : ""
                     }`}
                   >
 
-                    <div className={`p-1 rounded-md bg-muted ${activeItem.name === item.name ? "bg-primary/20 border border-primary text-primary" : ""}`}>
+                    <div className={`p-1 rounded-md bg-muted ${activeItem.name === item.name ? "bg-muted/20 border border-border text-foreground" : ""}`}>
                       <Icon className="h-4 w-4" />
                     </div>
                     <span>{item.name}</span>
@@ -128,7 +129,7 @@ export function SolutionPanel() {
             <p className="text-muted-foreground text-sm">{activeItem.description}</p>
             <Link
               href={activeItem.href}
-              className="inline-flex items-center text-sm text-muted-foreground transition-colors hover:text-foreground"
+              className="inline-flex items-center text-sm transition-colors hover:text-foreground text-primary"
             >
               Learn more
               <ArrowRight className="ml-2 h-4 w-4" />

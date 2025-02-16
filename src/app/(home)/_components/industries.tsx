@@ -3,8 +3,8 @@ import { TitleBlock } from "@/components/common/title-block";
 import { AnimatedArrowButton } from "@/components/ui/animated-arrow-button";
 
 import { IndustryCard, IndustryCardProps } from "./cards/industry-card";
-// import { LeadForm } from "@/components/common/lead-form";
-// import { discoveryCallBookingSource } from "@/app/config";
+import { BookingForm } from "@/components/common/booking-form";
+import config from "@/app/config";
 
 interface IndustriesSectionProps {
   title: string;
@@ -16,7 +16,7 @@ interface IndustriesSectionProps {
 export function Industries(props: IndustriesSectionProps) {
   return (
     <section className="relative border-y border-border">
-      <div className="container border-x border-border flex place-items-center pt-[72px] pb-[72px]">
+      <div className="container flex place-items-center border-x border-border pb-[72px] pt-[72px]">
         <div className="mx-auto max-w-[680px] space-y-8">
           <TitleBlock {...props} size="lg" />
           <p className="mx-auto max-w-[640px] text-center font-sans leading-6 tracking-[-0.16px] text-muted-foreground">
@@ -25,11 +25,8 @@ export function Industries(props: IndustriesSectionProps) {
         </div>
       </div>
 
-      <div className="px-0 overflow-x-hidden pb-[72px] container border-x border-border">
-        <Marquee
-          className="w-full"
-          pauseOnHover={true}
-        >
+      <div className="container overflow-x-hidden border-x border-border px-0 pb-[72px]">
+        <Marquee className="w-full" pauseOnHover={true}>
           <div className="flex">
             {props.industries.map((industry, index) => (
               <>
@@ -42,7 +39,7 @@ export function Industries(props: IndustriesSectionProps) {
                 {(index + 1) % 3 === 0 && (
                   <div
                     key={`cta-${index}`}
-                    className="min-w-[500px] px-2 h-auto"
+                    className="h-auto min-w-[500px] px-2"
                   >
                     <CTACard />
                   </div>
@@ -70,12 +67,12 @@ function CTACard() {
         </p>
       </div>
       <div>
-        {/* <LeadForm
-          source={discoveryCallBookingSource.bookingUrl}
-          id={discoveryCallBookingSource.bookingId}
+        <BookingForm
+          iframeUrl={config.bookings.discoveryCall.url}
+          iframeId={config.bookings.discoveryCall.id}
         >
-        </LeadForm> */}
           <AnimatedArrowButton>Book Now</AnimatedArrowButton>
+        </BookingForm>
       </div>
     </div>
   );

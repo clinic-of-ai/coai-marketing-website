@@ -2,15 +2,17 @@
 
 import { TitleBlock } from "@/components/common/title-block";
 import { AnimatedArrowButton } from "@/components/ui/animated-arrow-button";
-// import { discoveryCallBookingSource } from "@/app/config";
-// import { LeadForm } from "@/components/common/lead-form";
+import { BookingForm } from "@/components/common/booking-form";
 
 interface GetStartedSectionProps {
   title: string;
   heading: string;
-  buttontext: string;
   videosrc: string;
-  href: string;
+  cta: {
+    label: string;
+    formId: string;
+    formUrl: string;
+  };
 }
 
 export function GetStartedSection(props: GetStartedSectionProps) {
@@ -32,18 +34,18 @@ export function GetStartedSection(props: GetStartedSectionProps) {
             align="center"
             classNames={{
               container: "max-w-[740px] mx-auto text-center",
-              heading: "text-white"
+              heading: "text-white",
             }}
           />
 
-          {/* <LeadForm
-            source={discoveryCallBookingSource.bookingUrl}
-            id={discoveryCallBookingSource.bookingId}
+          <BookingForm
+            iframeUrl={props.cta.formUrl}
+            iframeId={props.cta.formId}
           >
-          </LeadForm> */}
-          <AnimatedArrowButton className="w-fit rounded-full">
-            {props.buttontext}
-          </AnimatedArrowButton>
+            <AnimatedArrowButton className="w-fit rounded-full">
+              {props.cta.label}
+            </AnimatedArrowButton>
+          </BookingForm>
         </div>
       </div>
     </section>

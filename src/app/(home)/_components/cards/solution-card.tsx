@@ -4,8 +4,7 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { useScreenSize } from "@/hooks/useScreenSize";
 import { cn } from "@/libs/utils";
-// import { discoveryCallBookingSource } from "@/app/config";
-// import { LeadForm } from "@/components/common/lead-form";
+import { BookingForm } from "@/components/common/booking-form";
 
 export type SolutionContent = {
   heading: string;
@@ -16,6 +15,11 @@ export type SolutionContent = {
     alt: string;
   };
   color: string;
+  cta: {
+    label: string;
+    formId: string;
+    formUrl: string;
+  };
 };
 
 type SolutionCardProps = {
@@ -64,11 +68,11 @@ export function SolutionCard(props: SolutionCardProps) {
       </motion.div>
 
       <div className="space-y-4 px-2 lg:flex lg:flex-1 lg:flex-col lg:justify-between">
-        <div className="space-y-6 lg:space-y-10 pt-10">
+        <div className="space-y-6 pt-10 lg:space-y-10">
           <div className="space-y-2">
             <h2 className="font-mono text-sm uppercase text-foreground/40">
               {content.title}
-            </h2> 
+            </h2>
             <p className="text-3xl leading-[40px] -tracking-[1.6px] text-foreground">
               {content.heading}
             </p>
@@ -77,14 +81,14 @@ export function SolutionCard(props: SolutionCardProps) {
 
         <div className="space-y-14 pb-10 lg:space-y-6">
           <p className="text-sm leading-6">{content.paragraph}</p>
-          {/* <LeadForm
-            source={discoveryCallBookingSource.bookingUrl}
-            id={discoveryCallBookingSource.bookingId}
+          <BookingForm
+            iframeUrl={content.cta.formUrl}
+            iframeId={content.cta.formId}
           >
-          </LeadForm> */}
-          <Button className={cn("rounded-full", content.color)}>
-            Learn More
-          </Button>
+            <Button className={cn("rounded-full", content.color)}>
+              {content.cta.label}
+            </Button>
+          </BookingForm>
         </div>
       </div>
     </motion.div>

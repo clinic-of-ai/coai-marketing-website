@@ -7,19 +7,20 @@ import { FeatureSection } from "./_components/sections/FeatureSection";
 import { ClientTestimonialSection } from "./_components/sections/ClientTestimonialSection";
 // import { PricingSection } from "./_components/sections/PricingSection";
 import { FAQSection } from "./_components/sections/FAQSection";
+import { avaContent } from "./_data";
 
 export default function AVA() {
   return (
     <>
-      <HeroSection />
-      <IntroductionSection />
+      <HeroSection {...avaContent.hero} />
+      <IntroductionSection {...avaContent.introduction} />
       <JoinLiveVideoChat />
-      <BenefitSection />
-      <MethodSection />
-      <FeatureSection />
-      <ClientTestimonialSection />
+      <BenefitSection {...avaContent.benefits} />
+      <MethodSection {...avaContent.method} />
+      <FeatureSection {...avaContent.feature} />
+      <ClientTestimonialSection {...avaContent.testimonials} />
       {/* <PricingSection /> */}
-      <FAQSection />
+      <FAQSection {...avaContent.faq} />
     </>
   );
 }

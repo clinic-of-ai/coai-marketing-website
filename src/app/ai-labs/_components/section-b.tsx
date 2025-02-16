@@ -1,6 +1,7 @@
 import { CircleDot } from "lucide-react";
 
 import { AnimatedArrowButton } from "@/components/ui/animated-arrow-button";
+import { BookingForm } from "@/components/common/booking-form";
 
 interface SectionBProps {
   title: string;
@@ -13,6 +14,8 @@ interface SectionBProps {
   }[];
   cta: {
     label: string;
+    formId: string;
+    formUrl: string;
   };
 }
 
@@ -55,7 +58,14 @@ export function SectionB(props: SectionBProps) {
         </div>
 
         <div className="mt-12">
-          <AnimatedArrowButton size="lg">{props.cta.label}</AnimatedArrowButton>
+          <BookingForm
+            iframeUrl={props.cta.formUrl}
+            iframeId={props.cta.formId}
+          >
+            <AnimatedArrowButton size="lg">
+              {props.cta.label}
+            </AnimatedArrowButton>
+          </BookingForm>
         </div>
       </div>
     </section>

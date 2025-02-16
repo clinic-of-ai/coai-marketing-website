@@ -1,47 +1,31 @@
 import { TestimonialCard } from "../cards/TestimonialCard";
 import { TitleBlock } from "@/components/common/title-block";
 
+interface ClientTestimonialSectionProps {
+  title: string;
+  heading: string;
+  items: Array<{
+    quote: string;
+    name: string;
+    title: string;
+    company: string;
+    image: string;
+  }>;
+}
 
-const testimonials = [
-  {
-    quote:
-      "Since implementing AVA, our guest satisfaction scores have increased by 35%. The 24/7 multilingual support has been particularly valuable for our international clientele.",
-    name: "Isabella Martinez",
-    title: "General Manager",
-    company: "The Ritz-Carlton Barcelona",
-    image: "/image/avatar/client-1.jpg",
-  },
-  {
-    quote: "AVA has revolutionized our reservation system. We've reduced no-shows by 60% and increased our average table turnover. The automated reminders and confirmation system is a game-changer.",
-    name: "David Chang",
-    title: "Executive Chef & Owner",
-    company: "Momofuku Group",
-    image: "/image/avatar/client-2.jpg",
-  },
-  {
-    quote:
-      "The ROI with AVA has been remarkable. We've cut operational costs by 25% while improving our response time to guest requests from hours to minutes. It's transformed how we do business.",
-    name: "Alexandra Dubois",
-    title: "Operations Director",
-    company: "Sofitel Paris Le Faubourg",
-    image: "/image/avatar/client-3.jpg",
-  },
-];
-
-export function ClientTestimonialSection() {
+export function ClientTestimonialSection(props: ClientTestimonialSectionProps) {
   return (
     <section className="container space-y-12 pb-20 py-[72px] border-b border-border">
       <TitleBlock
-        title="Testimonials"
-        heading="What Our Clients are saying..."
+        title={props.title}
+        heading={props.heading}
         align="left"
         classNames={{
           container: "max-w-[740px]"
         }}
-
       />
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {testimonials.map((testimonial) => (
+        {props.items.map((testimonial) => (
           <TestimonialCard
             key={testimonial.name}
             name={testimonial.name}

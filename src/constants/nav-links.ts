@@ -3,6 +3,12 @@ export const solutions = [
     name: "AI-Enterprise Engine",
     list: [
       {
+        name: "AI-powered CRM",
+        href: "/solutions/crm",
+        icon: "bot",
+        description: "Advanced voice bot for seamless customer service interactions.",  
+      },
+      {
         name: "AI customer voice assistant",
         href: "/ava",
         icon: "bot",
@@ -56,6 +62,12 @@ export const solutions = [
     name: "Growth OS",
     list: [
       {
+        name: "AI-powered CRM",
+        href: "/solutions/crm",
+        icon: "bot",
+        description: "Advanced voice bot for seamless customer service interactions.",  
+      },
+      {
         name: "AI customer voice assistant",
         href: "/ava",
         icon: "bot",
@@ -108,6 +120,12 @@ export const solutions = [
   {
     name: "Solo-Entrepreneur",
     list: [
+      {
+        name: "AI-powered CRM",
+        href: "/solutions/crm",
+        icon: "bot",
+        description: "Advanced voice bot for seamless customer service interactions.",  
+      },
       {
         name: "AI customer voice assistant",
         href: "/ava",
