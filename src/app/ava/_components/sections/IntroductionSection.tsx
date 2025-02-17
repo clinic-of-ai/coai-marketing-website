@@ -23,7 +23,7 @@ export function IntroductionSection(props: IntroductionProps) {
             heading={props.heading}
             size="lg"
             classNames={{
-              container: "max-w-[740px]"
+              container: "max-w-[740px]",
             }}
           />
           <p className="leading-6 tracking-[-0.16px] text-foreground lg:max-w-[432px]">
