@@ -31,6 +31,7 @@ export function Quote(props: QuoteSectionProps) {
               fill
               src={props.image.src}
               alt={props.image.alt}
+              priority
               className="h-full w-full rounded-lg object-cover"
             />
           </figure>
