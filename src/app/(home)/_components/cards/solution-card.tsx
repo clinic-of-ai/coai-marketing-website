@@ -61,6 +61,7 @@ export function SolutionCard(props: SolutionCardProps) {
       >
         <Image
           fill
+          priority
           src={content.image.src}
           alt={content.image.alt}
           className="object-cover object-left"
