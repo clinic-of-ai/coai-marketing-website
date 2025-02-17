@@ -2,8 +2,6 @@ import { TitleBlock } from "@/components/common/title-block";
 import { MethodCard } from "../cards/MethodCard";
 import { BookingForm } from "@/components/common/booking-form";
 import { Settings2, Brain, Timer, Bolt } from "lucide-react";
-// import { LeadForm } from "@/components/common/lead-form";
-// import { avaBookingSource } from "@/app/config";
 
 interface MethodSectionProps {
   title: string;
@@ -31,8 +29,8 @@ const iconMap: Record<string, React.ReactNode> = {
 
 export function MethodSection(props: MethodSectionProps) {
   return (
-    <section className="pb-[72px]">
-      <div className="container grid grid-cols-1 grid-rows-1 gap-y-[56px]">
+    <section className="py-[48px] md:py-[72px] lg:min-h-[80vh] mt-[-32px] md:mt-0">
+      <div className="container grid grid-cols-1 grid-rows-1 gap-y-[32px] md:gap-y-[56px]">
         <div className="flex flex-col gap-x-10 gap-y-4 lg:flex-row lg:items-center lg:justify-between">
           <TitleBlock
             align="left"
@@ -43,12 +41,6 @@ export function MethodSection(props: MethodSectionProps) {
               container: "max-w-[740px]"
             }}
           />
-          {/* <LeadForm
-            source={avaBookingSource.bookingUrl}
-            id={avaBookingSource.bookingId}
-          >
-          
-          </LeadForm> */}
           <BookingForm
             iframeUrl={props.cta.formUrl}
             iframeId={props.cta.formId}

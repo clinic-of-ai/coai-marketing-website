@@ -29,13 +29,13 @@ export function BenefitSection(props: BenefitSectionProps) {
   return (
     <motion.section
       ref={ref}
-      className="overflow-hidden py-[72px]"
+      className="overflow-hidden py-[48px] md:py-[72px] lg:min-h-[80vh]"
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       viewport={{ amount: 0.2 }}
     >
-      <div className="container grid grid-cols-1 grid-rows-1 gap-y-[56px]">
+      <div className="container grid grid-cols-1 grid-rows-1 gap-y-[32px] md:gap-y-[56px]">
         <motion.div
           className="flex flex-col gap-x-10 gap-y-4 lg:flex-row lg:items-center lg:justify-between"
           style={{ y: yText }}
