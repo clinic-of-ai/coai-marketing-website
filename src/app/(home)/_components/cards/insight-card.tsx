@@ -17,6 +17,7 @@ export function InsightCard(props: InsightCardProps) {
           <Image
             fill
             alt=""
+            priority
             src={props.thumbnail}
             className="object-cover transition-transform duration-300 ease-in-out group-hover:scale-110"
           />
