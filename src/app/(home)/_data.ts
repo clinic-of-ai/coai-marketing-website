@@ -16,8 +16,7 @@ export default {
 
   videoIntro: {
     videosrc: "https://www.youtube.com/embed/-YQ6NNfP3hg?si=V3NVguCXXpjijoPm",
-    thumbnailSrc:
-      "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/678e9f99565e9a2d16ffe56a.webp",
+    thumbnailSrc: "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/678e9f99565e9a2d16ffe56a.webp",
     thumbnailAlt: "Hero Video",
   },
 
@@ -42,10 +41,8 @@ export default {
   },
   clientGains: {
     title: "What You Stand to Gain",
-    heading:
-      "Our framework uses tried-and-tested GenAI technologies so SMEs and small business owners can benefit from the same AI gains at lower costs and risks.",
-    videosrc:
-      "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/678a891b95673c419d91f15f.mp4",
+    heading: "Our framework uses tried-and-tested GenAI technologies so SMEs and small business owners can benefit from the same AI gains at lower costs and risks.",
+    videosrc: "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/67b27260afe6ae8017a9bcc6.webm",
     benefits: [
       {
         label: "Transparent partnership",
@@ -75,7 +72,7 @@ export default {
         paragraph:
           "Our AI team will examine your processes, pinpoint bottlenecks, and uncover inefficiencies across in your company. We'll leverage our strategic advisors' expertise  and our sophisticated internal tools to understand what's holding you back.",
         media: {
-          src: "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/678a891ba2e9737e7f7ff37b.mp4",
+          src: "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/67b2756570fcfeced925a717.webm",
           alt: "",
         },
       },
@@ -86,7 +83,7 @@ export default {
         paragraph:
           "Our team begins with a comprehensive workflow analysis, then focuses on case studies to evaluate opportunities for optimization. We aim to build full systems that use AI to upgrade your entire workflow, ensuring a strategic approach to implementing solutions that will have the most significant impact on your business.",
         media: {
-          src: "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/678a891dae51f4650d4b2481.mp4",
+          src: "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/67b275652de3ab40979c4e6b.webm",
           alt: "",
         },
       },
@@ -97,7 +94,7 @@ export default {
         paragraph:
           "Our team implements AI solutions in a phased approach, starting with quick wins and progressing to long-term system developments. We deploy AI virtual assistants to handle various tasks, streamline operations, and eliminate inefficiencies. It's like hiring a team of super-efficient interns, but faster and more cost-effective.",
         media: {
-          src: "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/67a236f5b1b7b228e2bb4948.mp4",
+          src: "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/67b275652de3ab701c9c4e6c.webm",
           alt: "",
         },
       },
@@ -108,7 +105,7 @@ export default {
         paragraph:
           "Our team offers continuous support, tailored industry-specific education, and comprehensive guidelines. We collaborate closely with you from the start, aligning every decision with your unique objectives. Our AI strategists work tirelessly to ensure that each step supports the further development and optimization of your operations, creating a partnership that evolves with your needs.",
         media: {
-          src: "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/678a891b15f35e298b681e3e.mp4",
+          src: "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/67b275652de3ab8c7c9c4e6a.webm",
           alt: "",
         },
       },
@@ -152,7 +149,7 @@ export default {
         description:
           "We start with the more straightforward case with high ROI, but as we progress over time, we can start designing whole systems that optimize your particular workflow operations for long-term success.",
         image: {
-          url: "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/678aa2eb471956d829eab43d.jpeg",
+          url: "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/67b2774aafe6ae3436a9c02e.webp",
           alt: "AI R&D team",
         },
       },
@@ -166,7 +163,7 @@ export default {
     role: "Founder",
     jobTitle: "Former Head of Data and AI (Crayon AG)",
     image: {
-      src: "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/678aa15236fbb60c458b2dfd.png",
+      src: "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/67b2dfcaafe6aef2a3aa8ddd.webp",
       alt: "Philippe Küng",
     },
   },
@@ -181,7 +178,7 @@ export default {
         paragraph:
           "Customized chatbots that can handle a wide range of tasks, providing timely information and precise responses tailored to you and your business.",
         image: {
-          src: "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/678aa38c849817949cc73821.png",
+          src: "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/67b2de2511feb95725d4096b.webp",
           alt: "AI virtual assistant",
         },
         color: "bg-teal text-teal-foreground hover:bg-teal/80",
@@ -197,7 +194,7 @@ export default {
         paragraph:
           "Freeing up your team to focus on more complex tasks, we can customize and create automations to meet your specific needs.",
         image: {
-          src: "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/678aa38ca2e973af1e801019.png",
+          src: "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/67b2de25afe6ae2672aa8cbc.webp",
           alt: "AI workflow automation",
         },
         color: "bg-mustard text-mustard-foreground hover:bg-mustard/80",
@@ -213,7 +210,7 @@ export default {
         paragraph:
           "Or, take a step back and start with an expert report. Remember, it's a marathon, not a sprint: let's review your workflow and all the different case studies, prioritizing them before starting.",
         image: {
-          src: "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/678aa38c36fbb617438b2f3d.png",
+          src: "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/67b2de25afe6ae014caa8cbb.webp",
           alt: "Value chain analysis",
         },
         color: "bg-navy text-navy-foreground hover:bg-navy/80",
@@ -229,7 +226,7 @@ export default {
         paragraph:
           "Empower your team with AI knowledge and expert guidance. Our education and consultancy services help you understand AI's potential, develop strategies, and make informed decisions to drive innovation in your organization.",
         image: {
-          src: "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/678aa38cae51f47a7e4b4d0c.png",
+          src: "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/67b2de252de3abbead9d39ba.webp",
           alt: "AI education and consultancy",
         },
         color: "bg-coral text-coral-foreground hover:bg-coral/80",
@@ -263,7 +260,7 @@ export default {
         paragraph:
           "Our AI-driven solutions for manufacturing optimize production processes, enhance quality control, and streamline supply chain management, enabling you to boost efficiency and reduce costs while maintaining the highest standards of product quality.",
         image: {
-          src: "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/67a238aca36fec3e335d5733.jpeg",
+          src: "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/67b2e19e2aa0e95f67efb79d.webp",
           alt: "Manufacturing industry",
         },
         href: "#",
@@ -273,7 +270,7 @@ export default {
         paragraph:
           "We leverage AI to transform agriculture, offering solutions for precision farming, crop yield prediction, and resource optimization, empowering farmers to make data-driven decisions and increase productivity sustainably.",
         image: {
-          src: "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/67a238cdd7ce7837e40fda81.jpeg",
+          src: "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/67b2e1a170fcfe44e82666d7.webp",
           alt: "Agriculture industry",
         },
         href: "#",
@@ -302,7 +299,7 @@ export default {
           "How AVA's Multilingual AI Functionalities are an opportunity for small and medium service industries worldwide.",
         link: "https://blog.clinicofai.com/revolutionizing-hospitality-how-avas-multilingual-ai-functionalities-are-an-opportunity-for-small-and-medium-service-industries-worldwide/",
         thumbnail:
-          "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/6790d9ceb89769156191b7be.png",
+          "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/67b2e47a11feb93fd6d40e05.webp",
       },
       {
         heading:
@@ -319,7 +316,7 @@ export default {
           "Artificial intelligence (AI) has ushered in a new era of technological advancement, marking the beginning of a significant paradigm shift reshaping industries, economies, and societies worldwide.",
         link: "https://blog.clinicofai.com/the-rise-of-ai-and-the-new-paradigm-shift/",
         thumbnail:
-          "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/6790d9cdeb4fb768fac6ce47.png",
+          "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/67b2e47a2de3abd94a9d3d63.webp",
       },
       {
         heading:
@@ -337,12 +334,12 @@ export default {
           "In the ever-evolving landscape of technology sales, AI is emerging as a game-changer, reshaping how vendors approach their markets.",
         link: "https://blog.clinicofai.com/revolutionizing-sales-how-ai-is-changing-the-way-technology-vendors-approach-the-market/",
         thumbnail:
-          "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/6790d9cde54e4ae4d4443eeb.png",
+          "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/67b2e47a2de3ab45e59d3d64.webp",
       },
     ],
   },
   mainCta: {
-    videosrc: "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/6790dcf2c21e375952ac5283.mp4",
+    videosrc: "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/67b27260afe6ae8017a9bcc6.webm",
     title: "Ready to Transform Your Business?",
     heading: "Every industry stands to gain from the benefits of AI. It all starts with a simple 15-minute call.",
     cta: {
