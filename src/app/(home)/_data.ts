@@ -16,8 +16,7 @@ export default {
 
   videoIntro: {
     videosrc: "https://www.youtube.com/embed/-YQ6NNfP3hg?si=V3NVguCXXpjijoPm",
-    thumbnailSrc:
-      "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/678e9f99565e9a2d16ffe56a.webp",
+    thumbnailSrc: "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/678e9f99565e9a2d16ffe56a.webp",
     thumbnailAlt: "Hero Video",
   },
 
@@ -42,10 +41,8 @@ export default {
   },
   clientGains: {
     title: "What You Stand to Gain",
-    heading:
-      "Our framework uses tried-and-tested GenAI technologies so SMEs and small business owners can benefit from the same AI gains at lower costs and risks.",
-    videosrc:
-      "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/678a891b95673c419d91f15f.mp4",
+    heading: "Our framework uses tried-and-tested GenAI technologies so SMEs and small business owners can benefit from the same AI gains at lower costs and risks.",
+    videosrc: "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/67b27260afe6ae8017a9bcc6.webm",
     benefits: [
       {
         label: "Transparent partnership",
@@ -75,7 +72,7 @@ export default {
         paragraph:
           "Our AI team will examine your processes, pinpoint bottlenecks, and uncover inefficiencies across in your company. We'll leverage our strategic advisors' expertise  and our sophisticated internal tools to understand what's holding you back.",
         media: {
-          src: "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/678a891ba2e9737e7f7ff37b.mp4",
+          src: "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/67b2756570fcfeced925a717.webm",
           alt: "",
         },
       },
@@ -86,7 +83,7 @@ export default {
         paragraph:
           "Our team begins with a comprehensive workflow analysis, then focuses on case studies to evaluate opportunities for optimization. We aim to build full systems that use AI to upgrade your entire workflow, ensuring a strategic approach to implementing solutions that will have the most significant impact on your business.",
         media: {
-          src: "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/678a891dae51f4650d4b2481.mp4",
+          src: "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/67b275652de3ab40979c4e6b.webm",
           alt: "",
         },
       },
@@ -97,7 +94,7 @@ export default {
         paragraph:
           "Our team implements AI solutions in a phased approach, starting with quick wins and progressing to long-term system developments. We deploy AI virtual assistants to handle various tasks, streamline operations, and eliminate inefficiencies. It's like hiring a team of super-efficient interns, but faster and more cost-effective.",
         media: {
-          src: "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/67a236f5b1b7b228e2bb4948.mp4",
+          src: "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/67b275652de3ab701c9c4e6c.webm",
           alt: "",
         },
       },
@@ -108,7 +105,7 @@ export default {
         paragraph:
           "Our team offers continuous support, tailored industry-specific education, and comprehensive guidelines. We collaborate closely with you from the start, aligning every decision with your unique objectives. Our AI strategists work tirelessly to ensure that each step supports the further development and optimization of your operations, creating a partnership that evolves with your needs.",
         media: {
-          src: "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/678a891b15f35e298b681e3e.mp4",
+          src: "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/67b275652de3ab8c7c9c4e6a.webm",
           alt: "",
         },
       },
@@ -152,7 +149,7 @@ export default {
         description:
           "We start with the more straightforward case with high ROI, but as we progress over time, we can start designing whole systems that optimize your particular workflow operations for long-term success.",
         image: {
-          url: "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/678aa2eb471956d829eab43d.jpeg",
+          url: "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/67b2774aafe6ae3436a9c02e.webp",
           alt: "AI R&D team",
         },
       },
