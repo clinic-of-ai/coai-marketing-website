@@ -17,7 +17,7 @@ export const avaContent = {
     heading: "AVA is an intelligent virtual assistant specifically designed for the hospitality industry.",
     paragraph: "In the dynamic world of hospitality, delivering exceptional guest experiences while managing daily operations can be challenging. Introducing AVA, your AI-powered virtual assistant designed to streamline your business, enhance guest satisfaction, and boost efficiency around the clock.",
     video: {
-      src: "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/678a891b671b4d807ced0b35.mp44",
+      src: "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/678a891b671b4d807ced0b35.mp4",
       thumbnail: "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/6790d9cd427b592eaf748291.webp",
       alt: "AVA introduction video"
     }
@@ -30,22 +30,22 @@ export const avaContent = {
       {
         label: "Personalized messaging",
         title: "Your hotel guests receive instant, personalized attention at any hour.",
-        imgSrc: "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/67a532739255b17df9213ec6.png",
+        imgSrc: "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/67b2f45870fcfe78b12689a9.webp",
       },
       {
         label: "Timely Communication", 
         title: "Your restaurant never misses a booking call, even during the busiest rush",
-        imgSrc: "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/67a532841acd2a2ec2f4c787.png",
+        imgSrc: "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/67b2f4582aa0e927b9efde18.webp",
       },
       {
         label: "Internationalization",
         title: "Language barriers disappear, welcoming global travelers and diners",
-        imgSrc: "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/67a532862329022fc139b48b.png",
+        imgSrc: "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/67b2f4582de3ab21089d6a6f.webp",
       },
       {
         label: "Routing Automation",
         title: "Routine tasks are automated, freeing your staff to create memorable experiences",
-        imgSrc: "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/67a53288d78c08dc2aa8aa2d.png",
+        imgSrc: "https://storage.googleapis.com/msgsndr/SRTw3xlSbwAV7iycIh1t/media/67b2f4582de3abde149d6a6e.webp",
       },
     ]
   },

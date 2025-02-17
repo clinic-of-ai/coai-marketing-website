@@ -1,7 +1,5 @@
 import Image from "next/image";
 import { TitleBlock } from "@/components/common/title-block";
-// import { LeadForm } from "@/components/common/lead-form";
-// import { avaBookingSource } from "@/app/config";
 import { AnimatedArrowButton } from "@/components/ui/animated-arrow-button";
 import { BookingForm } from "@/components/common/booking-form";
 
@@ -47,7 +45,7 @@ export function HeroSection(props: HeroProps) {
             iframeUrl={props.cta.formUrl}
             iframeId={props.cta.formId}
           >
-            <AnimatedArrowButton variant="secondary">
+            <AnimatedArrowButton>
               {props.cta.label}
             </AnimatedArrowButton>
           </BookingForm>

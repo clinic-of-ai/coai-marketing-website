@@ -1,6 +1,6 @@
 import { HeroSection } from "./_components/sections/HeroSection";
 import { IntroductionSection } from "./_components/sections/IntroductionSection";
-import { JoinLiveVideoChat } from "./_components/sections/JoinLiveVideoChat";
+// import { JoinLiveVideoChat } from "./_components/sections/JoinLiveVideoChat";
 import { BenefitSection } from "./_components/sections/BenefitSection";
 import { MethodSection } from "./_components/sections/MethodSection";
 import { FeatureSection } from "./_components/sections/FeatureSection";
@@ -14,7 +14,7 @@ export default function AVA() {
     <>
       <HeroSection {...avaContent.hero} />
       <IntroductionSection {...avaContent.introduction} />
-      <JoinLiveVideoChat />
+      {/* <JoinLiveVideoChat /> */}
       <BenefitSection {...avaContent.benefits} />
       <MethodSection {...avaContent.method} />
       <FeatureSection {...avaContent.feature} />
