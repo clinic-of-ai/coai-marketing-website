@@ -18,7 +18,7 @@ import { CoAILogo } from "@/components/ui/logo/CoAILogo";
 import { NavBar } from "@/components/common/navigation";
 import { MobileNavigation } from "@/components/common/navigation/mobile-menu";
 
-import { Video_Header_Title } from "@/components/common/data";
+import { Video_Header } from "@/components/common/data";
 import { navLinks, type NavLink } from "@/constants/nav-links";
 
 export function Header() {
