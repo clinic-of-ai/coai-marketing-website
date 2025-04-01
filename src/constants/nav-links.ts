@@ -221,6 +221,7 @@ export const navLinks = [
   { name: "Talent", href: "/coming-soon" },
   { name: "Contact", href: "/contact" },
   { name: "About", href: "/about" },
+  { name: 'Video Platform', href:"/coming-soon"},
 ];
 
 export type NavLink = (typeof navLinks)[number];

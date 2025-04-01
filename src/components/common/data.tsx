@@ -1,0 +1,1 @@
+export const Video_Header_Title = "Video Platform";

@@ -6,7 +6,7 @@ import { Analytics } from "@vercel/analytics/react";
 import { GHLChatBot } from "@/components/common/widgets/ghl-chatbot";
 
 import { Footer } from "@/components/common/footer";
-import  { Header }  from "@/components/common/Header";
+import { Header } from "@/components/common/Header";
 
 import { AppProvider } from "@/providers/AppProvider";
 
@@ -17,7 +17,7 @@ import config from "./config";
 type RootLayoutProps = Readonly<{
   children: React.ReactNode;
 }>;
- 
+
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="en" suppressHydrationWarning>

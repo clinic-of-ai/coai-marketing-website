@@ -30,16 +30,16 @@ export function NavBar() {
               </NavigationMenuItem>
             );
           }
-
-          return (
-            <NavigationMenuItem key={item.name}>
-              <Link href={item.href} legacyBehavior passHref>
-                <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                  {item.name}
-                </NavigationMenuLink>
-              </Link>
-            </NavigationMenuItem>
-          );
+          if (item.name !== "Video Platform")
+            return (
+              <NavigationMenuItem key={item.name}>
+                <Link href={item.href} legacyBehavior passHref>
+                  <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                    {item.name}
+                  </NavigationMenuLink>
+                </Link>
+              </NavigationMenuItem>
+            );
         })}
       </NavigationMenuList>
     </NavigationMenu>

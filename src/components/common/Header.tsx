@@ -4,12 +4,21 @@ import * as React from "react";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 
+import {
+  NavigationMenu,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  navigationMenuTriggerStyle,
+} from "@/components/ui/navigation-menu";
+
 import { ThemeToggleButton } from "./theme-toggle-button";
 import { CoAILogo } from "@/components/ui/logo/CoAILogo";
 
 import { NavBar } from "@/components/common/navigation";
 import { MobileNavigation } from "@/components/common/navigation/mobile-menu";
 
+import { Video_Header_Title } from "@/components/common/data";
 import { navLinks, type NavLink } from "@/constants/nav-links";
 
 export function Header() {
@@ -59,17 +68,15 @@ export function Header() {
 
         {/* Mobile Menu Overlay */}
         <div
-          className={`fixed left-0 top-0 z-40 h-full w-full bg-white bg-opacity-75 transition-all duration-300 dark:bg-black dark:bg-opacity-75 lg:hidden ${
-            isMobileMenuOpen ? "block" : "hidden"
-          }`}
+          className={`fixed left-0 top-0 z-40 h-full w-full bg-white bg-opacity-75 transition-all duration-300 dark:bg-black dark:bg-opacity-75 lg:hidden ${isMobileMenuOpen ? "block" : "hidden"
+            }`}
           onClick={closeMobileMenu}
         ></div>
 
         {/* Mobile Menu Container (Card Style) */}
         <div
-          className={`fixed left-0 top-0 z-50 h-full w-full transform transition-transform duration-300 lg:hidden ${
-            isMobileMenuOpen ? "translate-x-0" : "-translate-x-full"
-          } ${isMobileMenuOpen ? "bg-white dark:bg-black" : ""}`}
+          className={`fixed left-0 top-0 z-50 h-full w-full transform transition-transform duration-300 lg:hidden ${isMobileMenuOpen ? "translate-x-0" : "-translate-x-full"
+            } ${isMobileMenuOpen ? "bg-white dark:bg-black" : ""}`}
         >
           {/* Close Button */}
           <button
@@ -126,6 +133,17 @@ export function Header() {
 
         {/* Right Side Theme Toggle Button */}
         <div className="flex flex-1 items-center justify-end gap-x-2">
+          <NavigationMenu className="hidden lg:flex">
+            <NavigationMenuList>
+              <NavigationMenuItem>
+                <Link href={"/coming-soon"} legacyBehavior passHref>
+                  <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                    {Video_Header_Title}
+                  </NavigationMenuLink>
+                </Link>
+              </NavigationMenuItem>
+            </NavigationMenuList>
+          </NavigationMenu>
           <ThemeToggleButton />
         </div>
       </div>
