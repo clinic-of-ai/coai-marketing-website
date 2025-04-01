@@ -138,7 +138,7 @@ export function Header() {
               <NavigationMenuItem>
                 <Link href={"/coming-soon"} legacyBehavior passHref>
                   <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                    {Video_Header_Title}
+                    {Video_Header}
                   </NavigationMenuLink>
                 </Link>
               </NavigationMenuItem>
