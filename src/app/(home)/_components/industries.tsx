@@ -29,7 +29,7 @@ export function Industries(props: IndustriesSectionProps) {
         <Marquee className="w-full" pauseOnHover={true}>
           <div className="flex">
             {props.industries.map((industry, index) => (
-              <>
+              <div key={`industry-group-${index}`} className="flex">
                 <div
                   key={`industry-${index}-${industry.heading}`}
                   className="min-w-[355px] px-2"
@@ -37,14 +37,11 @@ export function Industries(props: IndustriesSectionProps) {
                   <IndustryCard {...industry} layout="loosed" />
                 </div>
                 {(index + 1) % 3 === 0 && (
-                  <div
-                    key={`cta-${index}`}
-                    className="h-auto min-w-[500px] px-2"
-                  >
+                  <div key={`cta-${index}`} className="h-auto min-w-[500px] px-2">
                     <CTACard />
                   </div>
                 )}
-              </>
+              </div>
             ))}
           </div>
         </Marquee>
