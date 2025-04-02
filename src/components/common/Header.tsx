@@ -136,7 +136,7 @@ export function Header() {
           <NavigationMenu className="hidden lg:flex">
             <NavigationMenuList>
               <NavigationMenuItem>
-                <Link href={"/coming-soon"} legacyBehavior passHref>
+                <Link href={"/video-platform"} legacyBehavior passHref>
                   <NavigationMenuLink className={navigationMenuTriggerStyle()}>
                     {Video_Header}
                   </NavigationMenuLink>

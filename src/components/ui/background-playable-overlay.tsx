@@ -2,8 +2,6 @@
 import { cn } from "@/libs/utils";
 import { ArrowUpRight, Check } from "lucide-react";
 import { motion } from "framer-motion";
-import { AnimatedArrowButton } from "./animated-arrow-button";
-// import { LeadForm } from "../common/lead-form";
 
 interface BackgroundPlayableOverlayProps {
   backgroundImageUrl: string;
@@ -110,43 +108,8 @@ export function BackgroundPlayableOverlay({
             </motion.div>
           </div>
         </div>
-        {/* <LeadForm id={formId || ""} source={formSource || ""}>
-          <AnimatedArrowButton
-            className={`${buttonColor} w-fit text-xs font-semibold text-white`}
-          >
-          </AnimatedArrowButton>
-        </LeadForm> */}
-            {buttontext}
+        {buttontext}
       </div>
     </motion.div>
   );
 }
-//  ${bgColor} ${textColor}
-//  mx-auto flex h-96   flex-col justify-end border border-transparent p-4 shadow-xl dark:border-neutral-800
-// <motion.div
-// className={cn(
-//
-//   "card group relative mx-auto flex h-fit w-full cursor-pointer flex-col justify-end overflow-hidden rounded-md border border-transparent p-4 shadow-xl dark:border-neutral-800",
-//   "bg-cover",
-//   "before:fixed before:inset-0 before:z-[-1] before:opacity-0",
-//   "hover:after:absolute hover:after:inset-0 hover:after:bg-black hover:after:opacity-50 hover:after:content-['']",
-//   "transition-all duration-500",
-// )}
-// onMouseEnter={onMouseEnter}
-// onMouseLeave={onMouseLeave}
-// animate={{
-//   flex: isHovered ? 2 : 1,
-// }}
-// transition={{ duration: 0.3 }}
-// style={{
-//   backgroundImage: `url(${backgroundImageUrl})`,
-// }}
-// >
-// <div
-//   className="absolute inset-0 h-full w-full opacity-0 transition-opacity duration-500 group-hover:opacity-100"
-//   style={{
-//     backgroundImage: `url(${hoverImageUrl})`,
-//   }}
-// />
-
-// </motion.div>

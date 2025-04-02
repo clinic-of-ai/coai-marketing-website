@@ -63,6 +63,16 @@
     --mustard-foreground: 0 0% 0%;
     --mustard-subtle: 44 100% 95%;
     --mustard-subtle-foreground: 44 100% 55%;
+
+    /* Sidebar colors (added from 2nd project, new variables) */
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
   }
 
   .dark {
@@ -124,6 +134,16 @@
     --mustard-foreground: 0 0% 0%;
     --mustard-subtle: 44 100% 15%;
     --mustard-subtle-foreground: 44 100% 65%;
+
+    /* Sidebar colors (added from 2nd project, new variables) */
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
   }
 
   * {
@@ -133,12 +153,7 @@
   html,
   body,
   main {
-    @apply overflow-x-hidden;
-    @apply min-h-screen;
-    @apply bg-background;
-    @apply font-sans;
-    @apply text-foreground;
-    @apply antialiased;
+    @apply overflow-x-hidden min-h-screen bg-background font-sans text-foreground antialiased;
   }
 }
 
@@ -151,6 +166,11 @@
     .sheet-content {
       min-width: 100%;
     }
+  }
+
+  /* text-balance class added from 2nd project */
+  .text-balance {
+    text-wrap: balance;
   }
 
   @keyframes ring {
@@ -186,4 +206,6 @@
   .animate-jelly-pulse {
     animation: jelly-pulse 3.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
   }
+
+
 }
