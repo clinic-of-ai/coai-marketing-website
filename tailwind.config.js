@@ -12,20 +12,17 @@ const config = {
     "./components/**/*.{ts,tsx}",
     "./app/**/*.{ts,tsx}",
     "./src/**/*.{ts,tsx}",
+    "*.{js,ts,jsx,tsx,mdx}", // Added from second project
   ],
   prefix: "",
   theme: {
     container: {
       center: true,
       padding: {
-        DEFAULT: "1.5rem", // 24px
-        // // md: '1.5rem', // 40px
-        // // lg: '2.5rem', // 40px
-        // xl: "2.5rem", // 40px
-        "2xl": "2.5rem", // 40px
+        DEFAULT: "1.5rem", // Kept from first project
+        "2xl": "2.5rem",
       },
       screens: {
-        // ...screens,
         "2xl": "1400px",
       },
     },
@@ -130,23 +127,13 @@ const config = {
           "50%": { filter: "drop-shadow(0 0 16px rgba(246, 198, 36, 0.8))" },
         },
         "spin-around": {
-          "0%": {
-            transform: "translateZ(0) rotate(0)",
-          },
-          "15%, 35%": {
-            transform: "translateZ(0) rotate(90deg)",
-          },
-          "65%, 85%": {
-            transform: "translateZ(0) rotate(270deg)",
-          },
-          "100%": {
-            transform: "translateZ(0) rotate(360deg)",
-          },
+          "0%": { transform: "translateZ(0) rotate(0)" },
+          "15%, 35%": { transform: "translateZ(0) rotate(90deg)" },
+          "65%, 85%": { transform: "translateZ(0) rotate(270deg)" },
+          "100%": { transform: "translateZ(0) rotate(360deg)" },
         },
         slide: {
-          to: {
-            transform: "translate(calc(100cqw - 100%), 0)",
-          },
+          to: { transform: "translate(calc(100cqw - 100%), 0)" },
         },
         spring: {
           "0%, 100%": { transform: "scale(1)" },
@@ -197,7 +184,6 @@ const config = {
   ],
 };
 
-// This plugin adds each Tailwind color as a global CSS variable, e.g. var(--gray-200).
 function addVariablesForColors({ addBase, theme }) {
   let allColors = flattenColorPalette(theme("colors"));
   let newVars = Object.fromEntries(
