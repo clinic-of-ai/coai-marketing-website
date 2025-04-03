@@ -159,12 +159,12 @@
 
 @layer utilities {
   .sheet-content {
-    min-width: 50%;
+    /* min-width: 50%; */
   }
 
   @media (max-width: 756px) {
     .sheet-content {
-      min-width: 100%;
+      /* min-width: 100%; */
     }
   }
 
