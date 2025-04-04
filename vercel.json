@@ -1,16 +1,23 @@
 {
-    "build": {
-        "env": {
-            "NODE_OPTIONS": "--max-old-space-size=4096"
-        }
+    "version": 2,
+    "buildCommand": "next build",
+    "outputDirectory": ".next",
+    "env": {
+        "NODE_OPTIONS": "--max-old-space-size=4096"
     },
-    "builds": [
+    "framework": "nextjs",
+    "regions": [
+        "all"
+    ],
+    "headers": [
         {
-            "src": "next.config.js",
-            "use": "@vercel/next",
-            "config": {
-                "maxLambdaSize": "15mb"
-            }
+            "source": "/(.*)",
+            "headers": [
+                {
+                    "key": "X-Content-Type-Options",
+                    "value": "nosniff"
+                }
+            ]
         }
     ]
 }
