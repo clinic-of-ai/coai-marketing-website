@@ -98,12 +98,6 @@ export default function PageLayout({ children, title, count }: PageLayoutProps) 
                           <DropdownMenuSeparator />
                           <DropdownMenuGroup>
                             <DropdownMenuItem asChild>
-                              <a href="/video-platform/profile">
-                                <User className="mr-2 h-4 w-4" />
-                                <span>Profile</span>
-                              </a>
-                            </DropdownMenuItem>
-                            <DropdownMenuItem asChild>
                               <a href="/video-platform/settings">
                                 <Settings className="mr-2 h-4 w-4" />
                                 <span>Settings</span>
