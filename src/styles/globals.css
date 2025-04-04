@@ -168,6 +168,12 @@
     }
   }
 
+  @media (min-width: 768px) {
+    .md\:w-viewport-width {
+      width: var(--viewport-width);
+    }
+  }
+
   /* text-balance class added from 2nd project */
   .text-balance {
     text-wrap: balance;
