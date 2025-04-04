@@ -18,7 +18,7 @@ export function BookingForm(props: BookingFormProps) {
   return (
     <Sheet>
       <SheetTrigger asChild>{props.children}</SheetTrigger>
-      <SheetContent className="">
+      <SheetContent className="relative"> {/* Added relative positioning here */}
         {loading && (
           <div className="absolute left-0 top-0 z-10 flex h-full w-full items-center justify-center bg-background">
             <div className="h-fit w-fit text-secondary">
@@ -27,7 +27,7 @@ export function BookingForm(props: BookingFormProps) {
           </div>
         )}
 
-        <ScrollArea className="h-[560px] w-full overflow-scroll">
+        <ScrollArea className="relative h-[560px] w-full overflow-scroll"> {/* Added relative positioning here too */}
           <iframe
             src={props.iframeUrl}
             style={{
