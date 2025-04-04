@@ -41,11 +41,11 @@ const nextConfig = {
 	},
 
 	// ✅ Experimental flags (from 2nd project - optional but good for large projects)
-	experimental: {
-		webpackBuildWorker: true,
-		parallelServerBuildTraces: true,
-		parallelServerCompiles: true,
-	},
+	// experimental: {
+	// 	webpackBuildWorker: true,
+	// 	parallelServerBuildTraces: true,
+	// 	parallelServerCompiles: true,
+	// },
 
 	// ✅ Webpack rules (SVG loader from 1st project)
 	webpack(config) {
