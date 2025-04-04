@@ -1,8 +1,7 @@
 "use client";
 
-import { useEffect, useId, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState, useCallback } from "react";
 import { motion } from "framer-motion";
-
 import { cn } from "@/libs/utils";
 
 interface AnimatedGridPatternProps {
@@ -16,6 +15,32 @@ interface AnimatedGridPatternProps {
   maxOpacity?: number;
   duration?: number;
   repeatDelay?: number;
+}
+
+// Helper functions outside component:
+function getPos(
+  width: number,
+  height: number,
+  cellWidth: number,
+  cellHeight: number
+): [number, number] {  // <-- Explicit tuple return type here
+  return [
+    Math.floor((Math.random() * width) / cellWidth),
+    Math.floor((Math.random() * height) / cellHeight),
+  ];
+}
+
+function generateSquares(
+  count: number,
+  width: number,
+  height: number,
+  cellWidth: number,
+  cellHeight: number
+) {
+  return Array.from({ length: count }, (_, i) => ({
+    id: i,
+    pos: getPos(width, height, cellWidth, cellHeight),
+  }));
 }
 
 export function AnimatedGridPattern({
@@ -32,45 +57,49 @@ export function AnimatedGridPattern({
   ...props
 }: AnimatedGridPatternProps) {
   const id = useId();
-  const containerRef = useRef(null);
+  const containerRef = useRef<SVGSVGElement | null>(null);
+
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
-  const [squares, setSquares] = useState(() => generateSquares(numSquares));
+  const [squares, setSquares] = useState<
+    { id: number; pos: [number, number] }[]
+  >([]);
 
-  function getPos() {
-    return [
-      Math.floor((Math.random() * dimensions.width) / width),
-      Math.floor((Math.random() * dimensions.height) / height),
-    ];
-  }
-
-  // Adjust the generateSquares function to return objects with an id, x, and y
-  function generateSquares(count: number) {
-    return Array.from({ length: count }, (_, i) => ({
-      id: i,
-      pos: getPos(),
-    }));
-  }
-
-  // Function to update a single square's position
-  const updateSquarePosition = (id: number) => {
-    setSquares((currentSquares) =>
-      currentSquares.map((sq) =>
-        sq.id === id
-          ? {
+  // Corrected: wrap in useCallback to ensure it's stable and references the latest dimensions
+  const updateSquarePosition = useCallback(
+    (id: number) => {
+      setSquares((currentSquares) =>
+        currentSquares.map((sq) =>
+          sq.id === id
+            ? {
               ...sq,
-              pos: getPos(),
+              pos: getPos(
+                dimensions.width,
+                dimensions.height,
+                width,
+                height
+              ),
             }
-          : sq,
-      ),
-    );
-  };
+            : sq
+        )
+      );
+    },
+    [dimensions.width, dimensions.height, width, height]
+  );
 
-  // Update squares to animate in
+  // Effect to regenerate squares whenever dimensions or relevant props change
   useEffect(() => {
     if (dimensions.width && dimensions.height) {
-      setSquares(generateSquares(numSquares));
+      setSquares(
+        generateSquares(
+          numSquares,
+          dimensions.width,
+          dimensions.height,
+          width,
+          height
+        )
+      );
     }
-  }, [dimensions, numSquares]);
+  }, [dimensions.width, dimensions.height, numSquares, width, height]);
 
   // Resize observer to update container dimensions
   useEffect(() => {
@@ -83,16 +112,14 @@ export function AnimatedGridPattern({
       }
     });
 
-    if (containerRef.current) {
-      resizeObserver.observe(containerRef.current);
-    }
+    const currentRef = containerRef.current;
+
+    if (currentRef) resizeObserver.observe(currentRef);
 
     return () => {
-      if (containerRef.current) {
-        resizeObserver.unobserve(containerRef.current);
-      }
+      if (currentRef) resizeObserver.unobserve(currentRef);
     };
-  }, [containerRef]);
+  }, []);
 
   return (
     <svg
@@ -100,7 +127,7 @@ export function AnimatedGridPattern({
       aria-hidden="true"
       className={cn(
         "pointer-events-none absolute inset-0 h-full w-full fill-gray-400/30 stroke-gray-400/30",
-        className,
+        className
       )}
       {...props}
     >
@@ -133,7 +160,7 @@ export function AnimatedGridPattern({
               repeatType: "reverse",
             }}
             onAnimationComplete={() => updateSquarePosition(id)}
-            key={`${x}-${y}-${index}`}
+            key={`${x}-${y}-${id}-${index}`}
             width={width - 1}
             height={height - 1}
             x={x * width + 1}
