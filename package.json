@@ -4,7 +4,7 @@
     "private": true,
     "scripts": {
         "dev": "next dev",
-        "build": "next build",
+        "build": "cross-env NODE_OPTIONS=\"--max-old-space-size=4096 --trace-warnings\" next build",
         "start": "next start",
         "lint": "next lint"
     },
@@ -33,6 +33,7 @@
         "clsx": "^2.1.1",
         "cmdk": "^1.1.1",
         "cobe": "^0.6.3",
+        "critters": "^0.0.23",
         "embla-carousel-autoplay": "^8.2.1",
         "embla-carousel-react": "^8.2.1",
         "framer-motion": "^11.5.4",
@@ -61,6 +62,7 @@
         "@types/react": "^18",
         "@types/react-dom": "^18",
         "@wixc3/react-board": "^4.0.0",
+        "cross-env": "^7.0.3",
         "eslint": "^8.0.0",
         "eslint-config-next": "14.2.8",
         "postcss": "^8",

@@ -1,11 +1,3 @@
-import { withNextVideo } from "next-video/process";
-import bundleAnalyzer from '@next/bundle-analyzer';
-
-// Bundle Analyzer setup (enabled via ANALYZE=true env variable)
-const withBundleAnalyzer = bundleAnalyzer({
-	enabled: process.env.ANALYZE === 'true',
-});
-
 let userConfig;
 
 try {
@@ -17,15 +9,13 @@ try {
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-	// ✅ ESLint and TypeScript optimizations (uncomment for faster builds)
-	/*
+	// ✅ ESLint and TypeScript optimizations
 	eslint: {
-	  ignoreDuringBuilds: true,
+		ignoreDuringBuilds: true,
 	},
 	typescript: {
-	  ignoreBuildErrors: true,
+		ignoreBuildErrors: true,
 	},
-	*/
 
 	// ✅ Image optimization settings
 	images: {
@@ -44,32 +34,81 @@ const nextConfig = {
 			},
 		],
 		formats: ['image/avif', 'image/webp'],
+		unoptimized: true,
 	},
 
-	// ✅ Experimental flags (uncomment if needed)
-	/*
+	// ✅ Modified experimental flags
 	experimental: {
-	  webpackBuildWorker: true,
-	  parallelServerBuildTraces: true,
-	  parallelServerCompiles: true,
+		// Remove optimizeCss since it's causing issues
+		workerThreads: false,
+		cpus: 1
 	},
-	*/
 
-	// ✅ Webpack configuration for SVG files
-	webpack(config) {
+	// ✅ Webpack configuration with optimizations
+	webpack: (config, { isServer }) => {
+		// SVG handling
 		config.module.rules.push({
 			test: /\.svg$/,
 			use: [{ loader: '@svgr/webpack', options: { icon: true } }],
 		});
 
+		// Build optimizations
+		config.optimization = {
+			...config.optimization,
+			minimize: true,
+			splitChunks: {
+				chunks: 'all',
+				maxInitialRequests: 25,
+				minSize: 20000,
+				cacheGroups: {
+					default: false,
+					vendors: false,
+					vendor: {
+						name: 'vendor',
+						chunks: 'all',
+						test: /node_modules/,
+						priority: 20
+					},
+					common: {
+						name: 'common',
+						minChunks: 2,
+						chunks: 'all',
+						priority: 10,
+						reuseExistingChunk: true,
+						enforce: true
+					}
+				}
+			}
+		};
+
+		// Performance hints
+		config.performance = {
+			hints: false,
+			maxEntrypointSize: 512000,
+			maxAssetSize: 512000
+		};
+
+		// Additional optimizations
+		if (!isServer) {
+			config.optimization.moduleIds = 'deterministic';
+			config.optimization.chunkIds = 'deterministic';
+		}
+
 		return config;
 	},
+
+	// ✅ Production optimizations
+	productionBrowserSourceMaps: false,
+	swcMinify: true,
+	compress: true,
+
+	// ✅ Add output configuration
+	output: 'standalone',
 };
 
 // ✅ Safe merge of user config
 mergeConfig(nextConfig, userConfig);
 
-// ✅ Helper function for merging configurations
 function mergeConfig(baseConfig, customConfig) {
 	if (!customConfig || typeof customConfig !== 'object') return;
 
@@ -89,5 +128,4 @@ function mergeConfig(baseConfig, customConfig) {
 	});
 }
 
-// ✅ Export the final configuration wrapped with plugins
-export default withBundleAnalyzer(withNextVideo(nextConfig));
+export default nextConfig;
