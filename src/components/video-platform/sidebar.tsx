@@ -38,19 +38,19 @@ export default function Sidebar() {
   ]
 
   const subscriptionLinks = [
-    { href: "/video-platform/channel/ai-ml-news", label: "AI/ML News", icon: Newspaper },
-    { href: "/video-platform/channel/cybernetics", label: "Cybernetics", icon: Brain },
-    { href: "/video-platform/channel/polymatheism", label: "Polymatheism", icon: Atom },
-    { href: "/video-platform/channel/new-realty", label: "The New Realty", icon: Building2 },
-    { href: "/video-platform/channel/clinic-of-ai", label: "Clinic Of AI", icon: Stethoscope },
+    { href: "/video-platform/ai-ml-news", label: "AI/ML News", icon: Newspaper },
+    { href: "/video-platform/cybernetics", label: "Cybernetics", icon: Brain },
+    { href: "/video-platform/polymatheism", label: "Polymatheism", icon: Atom },
+    { href: "/video-platform/new-realty", label: "The New Realty", icon: Building2 },
+    { href: "/video-platform/clinic-of-ai", label: "Clinic Of AI", icon: Stethoscope },
   ]
 
   const exploreLinks = [
-    { href: "/video-platform/explore/projects", label: "Projects", icon: FolderKanban },
-    { href: "/video-platform/explore/ai-system-design", label: "AI System Design", icon: Cpu },
-    { href: "/video-platform/explore/100x-ai-developer", label: "100x AI Developer", icon: Code2 },
-    { href: "/video-platform/explore/ai-and-chill", label: "AI & Chill", icon: Coffee },
-    { href: "/video-platform/explore/virtual-worlds", label: "Virtual Worlds", icon: Globe },
+    { href: "/video-platform/projects", label: "Projects", icon: FolderKanban },
+    { href: "/video-platform/ai-system-design", label: "AI System Design", icon: Cpu },
+    { href: "/video-platform/100x-ai-developer", label: "100x AI Developer", icon: Code2 },
+    { href: "/video-platform/ai-and-chill", label: "AI & Chill", icon: Coffee },
+    { href: "/video-platform/virtual-worlds", label: "Virtual Worlds", icon: Globe },
   ]
 
   return (

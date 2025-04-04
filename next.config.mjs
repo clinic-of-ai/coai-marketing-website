@@ -1,3 +1,39 @@
+// import { withNextVideo } from "next-video/process";
+// /** @type {import('next').NextConfig} */
+// const nextConfig = {
+// 	images: {
+// 		remotePatterns: [
+// 			{
+// 				protocol: 'https',
+// 				hostname: 'images.pexels.com',
+// 				port: '',
+// 			},
+// 			{
+// 				protocol: 'https',
+// 				hostname: 'avatars.githubusercontent.com',
+// 				port: '',
+// 			},
+// 			{
+// 				protocol: 'https',
+// 				hostname: 'storage.googleapis.com',
+// 				port: '',
+// 			},
+// 		],
+// 		formats: ['image/avif', 'image/webp'],
+// 	},
+// 	webpack(config) {
+// 		config.module.rules.push({
+// 			test: /\.svg$/,
+// 			use: [{ loader: "@svgr/webpack", options: { icon: true } }],
+// 		});
+// 		return config;
+// 	},
+// };
+
+// export default withNextVideo(nextConfig);
+
+
+
 import { withNextVideo } from "next-video/process";
 
 let userConfig = undefined;
@@ -11,12 +47,12 @@ try {
 /** @type {import('next').NextConfig} */
 const nextConfig = {
 	// ✅ ESLint and TypeScript build optimizations from the 2nd project
-	eslint: {
-		ignoreDuringBuilds: true,
-	},
-	typescript: {
-		ignoreBuildErrors: true,
-	},
+	// eslint: {
+	// 	ignoreDuringBuilds: true,
+	// },
+	// typescript: {
+	// 	ignoreBuildErrors: true,
+	// },
 
 	// ✅ Image optimizations (Combination of both projects)
 	images: {

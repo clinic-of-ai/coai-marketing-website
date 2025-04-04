@@ -5,7 +5,6 @@ import { ChevronDown } from "lucide-react";
 
 import { cn } from "@/libs/utils";
 
-
 const NavigationMenu = React.forwardRef<
   React.ElementRef<typeof NavigationMenuPrimitive.Root>,
   React.ComponentPropsWithoutRef<typeof NavigationMenuPrimitive.Root>
@@ -92,7 +91,7 @@ const NavigationMenuViewport = React.forwardRef<
       )}
       style={{
         height: "var(--radix-navigation-menu-viewport-height)",
-        "--viewport-width": "var(--radix-navigation-menu-viewport-width)",
+        width: "var(--radix-navigation-menu-viewport-width)",
       }}
     />
   </div>
