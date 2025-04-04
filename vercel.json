@@ -3,5 +3,14 @@
         "env": {
             "NODE_OPTIONS": "--max-old-space-size=4096"
         }
-    }
+    },
+    "builds": [
+        {
+            "src": "next.config.mjs",
+            "use": "@vercel/next",
+            "config": {
+                "maxLambdaSize": "15mb"
+            }
+        }
+    ]
 }
