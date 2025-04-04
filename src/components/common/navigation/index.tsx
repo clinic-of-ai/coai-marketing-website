@@ -20,6 +20,7 @@ export function NavBar() {
       <NavigationMenuList>
         {navLinks.map((item: NavLink) => {
           if (item.menu) {
+            //
             return (
               <NavigationMenuItem key={item.name}>
                 <NavigationMenuTrigger>{item.name}</NavigationMenuTrigger>
