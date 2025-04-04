@@ -1,119 +1,93 @@
-// import { withNextVideo } from "next-video/process";
-// /** @type {import('next').NextConfig} */
-// const nextConfig = {
-// 	images: {
-// 		remotePatterns: [
-// 			{
-// 				protocol: 'https',
-// 				hostname: 'images.pexels.com',
-// 				port: '',
-// 			},
-// 			{
-// 				protocol: 'https',
-// 				hostname: 'avatars.githubusercontent.com',
-// 				port: '',
-// 			},
-// 			{
-// 				protocol: 'https',
-// 				hostname: 'storage.googleapis.com',
-// 				port: '',
-// 			},
-// 		],
-// 		formats: ['image/avif', 'image/webp'],
-// 	},
-// 	webpack(config) {
-// 		config.module.rules.push({
-// 			test: /\.svg$/,
-// 			use: [{ loader: "@svgr/webpack", options: { icon: true } }],
-// 		});
-// 		return config;
-// 	},
-// };
-
-// export default withNextVideo(nextConfig);
-
-
-
 import { withNextVideo } from "next-video/process";
+import bundleAnalyzer from '@next/bundle-analyzer';
 
-let userConfig = undefined;
+// Bundle Analyzer setup (enabled via ANALYZE=true env variable)
+const withBundleAnalyzer = bundleAnalyzer({
+	enabled: process.env.ANALYZE === 'true',
+});
+
+let userConfig;
 
 try {
-	userConfig = await import('./v0-user-next.config');
+	userConfig = (await import('./v0-user-next.config')).default;
 } catch (e) {
-	// safely ignore if not exist
+	userConfig = {};
+	// safely ignore if user config doesn't exist
 }
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-	// ✅ ESLint and TypeScript build optimizations from the 2nd project
-	// eslint: {
-	// 	ignoreDuringBuilds: true,
-	// },
-	// typescript: {
-	// 	ignoreBuildErrors: true,
-	// },
+	// ✅ ESLint and TypeScript optimizations (uncomment for faster builds)
+	/*
+	eslint: {
+	  ignoreDuringBuilds: true,
+	},
+	typescript: {
+	  ignoreBuildErrors: true,
+	},
+	*/
 
-	// ✅ Image optimizations (Combination of both projects)
+	// ✅ Image optimization settings
 	images: {
 		remotePatterns: [
 			{
 				protocol: 'https',
 				hostname: 'images.pexels.com',
-				port: '',
 			},
 			{
 				protocol: 'https',
 				hostname: 'avatars.githubusercontent.com',
-				port: '',
 			},
 			{
 				protocol: 'https',
 				hostname: 'storage.googleapis.com',
-				port: '',
 			},
 		],
 		formats: ['image/avif', 'image/webp'],
 	},
 
-	// ✅ Experimental flags (from 2nd project - optional but good for large projects)
-	// experimental: {
-	// 	webpackBuildWorker: true,
-	// 	parallelServerBuildTraces: true,
-	// 	parallelServerCompiles: true,
-	// },
+	// ✅ Experimental flags (uncomment if needed)
+	/*
+	experimental: {
+	  webpackBuildWorker: true,
+	  parallelServerBuildTraces: true,
+	  parallelServerCompiles: true,
+	},
+	*/
 
-	// ✅ Webpack rules (SVG loader from 1st project)
+	// ✅ Webpack configuration for SVG files
 	webpack(config) {
 		config.module.rules.push({
 			test: /\.svg$/,
-			use: [{ loader: "@svgr/webpack", options: { icon: true } }],
+			use: [{ loader: '@svgr/webpack', options: { icon: true } }],
 		});
+
 		return config;
 	},
 };
 
-// ✅ Merge userConfig from 2nd project, if exists
+// ✅ Safe merge of user config
 mergeConfig(nextConfig, userConfig);
 
-function mergeConfig(nextConfig, userConfig) {
-	if (!userConfig) {
-		return;
-	}
+// ✅ Helper function for merging configurations
+function mergeConfig(baseConfig, customConfig) {
+	if (!customConfig || typeof customConfig !== 'object') return;
 
-	for (const key in userConfig) {
+	Object.entries(customConfig).forEach(([key, value]) => {
 		if (
-			typeof nextConfig[key] === 'object' &&
-			!Array.isArray(nextConfig[key])
+			value &&
+			typeof value === 'object' &&
+			!Array.isArray(value) &&
+			baseConfig[key] &&
+			typeof baseConfig[key] === 'object' &&
+			!Array.isArray(baseConfig[key])
 		) {
-			nextConfig[key] = {
-				...nextConfig[key],
-				...userConfig[key],
-			};
+			baseConfig[key] = { ...baseConfig[key], ...value };
 		} else {
-			nextConfig[key] = userConfig[key];
+			baseConfig[key] = value;
 		}
-	}
+	});
 }
 
-export default withNextVideo(nextConfig);
+// ✅ Export the final configuration wrapped with plugins
+export default withBundleAnalyzer(withNextVideo(nextConfig));
