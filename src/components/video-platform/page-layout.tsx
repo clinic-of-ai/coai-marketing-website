@@ -1,6 +1,8 @@
 "use client"
 
-import type { ReactNode } from "react"
+import type React from "react"
+
+import { useState, ReactNode } from "react"
 import Sidebar from "@/components/video-platform/sidebar"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -24,9 +26,24 @@ interface PageLayoutProps {
   count: number
 }
 
-export default function PageLayout({ children, title, count }: PageLayoutProps) {
+interface PageLayoutProps {
+  children: ReactNode
+  title: string
+  count: number
+  onSearch?: (query: string) => void
+}
+
+export default function PageLayout({ children, title, count, onSearch }: PageLayoutProps) {
   const { setTheme, theme } = useTheme()
   const isAuthenticated = true // This would come from your auth context
+  const [searchQuery, setSearchQuery] = useState("")
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (onSearch) {
+      onSearch(searchQuery)
+    }
+  }
 
   return (
     <div className="min-h-screen bg-background">
@@ -51,7 +68,7 @@ export default function PageLayout({ children, title, count }: PageLayoutProps) 
                         <span className="sr-only">Toggle menu</span>
                       </Button>
                     </SheetTrigger>
-                    <SheetContent side="left" className="p-0 w-[240px]">
+                    <SheetContent side="left" className="p-0 w-[280px]">
                       <Sidebar />
                     </SheetContent>
                   </Sheet>
@@ -62,11 +79,11 @@ export default function PageLayout({ children, title, count }: PageLayoutProps) 
 
                 {/* Action buttons */}
                 <div className="flex items-center gap-2">
-                  {/* <Button variant="ghost" size="icon" onClick={() => setTheme(theme === "dark" ? "light" : "dark")}>
+                  <Button variant="ghost" size="icon" onClick={() => setTheme(theme === "dark" ? "light" : "dark")}>
                     <Sun className="h-5 w-5 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
                     <Moon className="absolute h-5 w-5 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
                     <span className="sr-only">Toggle theme</span>
-                  </Button> */}
+                  </Button>
 
                   {isAuthenticated ? (
                     <>
@@ -78,18 +95,18 @@ export default function PageLayout({ children, title, count }: PageLayoutProps) 
                       </Button>
 
                       <Button variant="ghost" size="icon" asChild>
-                        <a href="/video-platform/live">
+                        <a href="/live">
                           <Video className="h-5 w-5" />
                           <span className="sr-only">Go Live</span>
                         </a>
                       </Button>
-                      {/* 
+
                       <Button variant="ghost" size="icon">
                         <Bell className="h-5 w-5" />
                         <span className="sr-only">Notifications</span>
-                      </Button> */}
+                      </Button>
 
-                      {/* <DropdownMenu>
+                      <DropdownMenu>
                         <DropdownMenuTrigger asChild>
                           <Button variant="ghost" size="icon" className="rounded-full">
                             <Avatar className="h-8 w-8">
@@ -121,7 +138,7 @@ export default function PageLayout({ children, title, count }: PageLayoutProps) 
                             <span>Log out</span>
                           </DropdownMenuItem>
                         </DropdownMenuContent>
-                      </DropdownMenu> */}
+                      </DropdownMenu>
                     </>
                   ) : (
                     <Button asChild>
@@ -132,10 +149,24 @@ export default function PageLayout({ children, title, count }: PageLayoutProps) 
               </div>
 
               {/* Search bar */}
-              <div className="relative w-full">
+              <form onSubmit={handleSearch} className="relative w-full">
                 <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-                <Input type="search" placeholder="Search" className="w-full pl-10 pr-4" />
-              </div>
+                <Input
+                  type="search"
+                  placeholder="Search"
+                  className="w-full pl-10 pr-4"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
+                <Button
+                  type="submit"
+                  variant="ghost"
+                  size="sm"
+                  className="absolute right-1 top-1/2 -translate-y-1/2 h-8"
+                >
+                  Search
+                </Button>
+              </form>
             </div>
 
             {/* Page content */}

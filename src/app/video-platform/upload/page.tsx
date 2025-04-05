@@ -17,7 +17,6 @@ import {
   Trash2,
   Eye,
   EyeOff,
-  Image,
   ChevronLeft,
   ChevronRight,
   Upload,
@@ -39,15 +38,15 @@ import {
 import { Switch } from "@/components/ui/switch"
 import Link from "next/link"
 
-// Mock data for videos
-const mockVideos = Array(25)
+// Mock data for videos - increase to 15 videos
+const mockVideos = Array(15)
   .fill(null)
   .map((_, i) => ({
     id: `video-${i + 1}`,
     title: `Video ${i + 1}: Understanding AI Concepts and Applications`,
     description:
       "This video explores the fundamental concepts of artificial intelligence and its real-world applications.",
-    thumbnail: `/image/placeholder.svg?height=180&width=320&text=Video ${i + 1}`,
+    thumbnail: `/placeholder.svg?height=180&width=320&text=Video ${i + 1}`,
     views: Math.floor(Math.random() * 10000),
     uploadDate: new Date(Date.now() - Math.floor(Math.random() * 10000000000)).toISOString(),
     duration: `${Math.floor(Math.random() * 10) + 1}:${Math.floor(Math.random() * 60)
@@ -86,8 +85,6 @@ export default function UploadPage() {
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false)
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false)
   const [videoToDelete, setVideoToDelete] = useState<string | null>(null)
-  const [selectedVideo, setSelectedVideo] = useState<any | null>(null)
-  const [isVideoDetailModalOpen, setIsVideoDetailModalOpen] = useState(false)
   const [windowWidth, setWindowWidth] = useState(typeof window !== "undefined" ? window.innerWidth : 1200)
 
   const videosPerPage = 10
@@ -153,8 +150,7 @@ export default function UploadPage() {
     // In a real app, this would fetch the actual video from the URL
     // For demo purposes, we'll use a sample video
     setTimeout(() => {
-      // setVideoPreview("https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4")
-      setVideoPreview("https://www.youtube.com/watch?v=ozPKRvVZv_0")
+      setVideoPreview("https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4")
       setIsLoading(false)
     }, 1500)
   }
@@ -203,7 +199,7 @@ export default function UploadPage() {
             id: `video-${videos.length + 1}`,
             title: videoTitle,
             description: videoDescription,
-            thumbnail: thumbnailPreview || `/image/placeholder.svg?height=180&width=320&text=New Video`,
+            thumbnail: thumbnailPreview || `/placeholder.svg?height=180&width=320&text=New Video`,
             views: 0,
             uploadDate: new Date().toISOString(),
             duration: "0:00",
@@ -229,21 +225,23 @@ export default function UploadPage() {
     }, 150)
   }
 
-  const handleEditVideo = (video: any) => {
+  // Update the handleVideoClick function to use the same modal for both description and edit icon clicks
+  const handleVideoClick = (video: any) => {
     setEditingVideo({ ...video })
     setIsEditDialogOpen(true)
   }
 
   const saveEditedVideo = () => {
     if (editingVideo) {
-      setVideos(videos.map((v) => (v.id === editingVideo.id ? editingVideo : v)))
+      // If there's a new thumbnail, update the video's thumbnail property
+      const updatedVideo = { ...editingVideo }
+      if (updatedVideo.thumbnailPreview) {
+        updatedVideo.thumbnail = updatedVideo.thumbnailPreview
+      }
+
+      setVideos(videos.map((v) => (v.id === updatedVideo.id ? updatedVideo : v)))
       setIsEditDialogOpen(false)
       setEditingVideo(null)
-
-      // Also update the selected video if it's open in the mobile view
-      if (selectedVideo && selectedVideo.id === editingVideo.id) {
-        setSelectedVideo({ ...editingVideo })
-      }
     }
   }
 
@@ -258,12 +256,6 @@ export default function UploadPage() {
       setIsDeleteDialogOpen(false)
       setVideoToDelete(null)
 
-      // Close the mobile detail view if the deleted video was selected
-      if (selectedVideo && selectedVideo.id === videoToDelete) {
-        setSelectedVideo(null)
-        setIsVideoDetailModalOpen(false)
-      }
-
       // Adjust current page if needed
       if (paginatedVideos.length === 1 && currentPage > 1) {
         setCurrentPage(currentPage - 1)
@@ -275,33 +267,14 @@ export default function UploadPage() {
     setVideos(
       videos.map((v) => {
         if (v.id === videoId) {
-          const updatedVideo = {
+          return {
             ...v,
             visibility: v.visibility === "public" ? "private" : "public",
           }
-
-          // Update selected video if it's the one being toggled
-          if (selectedVideo && selectedVideo.id === videoId) {
-            setSelectedVideo(updatedVideo)
-          }
-
-          return updatedVideo
         }
         return v
       }),
     )
-  }
-
-  const handleVideoClick = (video: any) => {
-    setSelectedVideo({ ...video })
-    setIsVideoDetailModalOpen(true)
-  }
-
-  const saveVideoFromModal = () => {
-    if (selectedVideo) {
-      setVideos(videos.map((v) => (v.id === selectedVideo.id ? selectedVideo : v)))
-      setIsVideoDetailModalOpen(false)
-    }
   }
 
   const formatDate = (dateString: string, compact = false) => {
@@ -333,7 +306,7 @@ export default function UploadPage() {
     return `${views}`
   }
 
-  // Determine which columns to show based on window width
+  // Update the responsive behavior detection
   const showNumberColumn = windowWidth >= 480
   const showCategoryColumn = windowWidth >= 1200
   const showVisibilityColumn = windowWidth >= 1200
@@ -341,6 +314,12 @@ export default function UploadPage() {
   const showViewsColumn = windowWidth >= 1200
   const showDeleteButton = windowWidth >= 1200
   const showDescription = windowWidth >= 480
+  const showActionsColumn = windowWidth >= 800
+
+  const handleEditVideo = (video: any) => {
+    setEditingVideo({ ...video })
+    setIsEditDialogOpen(true)
+  }
 
   return (
     <div className="min-h-screen bg-background">
@@ -599,7 +578,7 @@ export default function UploadPage() {
                         </div>
                       </th>
                     )}
-                    <th className="px-4 py-3 text-right text-sm font-medium">Actions</th>
+                    {showActionsColumn && <th className="px-4 py-3 text-right text-sm font-medium">Actions</th>}
                   </tr>
                 </thead>
                 <tbody className="divide-y">
@@ -611,11 +590,14 @@ export default function UploadPage() {
                             {(currentPage - 1) * videosPerPage + index + 1}
                           </td>
                         )}
-                        <td className="px-4 py-3">
+                        <td
+                          className={`px-4 py-3 ${windowWidth < 800 ? "cursor-pointer" : ""}`}
+                          onClick={() => (windowWidth < 800 ? handleVideoClick(video) : null)}
+                        >
                           <div className="flex items-center gap-3">
                             <div className="relative w-16 sm:w-24 h-10 sm:h-14 flex-shrink-0 rounded overflow-hidden">
                               <img
-                                src={video.thumbnail || "/image/placeholder.svg"}
+                                src={video.thumbnail || "/placeholder.svg"}
                                 alt={video.title}
                                 className="w-full h-full object-cover"
                               />
@@ -624,19 +606,25 @@ export default function UploadPage() {
                               </div>
                             </div>
                             <div className="flex-1 min-w-0">
-                              <p className="font-medium text-sm truncate">{video.title}</p>
+                              <p className="font-medium text-sm truncate">
+                                {windowWidth < 400
+                                  ? video.title.length > 20
+                                    ? video.title.substring(0, 17) + "..."
+                                    : video.title
+                                  : video.title}
+                              </p>
                               {showDescription && (
-                                <div className="flex items-center gap-1">
-                                  <p
-                                    className="text-xs text-muted-foreground line-clamp-2 cursor-pointer hover:underline hover:text-primary"
-                                    onClick={() => handleVideoClick(video)}
-                                  >
-                                    {video.description}
-                                  </p>
-                                  {windowWidth < 1200 && (
-                                    <Edit className="h-3 w-3 text-muted-foreground hover:text-primary" />
-                                  )}
-                                </div>
+                                <p className="text-xs text-muted-foreground line-clamp-2">
+                                  {windowWidth < 400
+                                    ? video.description.length > 30
+                                      ? video.description.substring(0, 27) + "..."
+                                      : video.description
+                                    : windowWidth < 640
+                                      ? video.description.length > 60
+                                        ? video.description.substring(0, 57) + "..."
+                                        : video.description
+                                      : video.description}
+                                </p>
                               )}
 
                               {/* Mobile-only info - show when columns are hidden */}
@@ -683,7 +671,7 @@ export default function UploadPage() {
                             </div>
                           </td>
                         )}
-                        <td className="px-4 py-3 text-right">
+                        <td className={`px-4 py-3 text-right ${showActionsColumn ? "" : "hidden"}`}>
                           <div className="flex items-center justify-end gap-1">
                             <Button
                               variant="ghost"
@@ -832,22 +820,56 @@ export default function UploadPage() {
 
           {editingVideo && (
             <div className="space-y-4 py-4">
-              <div className="flex items-center gap-4">
-                <div className="w-32 h-18 rounded overflow-hidden flex-shrink-0">
-                  <img
-                    src={editingVideo.thumbnail || "/image/placeholder.svg"}
-                    alt={editingVideo.title}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                <div className="flex-1">
-                  <Input id="edit-thumbnail" type="file" accept="image/*" className="hidden" />
-                  <Button variant="outline" size="sm" asChild>
-                    <label htmlFor="edit-thumbnail" className="cursor-pointer">
-                      <Image className="h-4 w-4 mr-2" />
-                      Change Thumbnail
-                    </label>
-                  </Button>
+              {/* Video Preview */}
+              <div className="w-full aspect-video rounded overflow-hidden flex-shrink-0 bg-black">
+                <video
+                  src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                  controls
+                  className="w-full h-full object-cover"
+                />
+              </div>
+
+              {/* Thumbnail section */}
+              <div className="space-y-2">
+                <label className="block text-sm font-medium">Thumbnail</label>
+                <div className="flex items-center gap-4">
+                  <div className="w-32 h-18 rounded overflow-hidden flex-shrink-0">
+                    {editingVideo.thumbnailPreview ? (
+                      <img
+                        src={editingVideo.thumbnailPreview || "/placeholder.svg"}
+                        alt={editingVideo.title}
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <img
+                        src={editingVideo.thumbnail || "/placeholder.svg"}
+                        alt={editingVideo.title}
+                        className="w-full h-full object-cover"
+                      />
+                    )}
+                  </div>
+                  <div className="flex-1">
+                    <Input
+                      id="edit-thumbnail"
+                      type="file"
+                      accept="image/*"
+                      className="w-full"
+                      onChange={(e) => {
+                        const file = e.target.files?.[0]
+                        if (file) {
+                          const reader = new FileReader()
+                          reader.onload = (e) => {
+                            setEditingVideo({
+                              ...editingVideo,
+                              thumbnailFile: file,
+                              thumbnailPreview: e.target?.result as string,
+                            })
+                          }
+                          reader.readAsDataURL(file)
+                        }
+                      }}
+                    />
+                  </div>
                 </div>
               </div>
 
@@ -935,114 +957,6 @@ export default function UploadPage() {
               Delete
             </Button>
           </DialogFooter>
-        </DialogContent>
-      </Dialog>
-
-      {/* Mobile Video Detail Modal */}
-      <Dialog open={isVideoDetailModalOpen} onOpenChange={setIsVideoDetailModalOpen}>
-        <DialogContent className="sm:max-w-lg p-0 h-[90vh] max-h-[90vh] flex flex-col">
-          <DialogHeader className="p-4 border-b">
-            <DialogTitle>Video Details</DialogTitle>
-          </DialogHeader>
-
-          {selectedVideo && (
-            <div className="flex-1 overflow-auto">
-              <div className="p-4 space-y-6">
-                {/* Video Preview */}
-                <div className="relative w-full pt-[56.25%] bg-black rounded-md overflow-hidden">
-                  {" "}
-                  {/* 16:9 aspect ratio */}
-                  <video
-                    src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
-                    className="absolute inset-0 w-full h-full object-contain"
-                    controls
-                  />
-                </div>
-
-                <div className="space-y-4">
-                  <div>
-                    <label htmlFor="mobile-title" className="block text-sm font-medium mb-1">
-                      Title
-                    </label>
-                    <Input
-                      id="mobile-title"
-                      value={selectedVideo.title}
-                      onChange={(e) => setSelectedVideo({ ...selectedVideo, title: e.target.value })}
-                    />
-                  </div>
-
-                  <div>
-                    <label htmlFor="mobile-description" className="block text-sm font-medium mb-1">
-                      Description
-                    </label>
-                    <Textarea
-                      id="mobile-description"
-                      rows={3}
-                      value={selectedVideo.description}
-                      onChange={(e) => setSelectedVideo({ ...selectedVideo, description: e.target.value })}
-                    />
-                  </div>
-
-                  <div className="flex items-center justify-between">
-                    <label htmlFor="mobile-visibility" className="text-sm font-medium">
-                      Public
-                    </label>
-                    <Switch
-                      id="mobile-visibility"
-                      checked={selectedVideo.visibility === "public"}
-                      onCheckedChange={() => {
-                        setSelectedVideo({
-                          ...selectedVideo,
-                          visibility: selectedVideo.visibility === "public" ? "private" : "public",
-                        })
-                      }}
-                    />
-                  </div>
-
-                  <div>
-                    <label htmlFor="mobile-category" className="block text-sm font-medium mb-1">
-                      Category
-                    </label>
-                    <select
-                      id="mobile-category"
-                      className="w-full rounded-md border border-input bg-background px-3 py-2"
-                      value={selectedVideo.category}
-                      onChange={(e) => setSelectedVideo({ ...selectedVideo, category: e.target.value })}
-                    >
-                      <option value="AI/ML News">AI/ML News</option>
-                      <option value="Cybernetics">Cybernetics</option>
-                      <option value="Polymatheism">Polymatheism</option>
-                      <option value="The New Realty">The New Realty</option>
-                      <option value="Clinic Of AI">Clinic Of AI</option>
-                    </select>
-                  </div>
-
-                  <div className="pt-2">
-                    <Button
-                      variant="destructive"
-                      className="w-full"
-                      onClick={() => {
-                        setIsVideoDetailModalOpen(false)
-                        handleDeleteVideo(selectedVideo.id)
-                      }}
-                    >
-                      <Trash2 className="h-4 w-4 mr-2" />
-                      Delete Video
-                    </Button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
-
-          <div className="p-4 border-t mt-auto">
-            <div className="flex justify-end gap-2">
-              <Button variant="outline" onClick={() => setIsVideoDetailModalOpen(false)}>
-                Cancel
-              </Button>
-              <Button onClick={saveVideoFromModal}>Apply Changes</Button>
-            </div>
-          </div>
         </DialogContent>
       </Dialog>
     </div>

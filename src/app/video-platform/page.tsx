@@ -1,17 +1,22 @@
+"use client"
+
+import { useState } from "react"
 import { Suspense } from "react"
 import PageLayout from "@/components/video-platform/page-layout"
 import VideoGrid from "@/components/video-platform/video-grid"
 import { Skeleton } from "@/components/ui/skeleton"
 
 export default function HomePage() {
-  // Mock data - in a real app, this would come from your API
-  const videoCount = 8
+  const [searchQuery, setSearchQuery] = useState("")
+  const [videoCount, setVideoCount] = useState(20)
+
+  const handleSearch = (query: string) => {
+    setSearchQuery(query)
+  }
 
   return (
-    <PageLayout title="Recommended" count={videoCount}>
-      <Suspense fallback={<VideoGridSkeleton />}>
-        <VideoGrid />
-      </Suspense>
+    <PageLayout title="Recommended" count={videoCount} onSearch={handleSearch}>
+      <VideoGrid searchQuery={searchQuery} />
     </PageLayout>
   )
 }
@@ -36,4 +41,3 @@ function VideoGridSkeleton() {
     </div>
   )
 }
-
