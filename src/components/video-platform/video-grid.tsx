@@ -412,7 +412,7 @@ export default function VideoGrid({ searchQuery = "" }: VideoGridProps) {
           </div>
           <h2 className="text-xl font-semibold mb-2">No videos found</h2>
           <p className="text-muted-foreground max-w-md">
-            We couldn't find any videos matching "{searchQuery}". Try different keywords or browse our categories.
+            {"Don&apos;t have any videos &quot;uploaded&quot; yet"}
           </p>
         </div>
       )}

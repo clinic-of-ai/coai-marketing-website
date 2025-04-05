@@ -2,6 +2,7 @@
 
 import type React from "react"
 
+import Image from 'next/image';
 import { useState, useRef, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -596,7 +597,7 @@ export default function UploadPage() {
                         >
                           <div className="flex items-center gap-3">
                             <div className="relative w-16 sm:w-24 h-10 sm:h-14 flex-shrink-0 rounded overflow-hidden">
-                              <img
+                              <Image
                                 src={video.thumbnail || "/placeholder.svg"}
                                 alt={video.title}
                                 className="w-full h-full object-cover"
