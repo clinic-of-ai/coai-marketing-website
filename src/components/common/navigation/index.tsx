@@ -20,6 +20,7 @@ export function NavBar() {
       <NavigationMenuList>
         {navLinks.map((item: NavLink) => {
           if (item.menu) {
+            //
             return (
               <NavigationMenuItem key={item.name}>
                 <NavigationMenuTrigger>{item.name}</NavigationMenuTrigger>
@@ -30,16 +31,16 @@ export function NavBar() {
               </NavigationMenuItem>
             );
           }
-
-          return (
-            <NavigationMenuItem key={item.name}>
-              <Link href={item.href} legacyBehavior passHref>
-                <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                  {item.name}
-                </NavigationMenuLink>
-              </Link>
-            </NavigationMenuItem>
-          );
+          if (item.name !== "Video Platform")
+            return (
+              <NavigationMenuItem key={item.name}>
+                <Link href={item.href} legacyBehavior passHref>
+                  <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                    {item.name}
+                  </NavigationMenuLink>
+                </Link>
+              </NavigationMenuItem>
+            );
         })}
       </NavigationMenuList>
     </NavigationMenu>
