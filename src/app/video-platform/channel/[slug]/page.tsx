@@ -1,6 +1,13 @@
-import EmptyCategory from "@/components/video-platform/empty-category"
+"use client"
+
+import { useState } from "react"
+import CategoryVideos from "@/components/video-platform/category-videos"
+import PageLayout from "@/components/video-platform/page-layout"
 
 export default function ChannelPage({ params }: { params: { slug: string } }) {
+  const [videoCount, setVideoCount] = useState(0)
+  const [searchQuery, setSearchQuery] = useState("")
+
   // Convert slug to a readable title (e.g., "ai-ml-news" to "AI/ML News")
   const title = params.slug
     .split("-")
@@ -13,6 +20,22 @@ export default function ChannelPage({ params }: { params: { slug: string } }) {
     .replace("Ml", "ML")
     .replace("Of Ai", "Of AI")
 
-  return <EmptyCategory title={title} />
+  const handleSearch = (query: string) => {
+    setSearchQuery(query)
+  }
+
+  const handleVideoCountChange = (count: number) => {
+    setVideoCount(count)
+  }
+
+  return (
+    <PageLayout title={title} count={videoCount} onSearch={handleSearch}>
+      <CategoryVideos 
+        categorySlug={params.slug} 
+        searchQuery={searchQuery}
+        onVideoCountChange={handleVideoCountChange}
+      />
+    </PageLayout>
+  )
 }
 

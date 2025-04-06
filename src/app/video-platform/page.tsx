@@ -1,30 +1,37 @@
 "use client"
 
 import { useState } from "react"
-import { Suspense } from "react"
 import PageLayout from "@/components/video-platform/page-layout"
 import VideoGrid from "@/components/video-platform/video-grid"
 import { Skeleton } from "@/components/ui/skeleton"
 
 export default function HomePage() {
   const [searchQuery, setSearchQuery] = useState("")
-  const [videoCount, setVideoCount] = useState(20)
+  const [videoCount, setVideoCount] = useState(0)
 
   const handleSearch = (query: string) => {
     setSearchQuery(query)
   }
 
+  const handleVideoCountChange = (count: number) => {
+    setVideoCount(count)
+  }
+
   return (
     <PageLayout title="Recommended" count={videoCount} onSearch={handleSearch}>
-      <VideoGrid searchQuery={searchQuery} />
+      <VideoGrid 
+        searchQuery={searchQuery} 
+        onVideoCountChange={handleVideoCountChange} 
+      />
     </PageLayout>
   )
 }
 
-function VideoGridSkeleton() {
+// This component can be used for loading states if needed
+export function VideoGridSkeleton() {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-      {Array(12)
+      {Array(12)  
         .fill(0)
         .map((_, i) => (
           <div key={i} className="space-y-2">

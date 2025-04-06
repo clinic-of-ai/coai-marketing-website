@@ -2,7 +2,7 @@
 
 import type React from "react"
 
-import { useState, ReactNode } from "react"
+import { useState, ReactNode, useEffect } from "react"
 import Sidebar from "@/components/video-platform/sidebar"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -24,12 +24,6 @@ interface PageLayoutProps {
   children: ReactNode
   title: string
   count: number
-}
-
-interface PageLayoutProps {
-  children: ReactNode
-  title: string
-  count: number
   onSearch?: (query: string) => void
 }
 
@@ -37,6 +31,18 @@ export default function PageLayout({ children, title, count, onSearch }: PageLay
   const { setTheme, theme } = useTheme()
   const isAuthenticated = true // This would come from your auth context
   const [searchQuery, setSearchQuery] = useState("")
+  const [debouncedSearchQuery, setDebouncedSearchQuery] = useState("")
+  
+  // Debounce search to avoid too many updates
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (onSearch) {
+        onSearch(searchQuery)
+      }
+    }, 300)
+    
+    return () => clearTimeout(timer)
+  }, [searchQuery, onSearch])
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault()
