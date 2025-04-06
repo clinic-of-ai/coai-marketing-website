@@ -32,13 +32,12 @@ export default function VideoGrid({
   const [filteredVideos, setFilteredVideos] = useState<any[]>([])
   
   // Only fetch videos if they're not provided as props
-  const { videos: fetchedVideos, loading: fetchLoading, error: fetchError } = 
-    propVideos ? { videos: [], loading: false, error: null } : useAllVideos()
+  const { videos: fetchedVideos, loading: fetchLoading, error: fetchError } = useAllVideos();
   
   // Use either the provided videos or the fetched ones
-  const videos = propVideos || fetchedVideos
-  const loading = propLoading !== undefined ? propLoading : fetchLoading
-  const error = propError || fetchError
+  const videos = propVideos || fetchedVideos;
+  const loading = propLoading !== undefined ? propLoading : fetchLoading;
+  const error = propError || fetchError;
 
   const videosPerPage = 12
 
@@ -157,10 +156,11 @@ export default function VideoGrid({
                   {video?.thumbnail_url && video.thumbnail_url.includes("supabase.co") ? (
                     // For Supabase hosted images, use a regular img tag instead of next/image
                     <div className="w-full h-full relative">
-                      <img
+                      <Image
                         src={video.thumbnail_url}
                         alt={video?.title || "Video thumbnail"}
-                        className="absolute inset-0 w-full h-full object-cover transition-transform group-hover:scale-105"
+                        fill
+                        className="object-cover transition-transform group-hover:scale-105"
                       />
                     </div>
                   ) : (

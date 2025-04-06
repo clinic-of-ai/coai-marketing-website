@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 import { VideoImport } from "./VideoImport";
 import { VideoForm } from "./VideoForm";
 import { VideoPreview } from "./VideoPreview";
@@ -47,38 +47,8 @@ export function VideoUploadTab({ videos, setVideos, setCurrentTab }: VideoUpload
     return null;
   };
 
-  // Validate and process URL when it changes
-  useEffect(() => {
-    if (!videoUrl) {
-      setError(null);
-      return;
-    }
-
-    // Simple validation for video URLs
-    const isYoutubeUrl = /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be)\/.+$/.test(videoUrl);
-
-    if (isYoutubeUrl) {
-      setError(null);
-
-      // Auto-import after a short delay to allow user to finish typing
-      const timer = setTimeout(() => {
-        importVideo();
-      }, 1000);
-
-      return () => clearTimeout(timer);
-    } else {
-      setError("Please enter a valid YouTube URL");
-    }
-  }, [videoUrl]);
-
-  // Set video to start at the beginning for thumbnail
-  useEffect(() => {
-    if (videoRef.current && videoPreview && videoType === "direct") {
-      videoRef.current.currentTime = 0;
-    }
-  }, [videoPreview, videoType]);
-
-  const importVideo = () => {
+  // Import video function wrapped in useCallback
+  const importVideo = useCallback(() => {
     if (error || isLoading || !videoUrl) return;
 
     setIsLoading(true);
@@ -109,7 +79,38 @@ export function VideoUploadTab({ videos, setVideos, setCurrentTab }: VideoUpload
         setIsLoading(false);
       }, 1500);
     }
-  };
+  }, [error, isLoading, videoUrl, extractYoutubeVideoId, videoTitle, setYoutubeVideoId, setVideoType, setVideoTitle, setVideoPreview, setIsLoading]);
+
+  // Validate and process URL when it changes
+  useEffect(() => {
+    if (!videoUrl) {
+      setError(null);
+      return;
+    }
+
+    // Simple validation for video URLs
+    const isYoutubeUrl = /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be)\/.+$/.test(videoUrl);
+
+    if (isYoutubeUrl) {
+      setError(null);
+
+      // Auto-import after a short delay to allow user to finish typing
+      const timer = setTimeout(() => {
+        importVideo();
+      }, 1000);
+
+      return () => clearTimeout(timer);
+    } else {
+      setError("Please enter a valid YouTube URL");
+    }
+  }, [videoUrl, importVideo]);
+
+  // Set video to start at the beginning for thumbnail
+  useEffect(() => {
+    if (videoRef.current && videoPreview && videoType === "direct") {
+      videoRef.current.currentTime = 0;
+    }
+  }, [videoPreview, videoType]);
 
   const handleThumbnailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];

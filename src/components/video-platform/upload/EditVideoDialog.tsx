@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import Image from "next/image";
 
 interface Video {
   id: string;
@@ -88,9 +89,11 @@ export function EditVideoDialog({
             <label className="block text-sm font-medium">Thumbnail</label>
             <div className="flex items-center gap-4">
               <div className="w-32 h-18 rounded overflow-hidden flex-shrink-0">
-                <img
+                <Image
                   src={editingVideo.thumbnailPreview || editingVideo.thumbnail || "/placeholder.svg"}
                   alt={editingVideo.title}
+                  width={128}
+                  height={72}
                   className="w-full h-full object-cover"
                 />
               </div>

@@ -12,6 +12,7 @@ import {
   ThumbsUp, 
   MoreVertical 
 } from "lucide-react";
+import Image from "next/image";
 
 interface Video {
   id: string;
@@ -105,9 +106,11 @@ export function VideoTable({
                 >
                   <div className="flex items-center gap-3">
                     <div className="relative w-16 sm:w-24 h-10 sm:h-14 flex-shrink-0 rounded overflow-hidden">
-                      <img
+                      <Image
                         src={video.thumbnail || "/placeholder.svg"}
                         alt={video.title}
+                        width={96}
+                        height={56}
                         className="w-full h-full object-cover"
                       />
                       <div className="absolute bottom-1 right-1 bg-black/80 text-white text-xs px-1 rounded">
