@@ -102,8 +102,13 @@ export default function VideoGrid({
   const getThumbnailUrl = (video: any) => {
     // Check if there's a thumbnail URL
     if (!video?.thumbnail_url) {
-      // If no thumbnail URL, use YouTube thumbnail if possible
-      return video?.youtube_url ? `/placeholder.svg` : '/placeholder.svg';
+      // If no thumbnail URL but has YouTube URL, generate YouTube thumbnail
+      const videoId = extractYouTubeVideoId(video?.youtube_url || '');
+      if (videoId) {
+        return `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
+      }
+      // Fallback to placeholder
+      return '/placeholder.svg';
     }
     return video.thumbnail_url;
   }
@@ -153,24 +158,13 @@ export default function VideoGrid({
                 className="space-y-2"
               >
                 <div className="relative aspect-video rounded-lg overflow-hidden bg-muted">
-                  {video?.thumbnail_url && video.thumbnail_url.includes("supabase.co") ? (
-                    // For Supabase hosted images, use a regular img tag instead of next/image
-                    <div className="w-full h-full relative">
-                      <Image
-                        src={video.thumbnail_url}
-                        alt={video?.title || "Video thumbnail"}
-                        fill
-                        className="object-cover transition-transform group-hover:scale-105"
-                      />
-                    </div>
-                  ) : (
-                    <Image
-                      src={getThumbnailUrl(video) || "/placeholder.svg"}
-                      alt={video?.title || "Video thumbnail"}
-                      fill
-                      className="object-cover transition-transform group-hover:scale-105"
-                    />
-                  )}
+                  <Image
+                    src={getThumbnailUrl(video)}
+                    alt={video?.title || "Video thumbnail"}
+                    fill
+                    className="object-cover transition-transform group-hover:scale-105"
+                    unoptimized={getThumbnailUrl(video).includes('youtube.com')}
+                  />
                   {extractYouTubeVideoId(video?.youtube_url || '') && (
                     <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
                       <div className="w-12 h-12 rounded-full bg-red-600 flex items-center justify-center">

@@ -18,6 +18,16 @@ const nextConfig = {
 				hostname: 'storage.googleapis.com',
 				port: '',
 			},
+			{
+				protocol: 'https',
+				hostname: 'yxkvxzijwkupwucznpvu.supabase.co',
+				port: '',
+			},
+			{
+				protocol: 'https',
+				hostname: 'img.youtube.com',
+				port: '',
+			},
 		],
 		formats: ['image/avif', 'image/webp'],
 	},
