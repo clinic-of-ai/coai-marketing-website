@@ -5,6 +5,7 @@ import VideoInfo from "@/components/video-platform/video-info"
 import RelatedVideos from "@/components/video-platform/related-videos"
 import { Skeleton } from "@/components/ui/skeleton"
 import { getVideoById, getAllVideos } from "@/libs/api"
+import { extractYouTubeVideoId } from "@/libs/utils";
 
 // Generate static params for all videos at build time
 export async function generateStaticParams() {
@@ -34,6 +35,8 @@ export default async function WatchPage({ params }: { params: { id: string } }) 
   // Fetch the video data
   const video = await getVideoData(params.id);
 
+  const videoId = extractYouTubeVideoId(video.youtube_url);
+
   if (!video) {
     return (
       <PageLayout title="Video Not Found" count={0} hidesearch={false}>
@@ -58,20 +61,17 @@ export default async function WatchPage({ params }: { params: { id: string } }) 
             <div className="space-y-2">
               <h2 className="text-lg font-medium">Video Preview</h2>
               <div className="bg-black rounded-lg overflow-hidden shadow-lg">
-                {video.youtube_url ? (
-                  <div className="relative w-full pt-[56.25%]">
+                {video.youtube_url ?
+                  (<div className="relative w-full pt-[56.25%]">
                     <iframe
                       className="absolute inset-0 w-full h-full"
-                      src={`https://www.youtube.com/embed/${params.id}`}
+                      src={`https://www.youtube.com/embed/${videoId}`}
                       title="YouTube video player"
                       frameBorder="0"
                       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                       allowFullScreen
                     ></iframe>
-                  </div>
-                ) : (
-                  <VideoPlayer videoId={params.id} youtubeUrl={video.youtube_url} />
-                )}
+                  </div>) : (<></>)}
               </div>
             </div>
           </Suspense>
