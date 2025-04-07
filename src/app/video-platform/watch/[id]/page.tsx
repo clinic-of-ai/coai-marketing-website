@@ -33,10 +33,10 @@ async function getVideoData(id: string) {
 export default async function WatchPage({ params }: { params: { id: string } }) {
   // Fetch the video data
   const video = await getVideoData(params.id);
-  
+
   if (!video) {
     return (
-      <PageLayout title="Video Not Found" count={0}>
+      <PageLayout title="Video Not Found" count={0} hidesearch={false}>
         <div className="flex flex-col items-center justify-center py-12 text-center">
           <div className="w-16 h-16 rounded-full bg-red-100 flex items-center justify-center mb-4 text-red-500">
             ❌
@@ -51,7 +51,7 @@ export default async function WatchPage({ params }: { params: { id: string } }) 
   }
 
   return (
-    <PageLayout title={video.title} count={5}>
+    <PageLayout title={video.title} count={5} hidesearch={true}>
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2 space-y-4">
           <Suspense fallback={<VideoPlayerSkeleton />}>
@@ -81,7 +81,7 @@ export default async function WatchPage({ params }: { params: { id: string } }) 
         </div>
         <div className="space-y-4">
           <h2 className="text-xl font-bold">
-            Related Videos <span className="text-muted-foreground">(5)</span>
+            Related Videos <span className="text-muted-foreground">(6)</span>
           </h2>
           <Suspense fallback={<RelatedVideosSkeleton />}>
             <RelatedVideos videoId={params.id} />

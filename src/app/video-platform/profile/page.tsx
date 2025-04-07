@@ -15,7 +15,7 @@ export default function ProfilePage() {
   const playlistCount = 4
 
   return (
-    <PageLayout title="Recommended" count={videoCount + playlistCount}>
+    <PageLayout title="Recommended" count={videoCount + playlistCount} hidesearch={false}>
       <div className="space-y-6">
         <div className="relative">
           <div className="h-32 md:h-48 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg"></div>

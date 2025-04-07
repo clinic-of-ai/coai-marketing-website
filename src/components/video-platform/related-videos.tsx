@@ -12,25 +12,25 @@ interface RelatedVideosProps {
 
 export default function RelatedVideos({ videoId }: RelatedVideosProps) {
   const [relatedVideos, setRelatedVideos] = useState<any[]>([])
-  
+
   const { videos, loading, error } = useAllVideos()
-  
+
   // Filter and sort related videos
   useEffect(() => {
     if (videos && videoId) {
       // Get current video data
       const currentVideo = videos.find(v => v.id === videoId)
-      
+
       // Filter out the current video and sort by potential relevance
       let filtered = videos.filter(v => v.id !== videoId)
-      
+
       // If current video has a category, prioritize videos from same category
       if (currentVideo?.category_id) {
         filtered.sort((a, b) => {
           // Sort by category match first
           if (a.category_id === currentVideo.category_id && b.category_id !== currentVideo.category_id) return -1
           if (a.category_id !== currentVideo.category_id && b.category_id === currentVideo.category_id) return 1
-          
+
           // Then by date (newer first)
           return new Date(b.created_at || "").getTime() - new Date(a.created_at || "").getTime()
         })
@@ -38,12 +38,12 @@ export default function RelatedVideos({ videoId }: RelatedVideosProps) {
         // Just sort by newest
         filtered.sort((a, b) => new Date(b.created_at || "").getTime() - new Date(a.created_at || "").getTime())
       }
-      
+
       // Take 6 videos max
-      setRelatedVideos(filtered.slice(0, 5))
+      setRelatedVideos(filtered.slice(0, 6))
     }
   }, [videos, videoId])
-  
+
   // Handle thumbnail URL
   const getThumbnailUrl = (video: any) => {
     // Check if there's a thumbnail URL
@@ -58,15 +58,15 @@ export default function RelatedVideos({ videoId }: RelatedVideosProps) {
     }
     return video.thumbnail_url;
   }
-  
+
   // Format date for display
   const formatDate = (dateString: string) => {
     if (!dateString) return ""
     const date = new Date(dateString)
     const now = new Date()
-    
+
     const diffInDays = Math.floor((now.getTime() - date.getTime()) / (1000 * 60 * 60 * 24))
-    
+
     if (diffInDays < 1) return "Today"
     if (diffInDays < 2) return "Yesterday"
     if (diffInDays < 7) return `${diffInDays} days ago`
@@ -74,7 +74,7 @@ export default function RelatedVideos({ videoId }: RelatedVideosProps) {
     if (diffInDays < 365) return `${Math.floor(diffInDays / 30)} months ago`
     return `${Math.floor(diffInDays / 365)} years ago`
   }
-  
+
   // Loading state
   if (loading) {
     return (
@@ -92,7 +92,7 @@ export default function RelatedVideos({ videoId }: RelatedVideosProps) {
       </div>
     )
   }
-  
+
   // Error state
   if (error) {
     return (
@@ -101,7 +101,7 @@ export default function RelatedVideos({ videoId }: RelatedVideosProps) {
       </div>
     )
   }
-  
+
   // No videos found
   if (relatedVideos.length === 0) {
     return (

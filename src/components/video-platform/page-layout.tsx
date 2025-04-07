@@ -24,15 +24,16 @@ interface PageLayoutProps {
   children: ReactNode
   title: string
   count: number
+  hidesearch: boolean
   onSearch?: (query: string) => void
 }
 
-export default function PageLayout({ children, title, count, onSearch }: PageLayoutProps) {
+export default function PageLayout({ children, title, count, hidesearch = false, onSearch }: PageLayoutProps) {
   const { setTheme, theme } = useTheme()
   const isAuthenticated = true // This would come from your auth context
   const [searchQuery, setSearchQuery] = useState("")
   const [debouncedSearchQuery, setDebouncedSearchQuery] = useState("")
-  
+
   // Debounce search to avoid too many updates
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -40,7 +41,7 @@ export default function PageLayout({ children, title, count, onSearch }: PageLay
         onSearch(searchQuery)
       }
     }, 300)
-    
+
     return () => clearTimeout(timer)
   }, [searchQuery, onSearch])
 
@@ -155,7 +156,7 @@ export default function PageLayout({ children, title, count, onSearch }: PageLay
               </div>
 
               {/* Search bar */}
-              <form onSubmit={handleSearch} className="relative w-full">
+              {!hidesearch && <form onSubmit={handleSearch} className="relative w-full">
                 <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                 <Input
                   type="search"
@@ -164,15 +165,7 @@ export default function PageLayout({ children, title, count, onSearch }: PageLay
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
-                <Button
-                  type="submit"
-                  variant="ghost"
-                  size="sm"
-                  className="absolute right-1 top-1/2 -translate-y-1/2 h-8"
-                >
-                  Search
-                </Button>
-              </form>
+              </form>}
             </div>
 
             {/* Page content */}

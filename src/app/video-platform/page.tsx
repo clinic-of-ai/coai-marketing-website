@@ -50,6 +50,7 @@ export default function HomePage() {
       title="Recommended" 
       count={videoCount} 
       onSearch={handleSearch}
+      hidesearch={false}
     >
       <VideoGrid 
         searchQuery={debouncedQuery}

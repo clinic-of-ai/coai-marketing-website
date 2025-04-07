@@ -22,14 +22,14 @@ interface VideoGridProps {
 }
 
 // Memoized video card component to prevent unnecessary re-renders
-const VideoCard = memo(({ video, formatDate, getThumbnailUrl }: { 
-  video: any, 
+const VideoCard = memo(({ video, formatDate, getThumbnailUrl }: {
+  video: any,
   formatDate: (date: string) => string,
   getThumbnailUrl: (video: any) => string
 }) => {
   return (
     <div className="group">
-      <Link 
+      <Link
         href={`/video-platform/watch/${video?.id}`}
         className="space-y-2"
       >
@@ -146,8 +146,8 @@ const Pagination = memo(({
 
 Pagination.displayName = 'Pagination';
 
-export default function VideoGrid({ 
-  searchQuery = "", 
+export default function VideoGrid({
+  searchQuery = "",
   onVideoCountChange,
   categoryId,
   videos: propVideos,
@@ -155,10 +155,10 @@ export default function VideoGrid({
   error: propError
 }: VideoGridProps) {
   const [currentPage, setCurrentPage] = useState(1);
-  
+
   // Always call hooks unconditionally (React hooks rule)
   const { videos: fetchedVideos, loading: fetchLoading, error: fetchError } = useAllVideos();
-  
+
   // Then decide which data to use
   const videos = propVideos || fetchedVideos;
   const loading = propLoading !== undefined ? propLoading : fetchLoading;
@@ -169,14 +169,14 @@ export default function VideoGrid({
   // Memoize filtered videos to avoid unnecessary filtering on re-renders
   const filteredVideos = useMemo(() => {
     if (!videos) return [];
-    
+
     let filtered = [...videos];
-    
+
     // Filter by category if needed and not pre-filtered
     if (categoryId && !propVideos) {
       filtered = filtered.filter(video => video?.category_id === categoryId);
     }
-    
+
     // Filter by search query if specified
     if (searchQuery && searchQuery.trim() !== "") {
       const query = searchQuery.trim().toLowerCase();
@@ -187,10 +187,10 @@ export default function VideoGrid({
           (video?.categories?.name && video.categories.name.toLowerCase().includes(query))
       );
     }
-    
+
     return filtered;
   }, [videos, categoryId, searchQuery, propVideos]);
-  
+
   // Update video count and reset page when filtered videos change
   useEffect(() => {
     if (onVideoCountChange) {
@@ -200,7 +200,7 @@ export default function VideoGrid({
   }, [filteredVideos.length, onVideoCountChange]);
 
   // Memoize pagination values
-  const totalPages = useMemo(() => 
+  const totalPages = useMemo(() =>
     Math.max(1, Math.ceil(filteredVideos.length / videosPerPage)),
     [filteredVideos.length, videosPerPage]
   );
@@ -217,9 +217,9 @@ export default function VideoGrid({
     if (!dateString) return "";
     const date = new Date(dateString);
     const now = new Date();
-    
+
     const diffInDays = Math.floor((now.getTime() - date.getTime()) / (1000 * 60 * 60 * 24));
-    
+
     if (diffInDays < 1) return "Today";
     if (diffInDays < 2) return "Yesterday";
     if (diffInDays < 7) return `${diffInDays} days ago`;
@@ -259,8 +259,8 @@ export default function VideoGrid({
         <p className="text-muted-foreground max-w-md">
           {error.message || "Something went wrong. Please try again later."}
         </p>
-        <Button 
-          variant="outline" 
+        <Button
+          variant="outline"
           className="mt-4"
           onClick={() => window.location.reload()}
         >
@@ -288,11 +288,11 @@ export default function VideoGrid({
   return (
     <div className="space-y-6">
       <ScrollArea className="h-[calc(100vh-220px)]">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 pb-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 pb-4 mr-3">
           {currentVideos.map((video) => (
-            <VideoCard 
-              key={video?.id || `video-${video?.title}`} 
-              video={video} 
+            <VideoCard
+              key={video?.id || `video-${video?.title}`}
+              video={video}
               formatDate={formatDate}
               getThumbnailUrl={getThumbnailUrl}
             />
@@ -300,7 +300,7 @@ export default function VideoGrid({
         </div>
       </ScrollArea>
 
-      <Pagination 
+      <Pagination
         currentPage={currentPage}
         totalPages={totalPages}
         setCurrentPage={setCurrentPage}
@@ -312,15 +312,15 @@ export default function VideoGrid({
 // Helper function to generate a consistent color from a string
 function stringToColor(str: string): string {
   if (!str) return '#6E56CF'; // Default color
-  
+
   let hash = 0;
   // Use only first 8 characters for more consistent colors
   const normalizedStr = str.substring(0, 8).toLowerCase();
-  
+
   for (let i = 0; i < normalizedStr.length; i++) {
     hash = normalizedStr.charCodeAt(i) + ((hash << 5) - hash);
   }
-  
+
   // Generate HSL color with fixed saturation and lightness for better contrast
   let h = Math.abs(hash) % 360;
   return `hsl(${h}, 70%, 45%)`;

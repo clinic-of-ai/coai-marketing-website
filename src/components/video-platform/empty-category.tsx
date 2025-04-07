@@ -6,7 +6,7 @@ interface EmptyCategoryProps {
 
 export default function EmptyCategory({ title }: EmptyCategoryProps) {
   return (
-    <PageLayout title="Recommended" count={0}>
+    <PageLayout title="Recommended" count={0} hidesearch={false}>
       <div className="flex-1 flex items-center justify-center py-12">
         <div className="flex flex-col items-center justify-center text-center max-w-md">
           <div className="w-24 h-24 rounded-full bg-muted flex items-center justify-center mb-4">
