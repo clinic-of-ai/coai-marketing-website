@@ -101,6 +101,18 @@ export async function getAllVideos() {
   return processVideoData(data || []);
 }
 
+export async function getAllDBVideos() {
+  const { data, error } = await supabase
+    .from('videos')
+    .select('*, categories(id, name)')
+    .eq('isdeleted', false)
+    .order('created_at', { ascending: false });
+  
+  if (error) throw error;
+  return processVideoData(data || []);
+}
+
+
 export async function getVideos(filters?: { 
   category_id?: string, 
   visible?: boolean,

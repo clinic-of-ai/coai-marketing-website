@@ -6,32 +6,32 @@ import { Upload, LayoutGrid, ArrowLeft } from "lucide-react"
 import Link from "next/link"
 import { VideoUploadTab } from "@/components/video-platform/upload/VideoUploadTab"
 import { VideoManageTab } from "@/components/video-platform/upload/VideoManageTab"
-import { Video } from "@/components/video-platform/upload/types"
-
-// Mock data for videos - increase to 15 videos
-const mockVideos = Array(15)
-  .fill(null)
-  .map((_, i) => ({
-    id: `video-${i + 1}`,
-    title: `Video ${i + 1}: Understanding AI Concepts and Applications`,
-    description:
-      "This video explores the fundamental concepts of artificial intelligence and its real-world applications.",
-    thumbnail: `/placeholder.svg?height=180&width=320&text=Video ${i + 1}`,
-    views: Math.floor(Math.random() * 10000),
-    uploadDate: new Date(Date.now() - Math.floor(Math.random() * 10000000000)).toISOString(),
-    duration: `${Math.floor(Math.random() * 10) + 1}:${Math.floor(Math.random() * 60)
-      .toString()
-      .padStart(2, "0")}`,
-    visibility: Math.random() > 0.3 ? "public" : "private",
-    category: ["AI/ML News", "Cybernetics", "Polymatheism", "The New Realty", "Clinic Of AI"][
-      Math.floor(Math.random() * 5)
-    ],
-  }))
+import { Video, mapSupabaseVideoToUIVideo } from "@/components/video-platform/upload/types"
+import { getAllDBVideos } from "@/libs/api"
 
 export default function UploadPage() {
   const [currentTab, setCurrentTab] = useState("upload")
-  const [videos, setVideos] = useState<Video[]>(mockVideos)
+  const [videos, setVideos] = useState<Video[]>([])
   const [windowWidth, setWindowWidth] = useState(typeof window !== "undefined" ? window.innerWidth : 1200)
+  const [loading, setLoading] = useState(true)
+
+  // Fetch videos from the database
+  useEffect(() => {
+    const fetchVideos = async () => {
+      try {
+        const dbVideos = await getAllDBVideos()
+        // Map the Supabase videos to our UI format with proper thumbnail handling
+        const mappedVideos = dbVideos.map(video => mapSupabaseVideoToUIVideo(video))
+        setVideos(mappedVideos)
+      } catch (error) {
+        console.error("Error fetching videos:", error)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchVideos()
+  }, [])
 
   // Update window width on resize
   useEffect(() => {
@@ -77,23 +77,30 @@ export default function UploadPage() {
           </div>
         </div>
 
-        {currentTab === "upload" && (
-          <VideoUploadTab 
-            videos={videos}
-            setVideos={setVideos}
-            setCurrentTab={setCurrentTab}
-          />
-        )}
+        {loading ? (
+          <div className="flex justify-center items-center h-64">
+            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+          </div>
+        ) : (
+          <>
+            {currentTab === "upload" && (
+              <VideoUploadTab 
+                videos={videos}
+                setVideos={setVideos}
+                setCurrentTab={setCurrentTab}
+              />
+            )}
 
-        {currentTab === "manage" && (
-          <VideoManageTab 
-            videos={videos}
-            setVideos={setVideos}
-            windowWidth={windowWidth}
-          />
+            {currentTab === "manage" && (
+              <VideoManageTab 
+                videos={videos}
+                setVideos={setVideos}
+                windowWidth={windowWidth}
+              />
+            )}
+          </>
         )}
       </div>
     </div>
   )
 }
-

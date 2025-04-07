@@ -5,10 +5,12 @@ import { VideoPreview } from "./VideoPreview";
 import { useCategories, useThumbnailUpload, useVideos } from "@/hooks/useSupabaseData";
 import { Loader } from "lucide-react";
 import { createVideo } from "@/libs/api";
+import { Video, mapSupabaseVideoToUIVideo } from "./types";
+import { extractYouTubeVideoId } from "@/libs/utils";
 
 interface VideoUploadTabProps {
-  videos: any[];
-  setVideos: React.Dispatch<React.SetStateAction<any[]>>;
+  videos: Video[];
+  setVideos: React.Dispatch<React.SetStateAction<Video[]>>;
   setCurrentTab: (tab: string) => void;
 }
 
@@ -41,31 +43,14 @@ export function VideoUploadTab({ videos, setVideos, setCurrentTab }: VideoUpload
   // Add visibility state
   const [videoVisibility, setVideoVisibility] = useState<"public" | "private">("private");
 
-  // Extract YouTube video ID from URL
-  const extractYoutubeVideoId = (url: string): string | null => {
-    // Match youtube.com/watch?v=VIDEOID
-    let match = url.match(/youtube\.com\/watch\?v=([^&]+)/);
-    if (match) return match[1];
-    
-    // Match youtu.be/VIDEOID
-    match = url.match(/youtu\.be\/([^?]+)/);
-    if (match) return match[1];
-    
-    // Match youtube.com/embed/VIDEOID
-    match = url.match(/youtube\.com\/embed\/([^?]+)/);
-    if (match) return match[1];
-    
-    return null;
-  };
-
   // Import video function wrapped in useCallback
   const importVideo = useCallback(() => {
     if (error || isLoading || !videoUrl) return;
 
     setIsLoading(true);
 
-    // Extract the YouTube video ID
-    const videoId = extractYoutubeVideoId(videoUrl);
+    // Extract the YouTube video ID using the imported function
+    const videoId = extractYouTubeVideoId(videoUrl);
     
     if (videoId) {
       // We have a valid YouTube video ID
@@ -193,8 +178,9 @@ export function VideoUploadTab({ videos, setVideos, setCurrentTab }: VideoUpload
         setUploadProgress(100);
         clearInterval(interval);
         
-        // Step 5: Add to videos array for UI update
-        setVideos([savedVideo, ...videos]);
+        // Step 5: Map the Supabase video to our UI format and add to videos array
+        const uiVideo = mapSupabaseVideoToUIVideo(savedVideo);
+        setVideos([uiVideo, ...videos]);
         setUploadSuccess(true);
 
         // Step 6: Reset form after successful upload

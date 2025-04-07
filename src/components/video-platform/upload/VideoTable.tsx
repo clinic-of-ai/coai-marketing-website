@@ -10,21 +10,11 @@ import {
   EyeOff, 
   Clock, 
   ThumbsUp, 
-  MoreVertical 
+  MoreVertical,
+  ExternalLink
 } from "lucide-react";
 import Image from "next/image";
-
-interface Video {
-  id: string;
-  title: string;
-  description: string;
-  thumbnail: string;
-  views: number;
-  uploadDate: string;
-  duration: string;
-  visibility: string;
-  category: string;
-}
+import { Video } from "./types";
 
 interface VideoTableProps {
   paginatedVideos: Video[];
@@ -105,25 +95,36 @@ export function VideoTable({
                   onClick={() => (windowWidth < 800 ? handleVideoClick(video) : null)}
                 >
                   <div className="flex items-center gap-3">
-                    <div className="relative w-16 sm:w-24 h-10 sm:h-14 flex-shrink-0 rounded overflow-hidden">
+                    <div className="relative w-16 sm:w-24 h-10 sm:h-14 flex-shrink-0 rounded overflow-hidden group">
                       <Image
                         src={video.thumbnail || "/placeholder.svg"}
                         alt={video.title}
                         width={96}
                         height={56}
-                        className="w-full h-full object-cover"
+                        className="w-full h-full object-cover transition-transform group-hover:scale-105"
+                        unoptimized={video.thumbnail?.includes('youtube.com')}
                       />
+                      {video.youtubeVideoId && (
+                        <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
+                          <div className="w-6 h-6 rounded-full bg-red-600 flex items-center justify-center">
+                            <div className="w-0 h-0 border-t-[4px] border-t-transparent border-l-[8px] border-l-white border-b-[4px] border-b-transparent ml-0.5"></div>
+                          </div>
+                        </div>
+                      )}
                       <div className="absolute bottom-1 right-1 bg-black/80 text-white text-xs px-1 rounded">
                         {video.duration}
                       </div>
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="font-medium text-sm truncate">
+                      <p className="font-medium text-sm truncate flex items-center gap-1">
                         {windowWidth < 400
                           ? video.title.length > 20
                             ? video.title.substring(0, 17) + "..."
                             : video.title
                           : video.title}
+                        {video.youtubeVideoId && (
+                          <ExternalLink className="h-3 w-3 text-muted-foreground flex-shrink-0 ml-1" />
+                        )}
                       </p>
                       {showDescription && (
                         <p className="text-xs text-muted-foreground line-clamp-2">

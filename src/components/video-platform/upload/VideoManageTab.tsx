@@ -4,7 +4,9 @@ import { VideoTable } from "./VideoTable";
 import { Pagination } from "./Pagination";
 import { EditVideoDialog } from "./EditVideoDialog";
 import { DeleteVideoDialog } from "./DeleteVideoDialog";
-import { Video } from "./types";
+import { Video, mapSupabaseVideoToUIVideo } from "./types";
+import { updateVideo, deleteVideo, updateVideoVisibility } from "@/libs/api";
+import { useVideoVisibility } from "@/hooks/useSupabaseData";
 
 interface VideoManageTabProps {
   videos: Video[];
@@ -20,6 +22,10 @@ export function VideoManageTab({ videos, setVideos, windowWidth }: VideoManageTa
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [videoToDelete, setVideoToDelete] = useState<string | null>(null);
+  const [isProcessing, setIsProcessing] = useState(false);
+  
+  // Use the visibility hook for better API integration
+  const { toggleVisibility, updating } = useVideoVisibility();
 
   const videosPerPage = 10;
 
@@ -28,7 +34,7 @@ export function VideoManageTab({ videos, setVideos, windowWidth }: VideoManageTa
     (video) =>
       video.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       video.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      video.category.toLowerCase().includes(searchQuery.toLowerCase()),
+      video.category.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   // Calculate pagination
@@ -41,17 +47,37 @@ export function VideoManageTab({ videos, setVideos, windowWidth }: VideoManageTa
     setIsEditDialogOpen(true);
   };
 
-  const saveEditedVideo = () => {
-    if (editingVideo) {
-      // If there's a new thumbnail, update the video's thumbnail property
-      const updatedVideo = { ...editingVideo };
-      if (updatedVideo.thumbnailPreview) {
-        updatedVideo.thumbnail = updatedVideo.thumbnailPreview;
+  const saveEditedVideo = async () => {
+    if (!editingVideo || !editingVideo.id) return;
+    setIsProcessing(true);
+    
+    try {
+      // Convert UI video format to Supabase format for the update
+      const videoUpdate = {
+        title: editingVideo.title,
+        description: editingVideo.description,
+        // Only update the thumbnail if a new one was uploaded
+        ...(editingVideo.thumbnailPreview && !editingVideo.thumbnailPreview.includes('youtube.com') 
+          ? { thumbnail_url: editingVideo.thumbnailPreview } 
+          : {})
+      };
+      
+      // Call the API to update the video
+      const updatedVideo = await updateVideo(editingVideo.id, videoUpdate);
+      
+      // Update the UI with the new video data
+      if (updatedVideo) {
+        const uiVideo = mapSupabaseVideoToUIVideo(updatedVideo);
+        setVideos(videos.map((v) => (v.id === uiVideo.id ? uiVideo : v)));
       }
-
-      setVideos(videos.map((v) => (v.id === updatedVideo.id ? updatedVideo : v)));
+      
       setIsEditDialogOpen(false);
       setEditingVideo(null);
+    } catch (error) {
+      console.error("Error updating video:", error);
+      alert("Failed to update video. Please try again.");
+    } finally {
+      setIsProcessing(false);
     }
   };
 
@@ -60,34 +86,77 @@ export function VideoManageTab({ videos, setVideos, windowWidth }: VideoManageTa
     setIsDeleteDialogOpen(true);
   };
 
-  const confirmDeleteVideo = () => {
-    if (videoToDelete) {
+  const confirmDeleteVideo = async () => {
+    if (!videoToDelete) return;
+    setIsProcessing(true);
+    
+    try {
+      // Soft delete the video (setting isdeleted to true)
+      await deleteVideo(videoToDelete);
+      
+      // Remove it from the UI
       setVideos(videos.filter((v) => v.id !== videoToDelete));
-      setIsDeleteDialogOpen(false);
-      setVideoToDelete(null);
-
+      
       // Adjust current page if needed
       if (paginatedVideos.length === 1 && currentPage > 1) {
         setCurrentPage(currentPage - 1);
       }
+    } catch (error) {
+      console.error("Error deleting video:", error);
+      alert("Failed to delete video. Please try again.");
+    } finally {
+      setIsDeleteDialogOpen(false);
+      setVideoToDelete(null);
+      setIsProcessing(false);
     }
   };
 
-  const toggleVideoVisibility = (videoId: string) => {
-    setVideos(
-      videos.map((v) => {
-        if (v.id === videoId) {
-          return {
-            ...v,
-            visibility: v.visibility === "public" ? "private" : "public",
-          };
-        }
-        return v;
-      }),
-    );
+  const toggleVideoVisibility = async (videoId: string) => {
+    const video = videos.find(v => v.id === videoId);
+    if (!video) return;
+    
+    // Current visibility state
+    const isCurrentlyPublic = video.visibility === "public";
+    
+    try {
+      // Optimistic update for UI
+      setVideos(
+        videos.map((v) => {
+          if (v.id === videoId) {
+            return {
+              ...v,
+              visibility: isCurrentlyPublic ? "private" : "public",
+            };
+          }
+          return v;
+        })
+      );
+      
+      // Call the API to update visibility
+      await updateVideoVisibility(videoId, !isCurrentlyPublic);
+    } catch (error) {
+      console.error("Error toggling visibility:", error);
+      
+      // Revert optimistic update if API call fails
+      setVideos(
+        videos.map((v) => {
+          if (v.id === videoId) {
+            return {
+              ...v,
+              visibility: isCurrentlyPublic ? "public" : "private",
+            };
+          }
+          return v;
+        })
+      );
+      
+      alert("Failed to update visibility. Please try again.");
+    }
   };
 
   const formatDate = (dateString: string, compact = false) => {
+    if (!dateString) return "";
+    
     const date = new Date(dateString);
     if (compact) {
       return date.toLocaleString("en-GB", {
@@ -108,6 +177,8 @@ export function VideoManageTab({ videos, setVideos, windowWidth }: VideoManageTa
   };
 
   const formatViews = (views: number) => {
+    if (!views) return "0";
+    
     if (views >= 1000000) {
       return `${(views / 1000000).toFixed(1)}M`;
     } else if (views >= 1000) {
@@ -154,12 +225,14 @@ export function VideoManageTab({ videos, setVideos, windowWidth }: VideoManageTa
         editingVideo={editingVideo}
         setEditingVideo={setEditingVideo}
         saveEditedVideo={saveEditedVideo}
+        isProcessing={isProcessing}
       />
 
       <DeleteVideoDialog
         isOpen={isDeleteDialogOpen}
         setIsOpen={setIsDeleteDialogOpen}
         confirmDelete={confirmDeleteVideo}
+        isProcessing={isProcessing}
       />
     </div>
   );
