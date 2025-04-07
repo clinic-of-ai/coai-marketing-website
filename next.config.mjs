@@ -38,8 +38,21 @@ const nextConfig = {
 				hostname: 'img.youtube.com',
 				port: '',
 			},
+			{
+				protocol: 'https',
+				hostname: '**.ytimg.com',
+				port: '',
+			},
+			{
+				protocol: 'https',
+				hostname: '**.googleusercontent.com',
+				port: '',
+			},
 		],
 		formats: ['image/avif', 'image/webp'],
+		dangerouslyAllowSVG: true,
+		contentDispositionType: 'attachment',
+		contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
 	},
 	webpack(config) {
 		config.module.rules.push({

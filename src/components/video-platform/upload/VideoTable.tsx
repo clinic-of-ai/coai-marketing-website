@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import { Video } from "./types";
+import { VideoThumbnail } from "./VideoThumbnail";
 
 interface VideoTableProps {
   paginatedVideos: Video[];
@@ -53,6 +54,15 @@ export function VideoTable({
   const showDescription = windowWidth >= 480;
   const showActionsColumn = windowWidth >= 800;
 
+  // Ensure we're using the latest data for each video
+  const videosToRender = paginatedVideos.map(video => ({
+    ...video,
+    // Ensure category is properly displayed
+    category: video.category || "Uncategorized",
+    // Ensure thumbnail is properly displayed
+    thumbnail: video.thumbnail || "/placeholder.svg"
+  }));
+
   return (
     <div className="border rounded-lg overflow-hidden shadow-md">
       <table className="w-full">
@@ -82,8 +92,8 @@ export function VideoTable({
           </tr>
         </thead>
         <tbody className="divide-y">
-          {paginatedVideos.length > 0 ? (
-            paginatedVideos.map((video, index) => (
+          {videosToRender.length > 0 ? (
+            videosToRender.map((video, index) => (
               <tr key={video.id} className="hover:bg-muted/50 transition-colors">
                 {showNumberColumn && (
                   <td className="px-4 py-3 text-sm text-muted-foreground">
@@ -96,13 +106,10 @@ export function VideoTable({
                 >
                   <div className="flex items-center gap-3">
                     <div className="relative w-16 sm:w-24 h-10 sm:h-14 flex-shrink-0 rounded overflow-hidden group">
-                      <Image
-                        src={video.thumbnail || "/placeholder.svg"}
-                        alt={video.title}
-                        width={96}
-                        height={56}
-                        className="w-full h-full object-cover transition-transform group-hover:scale-105"
-                        unoptimized={video.thumbnail?.includes('youtube.com')}
+                      <VideoThumbnail 
+                        thumbnailUrl={video.thumbnail}
+                        videoTitle={video.title}
+                        id={video.id}
                       />
                     </div>
                     <div className="flex-1 min-w-0">

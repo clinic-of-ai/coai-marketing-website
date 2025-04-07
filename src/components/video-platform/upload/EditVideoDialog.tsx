@@ -14,7 +14,7 @@ interface EditVideoDialogProps {
   setIsOpen: (open: boolean) => void;
   editingVideo: Video | null;
   setEditingVideo: (video: Video | null) => void;
-  onVideoUpdated?: () => void;
+  onVideoUpdated?: (video: Video) => void;
 }
 
 export function EditVideoDialog({
@@ -138,9 +138,27 @@ export function EditVideoDialog({
         category_id: categoryId,
       });
 
+      // Create a fully updated video object with all the latest data
+      const fullyUpdatedVideo = {
+        ...editingVideo,
+        thumbnail: thumbnailUrl,
+        category: selectedCategory,
+        // Clear temporary properties used during editing
+        thumbnailPreview: undefined,
+        thumbnailFile: undefined,
+      };
+
+      // Update the editingVideo state with the fully updated video
+      setEditingVideo(fullyUpdatedVideo);
+
       toast.success("Video updated successfully");
+      
+      // Call the onVideoUpdated callback with the fully updated video object
+      if (onVideoUpdated) {
+        onVideoUpdated(fullyUpdatedVideo);
+      }
+
       setIsOpen(false);
-      onVideoUpdated?.();
     } catch (error) {
       console.error("Error updating video:", error);
       toast.error("Failed to update video");

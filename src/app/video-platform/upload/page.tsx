@@ -93,6 +93,7 @@ export default function UploadPage() {
 
             {currentTab === "manage" && (
               <VideoManageTab 
+                key={`video-manage-${videos.length}`}
                 videos={videos}
                 setVideos={setVideos}
                 windowWidth={windowWidth}

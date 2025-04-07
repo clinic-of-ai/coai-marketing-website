@@ -190,11 +190,12 @@ export function VideoManageTab({ videos, setVideos, windowWidth }: VideoManageTa
         setIsOpen={setIsEditDialogOpen}
         editingVideo={editingVideo}
         setEditingVideo={setEditingVideo}
-        onVideoUpdated={() => {
-          // Refresh the videos list after update
+        onVideoUpdated={(updatedVideo) => {
+          // Refresh the videos list with the updated video data
           setVideos(videos.map((v) => {
-            if (v.id === editingVideo?.id) {
-              return { ...v, ...editingVideo };
+            if (v.id === updatedVideo.id) {
+              // Use the updated video object directly
+              return updatedVideo;
             }
             return v;
           }));

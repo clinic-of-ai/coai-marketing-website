@@ -57,18 +57,18 @@ export default async function WatchPage({ params }: { params: { id: string } }) 
           <Suspense fallback={<VideoPlayerSkeleton />}>
             <div className="space-y-2">
               <h2 className="text-lg font-medium">Video Preview</h2>
-              <div className="bg-black rounded-lg overflow-hidden">
+              <div className="bg-black rounded-lg overflow-hidden shadow-lg">
                 {video.youtube_url ? (
-                  <iframe
-                    width="auto"
-                    height="315"
-                    className="aspect-video"
-                    src={`https://www.youtube.com/embed/${params.id}`}
-                    title="YouTube video player"
-                    frameBorder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                  ></iframe>
+                  <div className="relative w-full pt-[56.25%]">
+                    <iframe
+                      className="absolute inset-0 w-full h-full"
+                      src={`https://www.youtube.com/embed/${params.id}`}
+                      title="YouTube video player"
+                      frameBorder="0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                    ></iframe>
+                  </div>
                 ) : (
                   <VideoPlayer videoId={params.id} youtubeUrl={video.youtube_url} />
                 )}

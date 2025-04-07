@@ -23,7 +23,8 @@ interface SupabaseVideoWithJoins extends SupabaseVideo {
   categories?: {
     id?: string;
     name?: string;
-  }
+  };
+  views?: number;
 }
 
 // Helper to get the thumbnail URL from a video
@@ -68,16 +69,20 @@ export function mapSupabaseVideoToUIVideo(video: SupabaseVideoWithJoins): Video 
   // Determine duration (dummy value for now since we don't store it)
   const duration = "0:00";
   
+  // Ensure category is properly set
+  const category = video.categories?.name || "Uncategorized";
+  
   return {
     id: video.id || "",
-    title: video.title,
+    title: video.title || "",
     description: video.description || "",
     thumbnail: thumbnail,
-    views: 0, // Supabase doesn't have views count yet
+    views: video.views || 0,
     uploadDate: video.created_at || new Date().toISOString(),
     duration: duration,
     visibility: video.visible ? "public" : "private",
-    category: video.categories?.name || "Uncategorized",
-    youtubeVideoId: youtubeVideoId
+    category: category,
+    youtubeVideoId: youtubeVideoId,
+    videoType: youtubeVideoId ? "youtube" : "direct"
   };
 }

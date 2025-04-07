@@ -180,7 +180,15 @@ export function VideoUploadTab({ videos, setVideos, setCurrentTab }: VideoUpload
         
         // Step 5: Map the Supabase video to our UI format and add to videos array
         const uiVideo = mapSupabaseVideoToUIVideo(savedVideo);
-        setVideos([uiVideo, ...videos]);
+        
+        // Ensure the category is properly set
+        const selectedCategoryObj = categories.find(cat => cat.id === videoCategory);
+        if (selectedCategoryObj) {
+          uiVideo.category = selectedCategoryObj.name;
+        }
+        
+        // Add the new video to the beginning of the videos array
+        setVideos(prevVideos => [uiVideo, ...prevVideos]);
         setUploadSuccess(true);
 
         // Step 6: Reset form after successful upload
