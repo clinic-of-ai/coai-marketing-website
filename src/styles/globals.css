@@ -11,14 +11,16 @@
     /* Card and Popover */
     --card: 0 0% 100%;
     --card-foreground: 222.2 84% 4.9%;
-    --popover: 0 0% 100%; 
+    --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
 
     /* Primary and Secondary */
     --primary: 188 93% 49%;
     --primary-foreground: 217.2 32.6% 17.5%;
-    --secondary: 240 5.9% 90%;  /* stone-200 */
-    --secondary-foreground: 24 9.8% 10%; /* stone-900 */
+    --secondary: 240 5.9% 90%;
+    /* stone-200 */
+    --secondary-foreground: 24 9.8% 10%;
+    /* stone-900 */
 
     /* Muted and Accent */
     --muted: 210 40% 96.1%;
@@ -46,23 +48,33 @@
     --coral-foreground: 0 0% 100%;
     --coral-subtle: 16 100% 95%;
     --coral-subtle-foreground: 16 100% 66%;
-    
+
     --teal: 181 100% 25%;
     --teal-foreground: 0 0% 100%;
     --teal-subtle: 181 100% 95%;
     --teal-subtle-foreground: 181 100% 26%;
-    
+
     --navy: 211 97% 12%;
     --navy-foreground: 0 0% 100%;
     --navy-subtle: 211 97% 95%;
     --navy-subtle-foreground: 211 97% 12%;
-    
+
     --mustard: 44 100% 55%;
     --mustard-foreground: 0 0% 0%;
     --mustard-subtle: 44 100% 95%;
     --mustard-subtle-foreground: 44 100% 55%;
+
+    /* Sidebar colors (from 2nd CSS, not existing in 1st CSS) */
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
   }
- 
+
   .dark {
     /* Base colors */
     --background: 222.2 84% 4.9%;
@@ -77,8 +89,10 @@
     /* Primary and Secondary */
     --primary: 187.9 85.7% 53.3%;
     --primary-foreground: 217.2 32.6% 17.5%;
-    --secondary: 217.2 32.6% 17.5%; /* slate-800 */
-    --secondary-foreground: 60 9.1% 97.8%; /* stone-50 */
+    --secondary: 217.2 32.6% 17.5%;
+    /* slate-800 */
+    --secondary-foreground: 60 9.1% 97.8%;
+    /* stone-50 */
 
     /* Muted and Accent */
     --muted: 217.2 32.6% 17.5%;
@@ -105,21 +119,31 @@
     --coral-foreground: 0 0% 100%;
     --coral-subtle: 16 100% 15%;
     --coral-subtle-foreground: 16 100% 66%;
-    
+
     --teal: 181 100% 35%;
-    --teal-foreground: 0 0% 100%; 
+    --teal-foreground: 0 0% 100%;
     --teal-subtle: 181 100% 15%;
     --teal-subtle-foreground: 181 100% 35%;
-    
+
     --navy: 211 100% 11.8%;
     --navy-foreground: 0 0% 100%;
     --navy-subtle: 211 97% 15%;
     --navy-subtle-foreground: 211 97% 25%;
-    
+
     --mustard: 44 100% 65%;
     --mustard-foreground: 0 0% 0%;
     --mustard-subtle: 44 100% 15%;
     --mustard-subtle-foreground: 44 100% 65%;
+
+    /* Sidebar colors (from 2nd CSS, not existing in 1st CSS) */
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
   }
 
   * {
@@ -136,16 +160,21 @@
     @apply text-foreground;
     @apply antialiased;
   }
+
+  /* From 2nd CSS (not existing in 1st CSS): */
+  body {
+    font-family: Arial, Helvetica, sans-serif;
+  }
 }
 
 @layer utilities {
   .sheet-content {
-    min-width: 50%;
+    /* min-width: 50%; */
   }
 
   @media (max-width: 756px) {
     .sheet-content {
-      min-width: 100%;
+      /* min-width: 100%; */
     }
   }
 
@@ -154,21 +183,25 @@
       transform: scale(0);
       opacity: 1;
     }
+
     100% {
       transform: scale(6);
       opacity: 0;
     }
   }
-  
+
   .animate-ring {
     animation: ring 1.2s cubic-bezier(0.4, 0, 0.6, 1) forwards;
   }
 
   @keyframes jelly-pulse {
-    0%, 100% {
+
+    0%,
+    100% {
       transform: translate(-50%, -50%) scale(0.8);
       opacity: 0.4;
     }
+
     50% {
       transform: translate(-50%, -50%) scale(1.2);
       opacity: 0.8;
@@ -177,5 +210,10 @@
 
   .animate-jelly-pulse {
     animation: jelly-pulse 3.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+  /* From 2nd CSS (not existing in 1st CSS): */
+  .text-balance {
+    text-wrap: balance;
   }
 }

@@ -25,10 +25,10 @@ const DottedBackground = ({ children }: DottedBackgroundProps) => {
     const calculateGrid = () => {
       const containerWidth = container.offsetWidth;
       const containerHeight = container.offsetHeight;
-      
+
       const numCols = Math.floor(containerWidth / (dotSize + gap));
       const numRows = Math.floor(containerHeight / (dotSize + gap));
-      
+
       container.style.gridTemplateColumns = `repeat(${numCols}, ${dotSize}px)`;
       container.style.gridTemplateRows = `repeat(${numRows}, ${dotSize}px)`;
       container.style.gap = `${gap}px`;
@@ -74,9 +74,9 @@ const DottedBackground = ({ children }: DottedBackgroundProps) => {
       })));
 
       // Activate new dot
-      setDots(prev => prev.map(dot => 
-        dot.id === shuffledDots[currentIndex].id 
-          ? { ...dot, isActive: true } 
+      setDots(prev => prev.map(dot =>
+        dot.id === shuffledDots[currentIndex].id
+          ? { ...dot, isActive: true }
           : dot
       ));
 
@@ -85,7 +85,7 @@ const DottedBackground = ({ children }: DottedBackgroundProps) => {
 
     const animationInterval = setInterval(animateDot, animationDuration);
     return () => clearInterval(animationInterval);
-  }, [dots.length]);
+  }, [dots]);
 
   return (
     <div className="relative w-full h-full">
@@ -99,11 +99,10 @@ const DottedBackground = ({ children }: DottedBackgroundProps) => {
         }}
       >
         {dots.map((dot) => (
-          <div 
+          <div
             key={dot.id}
-            className={`dot relative transition-colors duration-300 ${
-              dot.isActive ? 'bg-primary' : 'bg-muted'
-            } rounded-full`}
+            className={`dot relative transition-colors duration-300 ${dot.isActive ? 'bg-primary' : 'bg-muted'
+              } rounded-full`}
             style={{
               width: `${dotSize}px`,
               height: `${dotSize}px`,
@@ -113,7 +112,7 @@ const DottedBackground = ({ children }: DottedBackgroundProps) => {
               absolute inset-0 border-4 border-primary rounded-full
               opacity-0 scale-0 transition-all duration-300
               ${dot.isActive ? 'animate-ring' : ''}
-            `}/>
+            `} />
           </div>
         ))}
       </div>

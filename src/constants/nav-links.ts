@@ -6,7 +6,7 @@ export const solutions = [
         name: "AI-powered CRM",
         href: "/solutions/crm",
         icon: "bot",
-        description: "Advanced voice bot for seamless customer service interactions.",  
+        description: "Advanced voice bot for seamless customer service interactions.",
       },
       {
         name: "AI customer voice assistant",
@@ -65,7 +65,7 @@ export const solutions = [
         name: "AI-powered CRM",
         href: "/solutions/crm",
         icon: "bot",
-        description: "Advanced voice bot for seamless customer service interactions.",  
+        description: "Advanced voice bot for seamless customer service interactions.",
       },
       {
         name: "AI customer voice assistant",
@@ -124,7 +124,7 @@ export const solutions = [
         name: "AI-powered CRM",
         href: "/solutions/crm",
         icon: "bot",
-        description: "Advanced voice bot for seamless customer service interactions.",  
+        description: "Advanced voice bot for seamless customer service interactions.",
       },
       {
         name: "AI customer voice assistant",
@@ -221,6 +221,7 @@ export const navLinks = [
   { name: "Talent", href: "/coming-soon" },
   { name: "Contact", href: "/contact" },
   { name: "About", href: "/about" },
+  { name: 'Video Platform', href: "/coming-soon" },
 ];
 
 export type NavLink = (typeof navLinks)[number];

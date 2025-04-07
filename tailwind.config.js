@@ -29,6 +29,9 @@ const config = {
         "2xl": "1400px",
       },
     },
+    boxShadow: {
+      'blue-glow': '0 0 20px 5px #0066ff',
+    },
     extend: {
       fontFamily: {
         sans: ["var(--font-plus-jakarta-sans)", ...defaultFontFamily.sans],
@@ -103,6 +106,10 @@ const config = {
         sm: "calc(var(--radius) - 4px)",
       },
       keyframes: {
+        spinLoaderLine: {
+          '0%': { transform: 'rotate(45deg)' },
+          '100%': { transform: 'rotate(405deg)' },
+        },
         "bounce-right": {
           "0%, 100%": { transform: "translateX(0)" },
           "50%": { transform: "translateX(25%)" },
@@ -177,6 +184,8 @@ const config = {
         carousel: "carousel 40s linear infinite",
         marquee: "marquee var(--duration) linear infinite",
         "marquee-vertical": "marquee-vertical var(--duration) linear infinite",
+        'spin-slow': 'spin 2s linear infinite',
+        'spin-loader-line': 'spinLoaderLine 2s linear infinite',
       },
       transitionDuration: {
         300: "300ms",
