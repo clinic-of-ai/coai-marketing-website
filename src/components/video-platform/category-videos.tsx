@@ -102,7 +102,7 @@ export default function CategoryVideos({
   // Return early if we're still loading the category ID
   if (loading) {
     return (
-      <div className="flex items-center justify-center  h-screen w-screen overflow-hidden">
+      <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
         <div className="relative flex items-center justify-center w-[150px] h-[150px] rounded-full border-[3px] border-blue-500 border-opacity-10 text-blue-500 font-sans uppercase tracking-widest shadow-xl">
           COAI
           <div className="absolute top-0 left-0 w-full h-full rounded-full border-[3px] border-transparent border-t-blue-500 border-r-blue-500 animate-spin-slow"></div>

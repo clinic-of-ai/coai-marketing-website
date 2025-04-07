@@ -3,13 +3,13 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Switch } from "@/components/ui/switch";
-import { 
-  Edit, 
-  Trash2, 
-  Eye, 
-  EyeOff, 
-  Clock, 
-  ThumbsUp, 
+import {
+  Edit,
+  Trash2,
+  Eye,
+  EyeOff,
+  Clock,
+  ThumbsUp,
   MoreVertical,
   ExternalLink
 } from "lucide-react";
@@ -68,7 +68,7 @@ export function VideoTable({
       <table className="w-full">
         <thead>
           <tr className="bg-muted/50">
-            {showNumberColumn && <th className="px-4 py-3 text-left text-sm font-medium w-12">#</th>}
+            {showNumberColumn && <th className="px-4 py-3 text-left text-sm font-medium w-12">No</th>}
             <th className="px-4 py-3 text-left text-sm font-medium">Video</th>
             {showCategoryColumn && <th className="px-4 py-3 text-left text-sm font-medium">Category</th>}
             {showVisibilityColumn && <th className="px-4 py-3 text-left text-sm font-medium">Visibility</th>}
@@ -106,7 +106,7 @@ export function VideoTable({
                 >
                   <div className="flex items-center gap-3">
                     <div className="relative w-16 sm:w-24 h-10 sm:h-14 flex-shrink-0 rounded overflow-hidden group">
-                      <VideoThumbnail 
+                      <VideoThumbnail
                         thumbnailUrl={video.thumbnail}
                         videoTitle={video.title}
                         id={video.id}
