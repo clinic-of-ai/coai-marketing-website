@@ -5,7 +5,7 @@ import { Pagination } from "./Pagination";
 import { EditVideoDialog } from "./EditVideoDialog";
 import { DeleteVideoDialog } from "./DeleteVideoDialog";
 import { Video, mapSupabaseVideoToUIVideo } from "./types";
-import { updateVideo, deleteVideo, updateVideoVisibility } from "@/libs/api";
+import { deleteVideo, updateVideoVisibility } from "@/libs/api";
 import { useVideoVisibility } from "@/hooks/useSupabaseData";
 
 interface VideoManageTabProps {
@@ -45,40 +45,6 @@ export function VideoManageTab({ videos, setVideos, windowWidth }: VideoManageTa
   const handleVideoClick = (video: Video) => {
     setEditingVideo({ ...video });
     setIsEditDialogOpen(true);
-  };
-
-  const saveEditedVideo = async () => {
-    if (!editingVideo || !editingVideo.id) return;
-    setIsProcessing(true);
-    
-    try {
-      // Convert UI video format to Supabase format for the update
-      const videoUpdate = {
-        title: editingVideo.title,
-        description: editingVideo.description,
-        // Only update the thumbnail if a new one was uploaded
-        ...(editingVideo.thumbnailPreview && !editingVideo.thumbnailPreview.includes('youtube.com') 
-          ? { thumbnail_url: editingVideo.thumbnailPreview } 
-          : {})
-      };
-      
-      // Call the API to update the video
-      const updatedVideo = await updateVideo(editingVideo.id, videoUpdate);
-      
-      // Update the UI with the new video data
-      if (updatedVideo) {
-        const uiVideo = mapSupabaseVideoToUIVideo(updatedVideo);
-        setVideos(videos.map((v) => (v.id === uiVideo.id ? uiVideo : v)));
-      }
-      
-      setIsEditDialogOpen(false);
-      setEditingVideo(null);
-    } catch (error) {
-      console.error("Error updating video:", error);
-      alert("Failed to update video. Please try again.");
-    } finally {
-      setIsProcessing(false);
-    }
   };
 
   const handleDeleteVideo = (videoId: string) => {
@@ -224,8 +190,16 @@ export function VideoManageTab({ videos, setVideos, windowWidth }: VideoManageTa
         setIsOpen={setIsEditDialogOpen}
         editingVideo={editingVideo}
         setEditingVideo={setEditingVideo}
-        saveEditedVideo={saveEditedVideo}
-        isProcessing={isProcessing}
+        onVideoUpdated={() => {
+          // Refresh the videos list after update
+          setVideos(videos.map((v) => {
+            if (v.id === editingVideo?.id) {
+              return { ...v, ...editingVideo };
+            }
+            return v;
+          }));
+          setEditingVideo(null);
+        }}
       />
 
       <DeleteVideoDialog

@@ -2,7 +2,6 @@ import { Suspense } from "react"
 import PageLayout from "@/components/video-platform/page-layout"
 import VideoPlayer from "@/components/video-platform/video-player"
 import VideoInfo from "@/components/video-platform/video-info"
-import CommentSection from "@/components/video-platform/comment-section"
 import RelatedVideos from "@/components/video-platform/related-videos"
 import { Skeleton } from "@/components/ui/skeleton"
 import { getVideoById, getAllVideos } from "@/libs/api"
@@ -56,14 +55,29 @@ export default async function WatchPage({ params }: { params: { id: string } }) 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2 space-y-4">
           <Suspense fallback={<VideoPlayerSkeleton />}>
-            <VideoPlayer videoId={params.id} youtubeUrl={video.youtube_url} />
+            <div className="space-y-2">
+              <h2 className="text-lg font-medium">Video Preview</h2>
+              <div className="bg-black rounded-lg overflow-hidden">
+                {video.youtube_url ? (
+                  <iframe
+                    width="auto"
+                    height="315"
+                    className="aspect-video"
+                    src={`https://www.youtube.com/embed/${params.id}`}
+                    title="YouTube video player"
+                    frameBorder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  ></iframe>
+                ) : (
+                  <VideoPlayer videoId={params.id} youtubeUrl={video.youtube_url} />
+                )}
+              </div>
+            </div>
           </Suspense>
           <Suspense fallback={<VideoInfoSkeleton />}>
             <VideoInfo videoId={params.id} video={video} />
           </Suspense>
-          {/* <Suspense fallback={<CommentSectionSkeleton />}>
-            <CommentSection videoId={params.id} />
-          </Suspense> */}
         </div>
         <div className="space-y-4">
           <h2 className="text-xl font-bold">
@@ -104,29 +118,6 @@ function VideoInfoSkeleton() {
   )
 }
 
-function CommentSectionSkeleton() {
-  return (
-    <div className="space-y-4">
-      <Skeleton className="h-6 w-32" />
-      <div className="flex gap-2">
-        <Skeleton className="h-10 w-10 rounded-full" />
-        <Skeleton className="h-10 w-full rounded-md" />
-      </div>
-      {Array(3)
-        .fill(0)
-        .map((_, i) => (
-          <div key={i} className="flex gap-2">
-            <Skeleton className="h-10 w-10 rounded-full" />
-            <div className="space-y-1 flex-1">
-              <Skeleton className="h-4 w-32" />
-              <Skeleton className="h-3 w-full" />
-            </div>
-          </div>
-        ))}
-    </div>
-  )
-}
-
 function RelatedVideosSkeleton() {
   return (
     <div className="space-y-4">
@@ -145,4 +136,3 @@ function RelatedVideosSkeleton() {
     </div>
   )
 }
-

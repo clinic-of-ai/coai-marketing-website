@@ -6,14 +6,15 @@ import { Textarea } from "@/components/ui/textarea";
 import { Video } from "./types";
 import { Loader2, Upload, X } from "lucide-react";
 import Image from "next/image";
+import { updateVideo, uploadThumbnail, updateThumbnail, getCategories, Category } from "@/libs/api";
+import { toast } from "sonner";
 
 interface EditVideoDialogProps {
   isOpen: boolean;
   setIsOpen: (open: boolean) => void;
   editingVideo: Video | null;
   setEditingVideo: (video: Video | null) => void;
-  saveEditedVideo: () => void;
-  isProcessing?: boolean;
+  onVideoUpdated?: () => void;
 }
 
 export function EditVideoDialog({
@@ -21,21 +22,46 @@ export function EditVideoDialog({
   setIsOpen,
   editingVideo,
   setEditingVideo,
-  saveEditedVideo,
-  isProcessing = false,
+  onVideoUpdated,
 }: EditVideoDialogProps) {
   const [thumbnailPreview, setThumbnailPreview] = useState<string | null>(null);
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [selectedCategory, setSelectedCategory] = useState<string>("");
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // Load categories when dialog opens
+  useEffect(() => {
+    if (isOpen) {
+      loadCategories();
+    }
+  }, [isOpen]);
+
+  // Set initial category when editing video changes
+  useEffect(() => {
+    if (editingVideo) {
+      setSelectedCategory(editingVideo.category || "");
+    }
+  }, [editingVideo]);
+
+  const loadCategories = async () => {
+    try {
+      const categoriesData = await getCategories();
+      setCategories(categoriesData);
+    } catch (error) {
+      console.error("Error loading categories:", error);
+      toast.error("Failed to load categories");
+    }
+  };
 
   // Update the preview when the dialog is opened or when thumbnailPreview in editingVideo changes
   useEffect(() => {
     if (isOpen && editingVideo) {
-      // Use thumbnailPreview from editingVideo if available, otherwise fall back to thumbnail
-      setThumbnailPreview(editingVideo.thumbnailPreview || editingVideo.thumbnail);
+      setThumbnailPreview(editingVideo.thumbnailPreview || editingVideo.thumbnail || null);
     } else {
       setThumbnailPreview(null);
     }
-  }, [isOpen, editingVideo, editingVideo?.thumbnailPreview]);
+  }, [isOpen, editingVideo]);
 
   const handleThumbnailClick = () => {
     fileInputRef.current?.click();
@@ -47,7 +73,6 @@ export function EditVideoDialog({
       const reader = new FileReader();
       reader.onload = (e) => {
         const result = e.target?.result as string;
-        // Update both the local preview state and the editingVideo object
         setThumbnailPreview(result);
         setEditingVideo({
           ...editingVideo,
@@ -71,6 +96,59 @@ export function EditVideoDialog({
     }
   };
 
+  const handleCategoryChange = (value: string) => {
+    setSelectedCategory(value);
+    if (editingVideo) {
+      setEditingVideo({
+        ...editingVideo,
+        category: value,
+      });
+    }
+  };
+
+  const saveEditedVideo = async () => {
+    if (!editingVideo?.id) return;
+
+    try {
+      setIsProcessing(true);
+      let thumbnailUrl = editingVideo.thumbnail;
+
+      // Handle thumbnail update if a new file was selected
+      if (editingVideo.thumbnailFile) {
+        if (editingVideo.thumbnail) {
+          // Extract filename from the existing thumbnail URL
+          const oldFilename = editingVideo.thumbnail.split('/').pop();
+          if (oldFilename) {
+            thumbnailUrl = await updateThumbnail(oldFilename, editingVideo.thumbnailFile);
+          }
+        } else {
+          thumbnailUrl = await uploadThumbnail(editingVideo.thumbnailFile, `thumbnail-${editingVideo.id}`);
+        }
+      }
+
+      // Find category ID from selected category name
+      const selectedCategoryObj = categories.find(cat => cat.name === selectedCategory);
+      const categoryId = selectedCategoryObj?.id;
+
+      // Update video in database
+      const updatedVideo = await updateVideo(editingVideo.id, {
+        title: editingVideo.title,
+        description: editingVideo.description,
+        thumbnail_url: thumbnailUrl,
+        category_id: categoryId,
+      });
+
+      toast.success("Video updated successfully");
+      setIsOpen(false);
+      onVideoUpdated?.();
+    } catch (error) {
+      console.error("Error updating video:", error);
+      toast.error("Failed to update video");
+    } finally {
+      setIsProcessing(false);
+    }
+  };
+
   if (!editingVideo) return null;
 
   return (
@@ -86,7 +164,7 @@ export function EditVideoDialog({
             </label>
             <Input
               id="title"
-              value={editingVideo.title}
+              value={editingVideo.title || ""}
               onChange={(e) => handleInputChange(e, "title")}
               disabled={isProcessing}
               className="focus-visible:ring-primary/70 transition-all"
@@ -101,12 +179,33 @@ export function EditVideoDialog({
             <Textarea
               id="description"
               rows={4}
-              value={editingVideo.description}
+              value={editingVideo.description || ""}
               onChange={(e) => handleInputChange(e, "description")}
               disabled={isProcessing}
               className="focus-visible:ring-primary/70 transition-all resize-none"
               placeholder="Enter video description"
             />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium mb-1 text-foreground/80">
+              Category
+            </label>
+            <div className="relative">
+              <select
+                value={selectedCategory}
+                onChange={(e) => handleCategoryChange(e.target.value)}
+                disabled={isProcessing}
+                className="w-full h-10 px-3 py-2 bg-background border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-primary/70"
+              >
+                <option value="" disabled>Select a category</option>
+                {categories.map((category) => (
+                  <option key={category.id} value={category.name}>
+                    {category.name}
+                  </option>
+                ))}
+              </select>
+            </div>
           </div>
 
           <div>

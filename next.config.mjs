@@ -1,8 +1,16 @@
 import { withNextVideo } from "next-video/process";
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-	// Don't attempt to statically export the app
+	// Use standalone mode for production
 	output: 'standalone',
+	// Disable static page generation for now
+	experimental: {
+		// This will make the build process more reliable
+		workerThreads: false,
+		cpus: 1
+	},
+	// Disable static page generation for specific routes
+	unstable_excludeFiles: ['src/app/page.tsx'],
 	images: {
 		remotePatterns: [
 			{

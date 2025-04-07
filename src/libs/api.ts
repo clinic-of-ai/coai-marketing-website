@@ -243,6 +243,52 @@ export async function uploadThumbnail(file: File, filename: string) {
   }
 }
 
+export async function updateThumbnail(oldFilename: string, file: File, newFilename?: string) {
+  try {
+    // Delete the old thumbnail first
+    const { error: deleteError } = await supabase
+      .storage
+      .from('thumbnails')
+      .remove([oldFilename]);
+    
+    if (deleteError) {
+      console.error("Error deleting old thumbnail:", deleteError);
+      throw deleteError;
+    }
+    
+    // Use either a provided filename or generate one
+    const finalFilename = newFilename || `thumbnail-${Date.now()}-${file.name.replace(/\s+/g, '-')}`;
+    
+    console.log("Updating thumbnail to:", finalFilename);
+    
+    // Upload the new thumbnail
+    const { data, error } = await supabase
+      .storage
+      .from('thumbnails')
+      .upload(finalFilename, file, {
+        cacheControl: '3600',
+        upsert: true
+      });
+    
+    if (error) {
+      console.error("Storage upload error during update:", error);
+      throw error;
+    }
+    
+    // Get public URL
+    const { data: { publicUrl } } = supabase
+      .storage
+      .from('thumbnails')
+      .getPublicUrl(data.path);
+    
+    console.log("Thumbnail updated successfully:", publicUrl);
+    return publicUrl;
+  } catch (err) {
+    console.error("Error in updateThumbnail:", err);
+    throw err;
+  }
+}
+
 export async function deleteThumbnail(path: string) {
   const { error } = await supabase
     .storage
