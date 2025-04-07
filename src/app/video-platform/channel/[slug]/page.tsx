@@ -29,9 +29,9 @@ export default function ChannelPage({ params }: { params: { slug: string } }) {
   }
 
   return (
-    <PageLayout title={title} count={videoCount} onSearch={handleSearch}>
-      <CategoryVideos 
-        categorySlug={params.slug} 
+    <PageLayout title={title} count={videoCount} onSearch={handleSearch} hidesearch={false}>
+      <CategoryVideos
+        categorySlug={params.slug}
         searchQuery={searchQuery}
         onVideoCountChange={handleVideoCountChange}
       />

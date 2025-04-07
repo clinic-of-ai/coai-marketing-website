@@ -14,7 +14,7 @@ export default function LivePage() {
   const [isLive, setIsLive] = useState(false)
 
   return (
-    <PageLayout title="Recommended" count={0}>
+    <PageLayout title="Recommended" count={0} hidesearch={false}>
       <div className="space-y-6">
         <h1 className="text-2xl font-bold">Go Live</h1>
 
