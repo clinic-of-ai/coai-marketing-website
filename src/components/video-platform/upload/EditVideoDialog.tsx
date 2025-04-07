@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Video } from "./types";
 import { Loader2, Upload, X } from "lucide-react";
+import Image from "next/image";
 
 interface EditVideoDialogProps {
   isOpen: boolean;
@@ -115,11 +116,15 @@ export function EditVideoDialog({
               onClick={handleThumbnailClick}
             >
               {thumbnailPreview ? (
-                <img
-                  src={thumbnailPreview}
-                  alt="Video thumbnail"
-                  className="w-full h-full object-cover transition-transform group-hover:scale-105"
-                />
+                <div className="relative w-full h-full">
+                  <Image
+                    src={thumbnailPreview}
+                    alt="Video thumbnail"
+                    fill
+                    sizes="100vw"
+                    className="object-cover transition-transform group-hover:scale-105"
+                  />
+                </div>
               ) : (
                 <div className="flex items-center justify-center h-full">
                   <Upload className="h-8 w-8 text-muted-foreground/70" />
