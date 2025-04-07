@@ -113,14 +113,6 @@ export default function VideoGrid({
     return video.thumbnail_url;
   }
 
-  // Safely get YouTube URL with validation
-  const getYoutubeUrl = (url: string | undefined) => {
-    if (!url) return '#';
-    if (url.startsWith('http')) return url;
-    if (url.startsWith('www.')) return `https://${url}`;
-    return '#';
-  }
-
   // Loading state
   if (loading) {
     return (
@@ -152,9 +144,7 @@ export default function VideoGrid({
           {currentVideos.map((video, index) => (
             <div key={video?.id || index} className="group">
               <Link 
-                href={getYoutubeUrl(video?.youtube_url)}
-                target="_blank"
-                rel="noopener noreferrer"
+                href={`/video-platform/watch/${video?.id}`}
                 className="space-y-2"
               >
                 <div className="relative aspect-video rounded-lg overflow-hidden bg-muted">
@@ -191,7 +181,7 @@ export default function VideoGrid({
                       </span>
                       <div className="flex items-center gap-1">
                         <span>{formatDate(video?.created_at || "")}</span>
-                        <ExternalLink className="h-3 w-3" />
+                        {video?.youtube_url && <ExternalLink className="h-3 w-3" />}
                       </div>
                     </div>
                   </div>

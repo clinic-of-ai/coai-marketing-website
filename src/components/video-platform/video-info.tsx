@@ -3,7 +3,7 @@
 import { useState } from "react"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
-import { ThumbsUp, ThumbsDown, Share2, Download, MoreHorizontal, ChevronDown, ChevronUp } from "lucide-react"
+import { ThumbsUp, ThumbsDown, Share2, Download, MoreHorizontal, ChevronDown, ChevronUp, ExternalLink } from "lucide-react"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,43 +11,45 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { Separator } from "@/components/ui/separator"
+import { formatUploadDate } from "@/components/video-platform/upload/types"
 
 interface VideoInfoProps {
   videoId: string
+  video: any
 }
 
-export default function VideoInfo({ videoId }: VideoInfoProps) {
+export default function VideoInfo({ videoId, video }: VideoInfoProps) {
   const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false)
   const [isSubscribed, setIsSubscribed] = useState(false)
   const [likeCount, setLikeCount] = useState(15243)
   const [isLiked, setIsLiked] = useState(false)
   const [isDisliked, setIsDisliked] = useState(false)
+  const [showFullDescription, setShowFullDescription] = useState(false)
 
-  // Mock data - in a real app, this would come from your API
-  const video = {
-    title: "Building a YouTube Clone with MERN Stack and Advanced Features",
-    views: "120,543",
-    date: "Mar 5, 2023",
-    description: `In this comprehensive tutorial, we'll build a complete YouTube clone using the MERN stack (MongoDB, Express.js, React.js, and Node.js) with Tailwind CSS for styling.
-
-We'll implement advanced features including:
-- User authentication with Passport.js
-- Video uploading and streaming
-- Video editing capabilities
-- Comments and likes
-- Personalized playlists
-- Live streaming
-- Related videos recommendations
-
-This project is perfect for developers looking to enhance their full-stack development skills and build a complex, real-world application.
-
-Don't forget to like and subscribe for more tutorials!`,
-    channel: {
-      name: "Dev Masters",
-      subscribers: "1.2M",
-      avatar: "/image/placeholder.svg?height=48&width=48",
-      verified: true,
-    },
+  // Calculate if description should be truncated
+  const shouldTruncate = video?.description && video.description.length > 200
+  const displayDescription = shouldTruncate && !showFullDescription
+    ? video.description.substring(0, 200) + "..."
+    : video.description
+  
+  // Format date for display
+  const uploadDate = formatUploadDate(video?.created_at || "")
+  
+  // Helper function to generate a color from a string (category name)
+  const stringToColor = (str: string): string => {
+    let hash = 0;
+    for (let i = 0; i < str.length; i++) {
+      hash = str.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    
+    let color = '#';
+    for (let i = 0; i < 3; i++) {
+      const value = (hash >> (i * 8)) & 0xFF;
+      color += ('00' + value.toString(16)).substr(-2);
+    }
+    
+    return color;
   }
 
   const handleLike = () => {
@@ -82,119 +84,79 @@ Don't forget to like and subscribe for more tutorials!`,
     return num.toString()
   }
 
+  if (!video) {
+    return (
+      <div className="space-y-4">
+        <div className="skeleton h-8 w-3/4"></div>
+        <div className="flex justify-between">
+          <div className="skeleton h-10 w-32"></div>
+          <div className="skeleton h-10 w-20"></div>
+        </div>
+        <div className="skeleton h-24 w-full"></div>
+      </div>
+    )
+  }
+
   return (
     <div className="space-y-4">
-      <h1 className="text-xl font-bold md:text-2xl">{video.title}</h1>
-
-      <div className="flex flex-col sm:flex-row sm:items-center gap-4">
-        <div className="flex items-center gap-3">
-          <Avatar className="h-10 w-10 md:h-12 md:w-12">
-            <AvatarImage src={video.channel.avatar} alt={video.channel.name} />
-            <AvatarFallback>{video.channel.name.charAt(0)}</AvatarFallback>
+      <h1 className="text-2xl font-bold">{video.title}</h1>
+      
+      <div className="flex flex-wrap justify-between gap-4">
+        <div className="flex items-center gap-2">
+          <Avatar className="h-10 w-10">
+            {video?.categories?.name ? (
+              <AvatarFallback style={{ backgroundColor: stringToColor(video.categories.name) }}>
+                {video.categories.name.charAt(0)}
+              </AvatarFallback>
+            ) : (
+              <AvatarFallback>V</AvatarFallback>
+            )}
           </Avatar>
           <div>
-            <div className="flex items-center">
-              <span className="font-medium">{video.channel.name}</span>
-              {video.channel.verified && (
-                <svg className="h-4 w-4 ml-1 fill-blue-500" viewBox="0 0 24 24">
-                  <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm-1.9 14.7l-4.5-4.5 1.4-1.4 3.1 3.1 6.2-6.2 1.4 1.4-7.6 7.6z" />
-                </svg>
-              )}
-            </div>
-            <div className="text-sm text-muted-foreground">{video.channel.subscribers} subscribers</div>
+            <p className="font-medium">{video?.categories?.name || "Uncategorized"}</p>
+            <p className="text-sm text-muted-foreground">
+              {uploadDate}
+            </p>
           </div>
         </div>
-
-        <div className="flex items-center gap-2 sm:ml-auto">
-          <Button
-            variant={isSubscribed ? "outline" : "default"}
-            onClick={() => setIsSubscribed(!isSubscribed)}
-            className={isSubscribed ? "bg-muted hover:bg-muted" : ""}
-          >
-            {isSubscribed ? "Subscribed" : "Subscribe"}
-          </Button>
-
-          <div className="flex items-center border rounded-full overflow-hidden">
-            <Button
-              variant="ghost"
-              size="sm"
-              className={`rounded-none px-3 ${isLiked ? "bg-muted" : ""}`}
-              onClick={handleLike}
-            >
-              <ThumbsUp className={`h-4 w-4 mr-1.5 ${isLiked ? "fill-current" : ""}`} />
-              {formatNumber(likeCount)}
+        
+        <div className="flex items-center gap-2">
+          {video.youtube_url && (
+            <Button variant="outline" size="sm" asChild>
+              <a 
+                href={video.youtube_url} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1"
+              >
+                YouTube <ExternalLink className="h-3 w-3 ml-1" />
+              </a>
             </Button>
-            <div className="h-5 w-px bg-border"></div>
-            <Button
-              variant="ghost"
-              size="sm"
-              className={`rounded-none px-3 ${isDisliked ? "bg-muted" : ""}`}
-              onClick={handleDislike}
-            >
-              <ThumbsDown className={`h-4 w-4 ${isDisliked ? "fill-current" : ""}`} />
-            </Button>
-          </div>
-
-          <Button variant="outline" size="sm" className="hidden sm:flex">
-            <Share2 className="h-4 w-4 mr-1.5" />
-            Share
+          )}
+          
+          <Button variant="outline" size="icon">
+            <Share2 className="h-4 w-4" />
+            <span className="sr-only">Share</span>
           </Button>
-
-          <Button variant="outline" size="sm" className="hidden sm:flex">
-            <Download className="h-4 w-4 mr-1.5" />
-            Download
-          </Button>
-
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="icon" className="h-9 w-9">
-                <MoreHorizontal className="h-4 w-4" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuItem className="sm:hidden">
-                <Share2 className="h-4 w-4 mr-2" />
-                Share
-              </DropdownMenuItem>
-              <DropdownMenuItem className="sm:hidden">
-                <Download className="h-4 w-4 mr-2" />
-                Download
-              </DropdownMenuItem>
-              <DropdownMenuSeparator className="sm:hidden" />
-              <DropdownMenuItem>Save to playlist</DropdownMenuItem>
-              <DropdownMenuItem>Report</DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
         </div>
       </div>
-
-      <div className="bg-muted/50 rounded-lg p-3">
-        <div className="flex items-center gap-2 text-sm">
-          <span className="font-medium">{video.views} views</span>
-          <span>•</span>
-          <span>{video.date}</span>
+      
+      <Separator />
+      
+      <div>
+        <div className="whitespace-pre-wrap">
+          {displayDescription || "No description provided."}
         </div>
-
-        <div className={`mt-2 text-sm whitespace-pre-line ${isDescriptionExpanded ? "" : "line-clamp-2"}`}>
-          {video.description}
-        </div>
-
-        <Button
-          variant="ghost"
-          size="sm"
-          className="mt-1 h-auto p-0 text-xs font-medium"
-          onClick={() => setIsDescriptionExpanded(!isDescriptionExpanded)}
-        >
-          {isDescriptionExpanded ? (
-            <span className="flex items-center">
-              Show less <ChevronUp className="h-3 w-3 ml-1" />
-            </span>
-          ) : (
-            <span className="flex items-center">
-              Show more <ChevronDown className="h-3 w-3 ml-1" />
-            </span>
-          )}
-        </Button>
+        
+        {shouldTruncate && (
+          <Button
+            variant="link"
+            className="p-0 h-auto text-xs font-medium mt-1"
+            onClick={() => setShowFullDescription(!showFullDescription)}
+          >
+            {showFullDescription ? "Show less" : "Show more"}
+          </Button>
+        )}
       </div>
     </div>
   )
