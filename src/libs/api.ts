@@ -143,13 +143,23 @@ export async function getVideoById(id: string) {
 }
 
 export async function createVideo(video: Video) {
-  const { data, error } = await supabase
-    .from('videos')
-    .insert([video])
-    .select();
-  
-  if (error) throw error;
-  return data[0];
+  try {
+    // Remove any user_id fields as they should be handled by RLS
+    const { data, error } = await supabase
+      .from('videos')
+      .insert([video])
+      .select();
+    
+    if (error) {
+      console.error("Error creating video:", error);
+      throw error;
+    }
+    
+    return data[0];
+  } catch (err) {
+    console.error("Error in createVideo:", err);
+    throw err;
+  }
 }
 
 export async function updateVideo(id: string, video: Partial<Video>) {
@@ -188,23 +198,37 @@ export async function deleteVideo(id: string, hardDelete: boolean = false) {
 // Thumbnail handling
 
 export async function uploadThumbnail(file: File, filename: string) {
-  const { data, error } = await supabase
-    .storage
-    .from('thumbnails')
-    .upload(filename, file, {
-      cacheControl: '3600',
-      upsert: true
-    });
-  
-  if (error) throw error;
-  
-  // Get public URL
-  const { data: { publicUrl } } = supabase
-    .storage
-    .from('thumbnails')
-    .getPublicUrl(data.path);
-  
-  return publicUrl;
+  try {
+    // Use either a provided filename or generate one
+    const finalFilename = filename || `thumbnail-${Date.now()}-${file.name.replace(/\s+/g, '-')}`;
+    
+    console.log("Uploading thumbnail:", finalFilename);
+    
+    const { data, error } = await supabase
+      .storage
+      .from('thumbnails')
+      .upload(finalFilename, file, {
+        cacheControl: '3600',
+        upsert: true
+      });
+    
+    if (error) {
+      console.error("Storage upload error:", error);
+      throw error;
+    }
+    
+    // Get public URL
+    const { data: { publicUrl } } = supabase
+      .storage
+      .from('thumbnails')
+      .getPublicUrl(data.path);
+    
+    console.log("Thumbnail uploaded successfully:", publicUrl);
+    return publicUrl;
+  } catch (err) {
+    console.error("Error in uploadThumbnail:", err);
+    throw err;
+  }
 }
 
 export async function deleteThumbnail(path: string) {
@@ -215,4 +239,15 @@ export async function deleteThumbnail(path: string) {
   
   if (error) throw error;
   return true;
+}
+
+export async function updateVideoVisibility(id: string, isPublic: boolean) {
+  const { data, error } = await supabase
+    .from('videos')
+    .update({ visible: isPublic })
+    .eq('id', id)
+    .select();
+  
+  if (error) throw error;
+  return data[0];
 } 

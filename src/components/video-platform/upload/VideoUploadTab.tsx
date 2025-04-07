@@ -2,6 +2,9 @@ import React, { useState, useRef, useEffect, useCallback } from "react";
 import { VideoImport } from "./VideoImport";
 import { VideoForm } from "./VideoForm";
 import { VideoPreview } from "./VideoPreview";
+import { useCategories, useThumbnailUpload, useVideos } from "@/hooks/useSupabaseData";
+import { Loader } from "lucide-react";
+import { createVideo } from "@/libs/api";
 
 interface VideoUploadTabProps {
   videos: any[];
@@ -26,9 +29,17 @@ export function VideoUploadTab({ videos, setVideos, setCurrentTab }: VideoUpload
   const [uploadSuccess, setUploadSuccess] = useState(false);
   const [videoTitle, setVideoTitle] = useState("");
   const [videoDescription, setVideoDescription] = useState("");
-  const [videoCategory, setVideoCategory] = useState("AI/ML News");
+  const [videoCategory, setVideoCategory] = useState("");
   const [thumbnailFile, setThumbnailFile] = useState<File | null>(null);
   const [thumbnailPreview, setThumbnailPreview] = useState<string | null>(null);
+  
+  // Supabase hooks
+  const { categories } = useCategories();
+  const { uploadThumbnail, uploading: thumbnailUploading } = useThumbnailUpload();
+  const { addVideo } = useVideos();
+
+  // Add visibility state
+  const [videoVisibility, setVideoVisibility] = useState<"public" | "private">("private");
 
   // Extract YouTube video ID from URL
   const extractYoutubeVideoId = (url: string): string | null => {
@@ -67,8 +78,8 @@ export function VideoUploadTab({ videos, setVideos, setCurrentTab }: VideoUpload
         setVideoTitle(`YouTube Video (${videoId})`);
       }
       
-      // You could fetch video thumbnail from YouTube using:
-      // setThumbnailPreview(`https://img.youtube.com/vi/${videoId}/hqdefault.jpg`);
+      // Set thumbnail preview from YouTube
+      setThumbnailPreview(`https://img.youtube.com/vi/${videoId}/hqdefault.jpg`);
       
       setIsLoading(false);
     } else {
@@ -79,7 +90,7 @@ export function VideoUploadTab({ videos, setVideos, setCurrentTab }: VideoUpload
         setIsLoading(false);
       }, 1500);
     }
-  }, [error, isLoading, videoUrl, extractYoutubeVideoId, videoTitle, setYoutubeVideoId, setVideoType, setVideoTitle, setVideoPreview, setIsLoading]);
+  }, [error, isLoading, videoUrl, videoTitle]);
 
   // Validate and process URL when it changes
   useEffect(() => {
@@ -124,60 +135,99 @@ export function VideoUploadTab({ videos, setVideos, setCurrentTab }: VideoUpload
     }
   };
 
-  const handlePublish = () => {
+  const handlePublish = async () => {
     if (!videoTitle) {
       alert("Please enter a title for your video");
       return;
     }
 
+    if (!videoCategory) {
+      alert("Please select a category for your video");
+      return;
+    }
+
     setIsUploading(true);
+    let thumbnailUrl = "";
 
-    // Simulate upload with progress updates
-    let progress = 0;
-    const interval = setInterval(() => {
-      progress += 5;
-      setUploadProgress(progress);
-
-      if (progress >= 100) {
-        clearInterval(interval);
-        // Simulate completion after upload
-        setTimeout(() => {
+    try {
+      // Step 1: Upload thumbnail if present
+      if (thumbnailFile) {
+        try {
+          thumbnailUrl = await uploadThumbnail(thumbnailFile);
+        } catch (uploadErr: any) {
+          console.error("Thumbnail upload error:", uploadErr);
+          alert(`Error uploading thumbnail: ${uploadErr.message || "Unknown error"}`);
           setIsUploading(false);
-          setUploadSuccess(true);
-
-          // Add the new video to the list
-          const newVideo = {
-            id: `video-${videos.length + 1}`,
-            title: videoTitle,
-            description: videoDescription,
-            thumbnail: thumbnailPreview || 
-              (youtubeVideoId ? `https://img.youtube.com/vi/${youtubeVideoId}/hqdefault.jpg` : `/placeholder.svg?height=180&width=320&text=New Video`),
-            views: 0,
-            uploadDate: new Date().toISOString(),
-            duration: "0:00",
-            visibility: "private",
-            category: videoCategory,
-            youtubeVideoId: youtubeVideoId,
-            videoType: videoType,
-          };
-
-          setVideos([newVideo, ...videos]);
-
-          // Reset form after successful upload
-          setTimeout(() => {
-            setVideoUrl("");
-            setVideoPreview(null);
-            setYoutubeVideoId(null);
-            setVideoTitle("");
-            setVideoDescription("");
-            setThumbnailPreview(null);
-            setThumbnailFile(null);
-            setUploadSuccess(false);
-            setCurrentTab("manage");
-          }, 2000);
-        }, 500);
+          return;
+        }
+      } else if (youtubeVideoId) {
+        // Use YouTube thumbnail
+        thumbnailUrl = `https://img.youtube.com/vi/${youtubeVideoId}/hqdefault.jpg`;
       }
-    }, 150);
+
+      // Step 2: Progress updates for UI
+      let progress = 0;
+      const interval = setInterval(() => {
+        progress += 10;
+        setUploadProgress(Math.min(progress, 90)); // Max at 90% until actual save
+        if (progress >= 90) clearInterval(interval);
+      }, 150);
+
+      // Step 3: Create video in Supabase
+      const newVideo = {
+        title: videoTitle,
+        description: videoDescription,
+        youtube_url: youtubeVideoId ? `https://www.youtube.com/watch?v=${youtubeVideoId}` : videoUrl,
+        thumbnail_url: thumbnailUrl,
+        category_id: videoCategory,
+        visible: videoVisibility === "public",
+        isdeleted: false
+      };
+
+      try {
+        console.log("Submitting video to Supabase:", newVideo);
+        const savedVideo = await createVideo(newVideo);
+        console.log("Video saved successfully:", savedVideo);
+        
+        // Step 4: Complete progress and finish
+        setUploadProgress(100);
+        clearInterval(interval);
+        
+        // Step 5: Add to videos array for UI update
+        setVideos([savedVideo, ...videos]);
+        setUploadSuccess(true);
+
+        // Step 6: Reset form after successful upload
+        setTimeout(() => {
+          setVideoUrl("");
+          setVideoPreview(null);
+          setYoutubeVideoId(null);
+          setVideoTitle("");
+          setVideoDescription("");
+          setThumbnailPreview(null);
+          setThumbnailFile(null);
+          setUploadSuccess(false);
+          setCurrentTab("manage");
+        }, 2000);
+      } catch (error: any) {
+        clearInterval(interval);
+        console.error("Error creating video in Supabase:", error);
+        
+        // Provide more specific error messages
+        if (error.statusCode === "403" || error.message?.includes("policy")) {
+          alert(`Supabase Row Level Security Error: ${error.message}\n\nPlease check your Supabase RLS policies and make sure they allow anonymous inserts to the videos table.`);
+        } else if (error.code === "23505") {
+          alert("This video has already been uploaded.");
+        } else {
+          alert(`Failed to publish video: ${error.message || "Unknown error"}`);
+        }
+        setIsUploading(false);
+      }
+    } catch (error: any) {
+      console.error("Error publishing video:", error);
+      alert(`Failed to upload: ${error.message || "Unknown error"}`);
+      setIsUploading(false);
+    }
   };
 
   const handleGoBack = () => {
@@ -198,6 +248,8 @@ export function VideoUploadTab({ videos, setVideos, setCurrentTab }: VideoUpload
             setVideoDescription={setVideoDescription}
             videoCategory={videoCategory}
             setVideoCategory={setVideoCategory}
+            videoVisibility={videoVisibility}
+            setVideoVisibility={setVideoVisibility}
             handleThumbnailChange={handleThumbnailChange}
             handlePublish={handlePublish}
             handleGoBack={handleGoBack}

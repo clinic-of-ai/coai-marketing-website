@@ -203,12 +203,30 @@ export function useThumbnailUpload() {
     try {
       setUploading(true);
       setError(null);
+      
+      // Validate file type
+      if (!file.type.startsWith('image/')) {
+        throw new Error('Please upload an image file');
+      }
+      
+      // Validate file size (max 5MB)
+      if (file.size > 5 * 1024 * 1024) {
+        throw new Error('Image size should be less than 5MB');
+      }
+      
       const filename = `thumbnail-${Date.now()}-${file.name.replace(/\s+/g, '-')}`;
       const url = await api.uploadThumbnail(file, filename);
       return url;
     } catch (err) {
-      setError(err instanceof Error ? err : new Error(String(err)));
-      throw err;
+      console.error("Error uploading thumbnail:", err);
+      const errorMessage = err instanceof Error 
+        ? err.message 
+        : typeof err === 'object' && err !== null && 'message' in err
+          ? String((err as any).message)
+          : 'Unknown upload error';
+          
+      setError(new Error(errorMessage));
+      throw new Error(`Failed to upload thumbnail: ${errorMessage}`);
     } finally {
       setUploading(false);
     }
@@ -294,5 +312,32 @@ export function useCategoryVideos(categoryId?: string) {
     loading,
     error,
     refresh: fetchVideos
+  };
+}
+
+// Hook for managing video visibility
+export function useVideoVisibility() {
+  const [updating, setUpdating] = useState(false);
+  const [error, setError] = useState<Error | null>(null);
+
+  const toggleVisibility = async (videoId: string, isPublic: boolean) => {
+    setUpdating(true);
+    setError(null);
+    
+    try {
+      await api.updateVideoVisibility(videoId, isPublic);
+    } catch (err) {
+      console.error('Error updating video visibility:', err);
+      setError(err instanceof Error ? err : new Error(String(err)));
+      throw err;
+    } finally {
+      setUpdating(false);
+    }
+  };
+
+  return {
+    toggleVisibility,
+    updating,
+    error
   };
 } 
