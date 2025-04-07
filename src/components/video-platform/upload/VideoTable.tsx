@@ -104,16 +104,6 @@ export function VideoTable({
                         className="w-full h-full object-cover transition-transform group-hover:scale-105"
                         unoptimized={video.thumbnail?.includes('youtube.com')}
                       />
-                      {video.youtubeVideoId && (
-                        <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
-                          <div className="w-6 h-6 rounded-full bg-red-600 flex items-center justify-center">
-                            <div className="w-0 h-0 border-t-[4px] border-t-transparent border-l-[8px] border-l-white border-b-[4px] border-b-transparent ml-0.5"></div>
-                          </div>
-                        </div>
-                      )}
-                      <div className="absolute bottom-1 right-1 bg-black/80 text-white text-xs px-1 rounded">
-                        {video.duration}
-                      </div>
                     </div>
                     <div className="flex-1 min-w-0">
                       <p className="font-medium text-sm truncate flex items-center gap-1">
