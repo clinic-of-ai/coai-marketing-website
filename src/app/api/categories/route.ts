@@ -1,6 +1,10 @@
 import { NextResponse } from 'next/server';
 import { getCategories, getCategoryById } from '@/libs/api';
 
+// This export prevents the route from being statically optimized
+// and allows it to use dynamic features like request.url
+export const dynamic = 'force-dynamic';
+
 // GET /api/categories
 export async function GET(request: Request) {
   try {

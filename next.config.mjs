@@ -1,6 +1,8 @@
 import { withNextVideo } from "next-video/process";
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+	// Don't attempt to statically export the app
+	output: 'standalone',
 	images: {
 		remotePatterns: [
 			{
