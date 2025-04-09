@@ -1,6 +1,5 @@
 import { supabase } from './supabase';
 import { getYouTubeThumbnailUrl } from './utils';
-import { useNotification } from "@/components/video-platform/notification"
 // Type definitions based on database schema
 export type Category = {
   id?: string;
@@ -300,7 +299,6 @@ export async function deleteThumbnail(path: string) {
 }
 
 export async function updateVideoVisibility(id: string, isPublic: boolean) {
-  const notification = useNotification()
 
   const { data, error } = await supabase
     .from('videos')
@@ -309,9 +307,7 @@ export async function updateVideoVisibility(id: string, isPublic: boolean) {
     .select();
    
   if (error) {
-    notification.error("Database Error", `Check your network connection!`)
     throw error;
   }
-  notification.success("Visibility Changed", `Video is now ${isPublic === true ? "public" : "private"}.`)
   return data[0];
 } 
