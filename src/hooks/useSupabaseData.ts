@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import * as api from '../libs/api';
-import { useNotification } from "@/components/video-platform/notification";
+
 // Hook for working with categories
 export function useCategories() {
   const [categories, setCategories] = useState<api.Category[]>([]);
@@ -317,7 +317,6 @@ export function useCategoryVideos(categoryId?: string) {
 
 // Hook for managing video visibility
 export function useVideoVisibility() {
-  const notification = useNotification()
   const [updating, setUpdating] = useState(false);
   const [error, setError] = useState<Error | null>(null);
 
@@ -327,7 +326,6 @@ export function useVideoVisibility() {
     
     try {
       await api.updateVideoVisibility(videoId, isPublic);
-      notification.success("Visibility Changed", `Video is now ${isPublic === true ? "public" : "private"}.`)
     } catch (err) {
       console.error('Error updating video visibility:', err);
       setError(err instanceof Error ? err : new Error(String(err)));

@@ -69,12 +69,9 @@ export function VideoManageTab({ videos, setVideos, windowWidth }: VideoManageTa
       if (paginatedVideos.length === 1 && currentPage > 1) {
         setCurrentPage(currentPage - 1);
       }
-
-      notification.success("Video Deleted", "Successfully deleted!")
     } catch (error) {
       console.error("Error deleting video:", error);
       alert("Failed to delete video. Please try again.");
-      notification.success("Delete Error", "Failed to delete video.")
     } finally {
       setIsDeleteDialogOpen(false);
       setVideoToDelete(null);
@@ -83,12 +80,13 @@ export function VideoManageTab({ videos, setVideos, windowWidth }: VideoManageTa
   };
 
   const toggleVideoVisibility = async (videoId: string) => {
+    
     const video = videos.find(v => v.id === videoId);
     if (!video) return;
     
     // Current visibility state
     const isCurrentlyPublic = video.visibility === "public";
-    
+    notification.success("Visibility Changed", `Video is now ${isCurrentlyPublic ? "public" : "private"}`);
     try {
       // Optimistic update for UI
       setVideos(
@@ -104,8 +102,7 @@ export function VideoManageTab({ videos, setVideos, windowWidth }: VideoManageTa
       );
       
       // Call the API to update visibility
-    
-      await updateVideoVisibility(videoId, !isCurrentlyPublic );
+      await updateVideoVisibility(videoId, !isCurrentlyPublic);
       
     } catch (error) {
       console.error("Error toggling visibility:", error);
