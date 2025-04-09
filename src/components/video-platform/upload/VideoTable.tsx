@@ -3,6 +3,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Switch } from "@/components/ui/switch";
+import { useNotification } from "@/components/video-platform/notification";
 import {
   Edit,
   Trash2,
@@ -44,6 +45,7 @@ export function VideoTable({
   toggleVideoVisibility,
   handleVideoClick,
 }: VideoTableProps) {
+  const notification = useNotification()
   // Responsive columns visibility
   const showNumberColumn = windowWidth >= 480;
   const showCategoryColumn = windowWidth >= 1200;
@@ -166,7 +168,7 @@ export function VideoTable({
                   <td className="px-4 py-3">
                     <Switch
                       checked={video.visibility === "public"}
-                      onCheckedChange={() => toggleVideoVisibility(video.id)}
+                      onCheckedChange={() => {toggleVideoVisibility(video.id) }}
                     />
                   </td>
                 )}

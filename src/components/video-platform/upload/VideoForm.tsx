@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Check, Loader2, Upload, Image as ImageIcon } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 import { useCategories } from "@/hooks/useSupabaseData";
+import { useNotification } from "@/components/video-platform/notification"
 
 interface VideoFormProps {
   videoTitle: string;
@@ -41,6 +42,7 @@ export function VideoForm({
   uploadProgress,
   uploadSuccess,
 }: VideoFormProps) {
+  const notification = useNotification()
   // Fetch categories from Supabase
   const { categories, loading: categoriesLoading, error: categoriesError } = useCategories();
   
@@ -55,6 +57,11 @@ export function VideoForm({
     }
   }, [categories, videoCategory, setVideoCategory]);
 
+  useEffect(()=>{
+    if (categoriesError) {
+      notification.error("Category Error", "Failed to Load Categories!")
+    }
+  },[categoriesError, notification])
   // Custom file input handler
   const handleCustomThumbnailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {

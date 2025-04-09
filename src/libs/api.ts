@@ -1,6 +1,5 @@
 import { supabase } from './supabase';
 import { getYouTubeThumbnailUrl } from './utils';
-
 // Type definitions based on database schema
 export type Category = {
   id?: string;
@@ -300,12 +299,15 @@ export async function deleteThumbnail(path: string) {
 }
 
 export async function updateVideoVisibility(id: string, isPublic: boolean) {
+
   const { data, error } = await supabase
     .from('videos')
-    .update({ visible: isPublic })
+    .update({ visible: isPublic})
     .eq('id', id)
     .select();
-  
-  if (error) throw error;
+   
+  if (error) {
+    throw error;
+  }
   return data[0];
 } 
