@@ -10,6 +10,7 @@ import { ScrollArea } from "@/components/ui/scroll-area"
 import { useAllVideos } from "@/hooks/useSupabaseData"
 import { extractYouTubeVideoId } from "@/libs/utils"
 import { VideoGridSkeleton } from "./video-grid-skeleton"
+import { Spinner } from "@/components/common/spinner"
 
 interface VideoGridProps {
   searchQuery?: string
@@ -245,7 +246,8 @@ export default function VideoGrid({
 
   // Loading state
   if (loading) {
-    return <VideoGridSkeleton />;
+    // return <VideoGridSkeleton />;
+    return <Spinner/>
   }
 
   // Error state

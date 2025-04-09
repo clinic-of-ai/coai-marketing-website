@@ -3,10 +3,10 @@ import { VideoImport } from "./VideoImport";
 import { VideoForm } from "./VideoForm";
 import { VideoPreview } from "./VideoPreview";
 import { useCategories, useThumbnailUpload, useVideos } from "@/hooks/useSupabaseData";
-import { Loader } from "lucide-react";
 import { createVideo } from "@/libs/api";
 import { Video, mapSupabaseVideoToUIVideo } from "./types";
 import { extractYouTubeVideoId } from "@/libs/utils";
+import { useNotification } from "@/components/video-platform/notification"
 
 interface VideoUploadTabProps {
   videos: Video[];
@@ -15,6 +15,8 @@ interface VideoUploadTabProps {
 }
 
 export function VideoUploadTab({ videos, setVideos, setCurrentTab }: VideoUploadTabProps) {
+  const notification = useNotification()
+
   const [videoUrl, setVideoUrl] = useState<string>("");
   const [videoPreview, setVideoPreview] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -48,7 +50,6 @@ export function VideoUploadTab({ videos, setVideos, setCurrentTab }: VideoUpload
     if (error || isLoading || !videoUrl) return;
 
     setIsLoading(true);
-
     // Extract the YouTube video ID using the imported function
     const videoId = extractYouTubeVideoId(videoUrl);
     
@@ -99,7 +100,7 @@ export function VideoUploadTab({ videos, setVideos, setCurrentTab }: VideoUpload
     } else {
       setError("Please enter a valid YouTube URL");
     }
-  }, [videoUrl, importVideo]);
+  }, [videoUrl, importVideo, notification]);
 
   // Set video to start at the beginning for thumbnail
   useEffect(() => {
@@ -141,7 +142,7 @@ export function VideoUploadTab({ videos, setVideos, setCurrentTab }: VideoUpload
           thumbnailUrl = await uploadThumbnail(thumbnailFile);
         } catch (uploadErr: any) {
           console.error("Thumbnail upload error:", uploadErr);
-          alert(`Error uploading thumbnail: ${uploadErr.message || "Unknown error"}`);
+          notification.error("Upload Error", "Failed Uploading Thumbnail!")
           setIsUploading(false);
           return;
         }
@@ -173,7 +174,7 @@ export function VideoUploadTab({ videos, setVideos, setCurrentTab }: VideoUpload
         console.log("Submitting video to Supabase:", newVideo);
         const savedVideo = await createVideo(newVideo);
         console.log("Video saved successfully:", savedVideo);
-        
+        notification.success("Video Published", "Video Successfully Published!")
         // Step 4: Complete progress and finish
         setUploadProgress(100);
         clearInterval(interval);
@@ -206,20 +207,23 @@ export function VideoUploadTab({ videos, setVideos, setCurrentTab }: VideoUpload
       } catch (error: any) {
         clearInterval(interval);
         console.error("Error creating video in Supabase:", error);
-        
+        notification.error("Publish Failed", "Database Error");
         // Provide more specific error messages
         if (error.statusCode === "403" || error.message?.includes("policy")) {
           alert(`Supabase Row Level Security Error: ${error.message}\n\nPlease check your Supabase RLS policies and make sure they allow anonymous inserts to the videos table.`);
+          notification.error("Publish Failed", "Database Security Error");
         } else if (error.code === "23505") {
           alert("This video has already been uploaded.");
         } else {
           alert(`Failed to publish video: ${error.message || "Unknown error"}`);
+          notification.error("Publish Failed", "Failed to publish video.")
         }
         setIsUploading(false);
       }
     } catch (error: any) {
       console.error("Error publishing video:", error);
       alert(`Failed to upload: ${error.message || "Unknown error"}`);
+      notification.error("Publish Failed", "Failed to publish video.");
       setIsUploading(false);
     }
   };

@@ -7,7 +7,7 @@ import { Video } from "./types";
 import { Loader2, Upload, X } from "lucide-react";
 import Image from "next/image";
 import { updateVideo, uploadThumbnail, updateThumbnail, getCategories, Category } from "@/libs/api";
-import { toast } from "sonner";
+import { useNotification } from "@/components/video-platform/notification"
 
 interface EditVideoDialogProps {
   isOpen: boolean;
@@ -24,6 +24,8 @@ export function EditVideoDialog({
   setEditingVideo,
   onVideoUpdated,
 }: EditVideoDialogProps) {
+  const notification = useNotification()
+
   const [thumbnailPreview, setThumbnailPreview] = useState<string | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
   const [categories, setCategories] = useState<Category[]>([]);
@@ -32,6 +34,15 @@ export function EditVideoDialog({
 
   // Load categories when dialog opens
   useEffect(() => {
+    const loadCategories = async () => {
+      try {
+        const categories = await getCategories();
+        setCategories(categories);
+      } catch (error) {
+        console.error("Error loading categories:", error);
+      }
+    };
+
     if (isOpen) {
       loadCategories();
     }
@@ -43,16 +54,6 @@ export function EditVideoDialog({
       setSelectedCategory(editingVideo.category || "");
     }
   }, [editingVideo]);
-
-  const loadCategories = async () => {
-    try {
-      const categoriesData = await getCategories();
-      setCategories(categoriesData);
-    } catch (error) {
-      console.error("Error loading categories:", error);
-      toast.error("Failed to load categories");
-    }
-  };
 
   // Update the preview when the dialog is opened or when thumbnailPreview in editingVideo changes
   useEffect(() => {
@@ -151,7 +152,7 @@ export function EditVideoDialog({
       // Update the editingVideo state with the fully updated video
       setEditingVideo(fullyUpdatedVideo);
 
-      toast.success("Video updated successfully");
+      notification.success("Video Updated", "Successfully updated!")
       
       // Call the onVideoUpdated callback with the fully updated video object
       if (onVideoUpdated) {
@@ -161,7 +162,7 @@ export function EditVideoDialog({
       setIsOpen(false);
     } catch (error) {
       console.error("Error updating video:", error);
-      toast.error("Failed to update video");
+      notification.error("Update Failed", "Failed to update video!")
     } finally {
       setIsProcessing(false);
     }

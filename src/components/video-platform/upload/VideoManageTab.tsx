@@ -7,6 +7,7 @@ import { DeleteVideoDialog } from "./DeleteVideoDialog";
 import { Video, mapSupabaseVideoToUIVideo } from "./types";
 import { deleteVideo, updateVideoVisibility } from "@/libs/api";
 import { useVideoVisibility } from "@/hooks/useSupabaseData";
+import { useNotification } from "@/components/video-platform/notification";
 
 interface VideoManageTabProps {
   videos: Video[];
@@ -15,6 +16,7 @@ interface VideoManageTabProps {
 }
 
 export function VideoManageTab({ videos, setVideos, windowWidth }: VideoManageTabProps) {
+  const notification = useNotification()
   // Video management state
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
@@ -67,9 +69,12 @@ export function VideoManageTab({ videos, setVideos, windowWidth }: VideoManageTa
       if (paginatedVideos.length === 1 && currentPage > 1) {
         setCurrentPage(currentPage - 1);
       }
+
+      notification.success("Video Deleted", "Successfully deleted!")
     } catch (error) {
       console.error("Error deleting video:", error);
       alert("Failed to delete video. Please try again.");
+      notification.success("Delete Error", "Failed to delete video.")
     } finally {
       setIsDeleteDialogOpen(false);
       setVideoToDelete(null);
@@ -99,7 +104,9 @@ export function VideoManageTab({ videos, setVideos, windowWidth }: VideoManageTa
       );
       
       // Call the API to update visibility
-      await updateVideoVisibility(videoId, !isCurrentlyPublic);
+    
+      await updateVideoVisibility(videoId, !isCurrentlyPublic );
+      
     } catch (error) {
       console.error("Error toggling visibility:", error);
       
