@@ -24,7 +24,7 @@ function ResetPasswordContent() {
     
     if (!hasType) {
       notification.error('Invalid Reset Link', 'This password reset link is invalid or has expired.');
-      router.push('/auth/login');
+      router.push('//login');
     }
   }, [searchParams, notification, router]);
 
@@ -54,7 +54,7 @@ function ResetPasswordContent() {
         notification.success('Password Updated', 'Your password has been successfully reset.');
         // Redirect to login after 3 seconds
         setTimeout(() => {
-          router.push('/auth/login');
+          router.push('//login');
         }, 3000);
       }
     } catch (error) {
@@ -176,7 +176,7 @@ function ResetPasswordContent() {
 
           <div className="mt-6 text-center">
             <Link
-              href="/auth/login"
+              href="//login"
               className="inline-flex items-center text-sm text-cyan-600 dark:text-cyan-400 hover:text-cyan-500 dark:hover:text-cyan-300 transition-colors"
             >
               <ArrowLeft className="h-4 w-4 mr-1" />

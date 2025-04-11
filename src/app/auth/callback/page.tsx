@@ -21,7 +21,7 @@ function CallbackContent() {
           
           if (error) {
             console.error('Error exchanging code for session:', error);
-            router.push('/auth/login?error=Authentication%20failed');
+            router.push('//login?error=Authentication%20failed');
             return;
           }
           
@@ -29,11 +29,11 @@ function CallbackContent() {
           router.push(decodeURIComponent(next));
         } catch (error) {
           console.error('Auth callback error:', error);
-          router.push('/auth/login?error=Authentication%20failed');
+          router.push('//login?error=Authentication%20failed');
         }
       } else {
         // No code in URL, redirect to login
-        router.push('/auth/login');
+        router.push('//login');
       }
     };
 
