@@ -1,47 +1,119 @@
-"use client"
+"use client";
 
-import type React from "react"
-import { useState } from "react"
-import { useRouter } from "next/navigation"
-import { useNotification } from "@/components/video-platform/notification"
-import { AuthForm } from "@/components/auth-form"
+import type React from "react";
+import { useState, useEffect, Suspense } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useNotification } from "@/components/video-platform/notification";
+import { AuthForm } from "@/components/auth-form";
+import { useAuth } from "@/providers/auth-provider";
+import Link from "next/link";
 
-export default function LoginPage() {
-  const [activeTab, setActiveTab] = useState<"login" | "signup">("login")
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-  const [name, setName] = useState("")
-  const [rememberMe, setRememberMe] = useState(false)
-  const [isLoading, setIsLoading] = useState(false)
+function LoginContent() {
+  const [activeTab, setActiveTab] = useState<"login" | "signup">("login");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
+  const [rememberMe, setRememberMe] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const router = useRouter()
-  const notification = useNotification()
+  const router = useRouter();
+  const notification = useNotification();
+  const { login, signup, googleLogin, discordLogin, isAuthenticated } =
+    useAuth();
+  const searchParams = useSearchParams();
+
+  // Check for authentication and error parameters
+  useEffect(() => {
+    // If user is already authenticated, redirect to home
+    if (isAuthenticated) {
+      router.push("/");
+      return;
+    }
+
+    // Check for error in URL parameters (from auth callbacks)
+    const error = searchParams.get("error");
+    if (error) {
+      notification.error("Authentication Failed", decodeURIComponent(error));
+    }
+  }, [isAuthenticated, router, searchParams, notification]);
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setIsLoading(true)
+    e.preventDefault();
+    setIsLoading(true);
 
     try {
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 1500))
-
       if (activeTab === "login") {
-        notification.success("Welcome back!", "You've successfully logged in to your account.")
-      } else {
-        notification.success("Account created!", "Your account has been successfully created.")
-      }
+        // Perform login
+        const { success, error } = await login({ email, password });
 
-      router.push("/")
+        if (success) {
+          notification.success(
+            "Welcome back!",
+            "You've successfully logged in to your account.",
+          );
+          router.push("/");
+        } else {
+          notification.error(
+            "Login Failed",
+            error || "Please check your credentials and try again.",
+          );
+        }
+      } else {
+        // Perform sign up
+        const { success, error } = await signup({ email, password, name });
+
+        if (success) {
+          notification.success(
+            "Account created!",
+            "Please check your email to verify your account.",
+          );
+          setActiveTab("login");
+        } else {
+          notification.error(
+            "Signup Failed",
+            error || "Please check your information and try again.",
+          );
+        }
+      }
     } catch (error) {
-      notification.error("Authentication failed", "Please check your credentials and try again.")
+      notification.error(
+        "Authentication failed",
+        "An unexpected error occurred. Please try again.",
+      );
+      console.error("Auth error:", error);
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
+
+  const handleGoogleLogin = async () => {
+    try {
+      await googleLogin();
+      // The redirect will happen automatically
+    } catch (error) {
+      notification.error(
+        "Google login failed",
+        "Unable to start Google authentication.",
+      );
+      console.error("Google login error:", error);
+    }
+  };
+
+  const handleDiscordLogin = async () => {
+    try {
+      await discordLogin();
+      // The redirect will happen automatically
+    } catch (error) {
+      notification.error(
+        "Discord login failed",
+        "Unable to start Discord authentication.",
+      );
+      console.error("Discord login error:", error);
+    }
+  };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center relative overflow-hidden bg-gray-50 dark:bg-[hsl(222.2,84%,4.9%)] transition-colors duration-300">
-
+    <div className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-gray-50 transition-colors duration-300 dark:bg-[hsl(222.2,84%,4.9%)]">
       {/* Static background pattern */}
       <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] bg-[length:50px_50px] opacity-[0.03] dark:opacity-[0.03]" />
 
@@ -55,25 +127,95 @@ export default function LoginPage() {
       />
       <div className="absolute right-1/4 top-1/4 h-[600px] w-[600px] animate-pulse rounded-full bg-gradient-to-r from-cyan-500/20 via-blue-500/10 to-transparent blur-3xl" />
       <div className="absolute bottom-1/4 left-1/3 h-[500px] w-[500px] animate-pulse rounded-full bg-gradient-to-r from-fuchsia-600/20 via-pink-600/10 to-transparent blur-3xl [animation-delay:2s]" />
-      
+
       {/* Enhanced particles with multiple shapes and patterns */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      <div className="pointer-events-none absolute inset-0 overflow-hidden">
         {/* Small dots */}
         {[
-          { top: "20%", left: "15%", opacity: 0.4, duration: 12, delay: 2, size: "w-1 h-1" },
-          { top: "30%", left: "85%", opacity: 0.5, duration: 15, delay: 1, size: "w-1 h-1" },
-          { top: "45%", left: "25%", opacity: 0.6, duration: 18, delay: 3, size: "w-1 h-1" },
-          { top: "60%", left: "75%", opacity: 0.3, duration: 14, delay: 4, size: "w-1 h-1" },
-          { top: "75%", left: "35%", opacity: 0.5, duration: 16, delay: 2, size: "w-1 h-1" },
-          { top: "85%", left: "65%", opacity: 0.4, duration: 13, delay: 1, size: "w-1 h-1" },
-          { top: "25%", left: "45%", opacity: 0.5, duration: 17, delay: 3, size: "w-1 h-1" },
-          { top: "40%", left: "55%", opacity: 0.3, duration: 11, delay: 2, size: "w-1 h-1" },
-          { top: "55%", left: "15%", opacity: 0.4, duration: 14, delay: 1, size: "w-1 h-1" },
-          { top: "70%", left: "85%", opacity: 0.5, duration: 16, delay: 4, size: "w-1 h-1" }
+          {
+            top: "20%",
+            left: "15%",
+            opacity: 0.4,
+            duration: 12,
+            delay: 2,
+            size: "w-1 h-1",
+          },
+          {
+            top: "30%",
+            left: "85%",
+            opacity: 0.5,
+            duration: 15,
+            delay: 1,
+            size: "w-1 h-1",
+          },
+          {
+            top: "45%",
+            left: "25%",
+            opacity: 0.6,
+            duration: 18,
+            delay: 3,
+            size: "w-1 h-1",
+          },
+          {
+            top: "60%",
+            left: "75%",
+            opacity: 0.3,
+            duration: 14,
+            delay: 4,
+            size: "w-1 h-1",
+          },
+          {
+            top: "75%",
+            left: "35%",
+            opacity: 0.5,
+            duration: 16,
+            delay: 2,
+            size: "w-1 h-1",
+          },
+          {
+            top: "85%",
+            left: "65%",
+            opacity: 0.4,
+            duration: 13,
+            delay: 1,
+            size: "w-1 h-1",
+          },
+          {
+            top: "25%",
+            left: "45%",
+            opacity: 0.5,
+            duration: 17,
+            delay: 3,
+            size: "w-1 h-1",
+          },
+          {
+            top: "40%",
+            left: "55%",
+            opacity: 0.3,
+            duration: 11,
+            delay: 2,
+            size: "w-1 h-1",
+          },
+          {
+            top: "55%",
+            left: "15%",
+            opacity: 0.4,
+            duration: 14,
+            delay: 1,
+            size: "w-1 h-1",
+          },
+          {
+            top: "70%",
+            left: "85%",
+            opacity: 0.5,
+            duration: 16,
+            delay: 4,
+            size: "w-1 h-1",
+          },
         ].map((config, i) => (
           <div
             key={`dot-${i}`}
-            className={`absolute ${config.size} bg-gray-800/50 dark:bg-white/50 rounded-full`}
+            className={`absolute ${config.size} rounded-full bg-gray-800/50 dark:bg-white/50`}
             style={{
               top: config.top,
               left: config.left,
@@ -86,15 +228,50 @@ export default function LoginPage() {
 
         {/* Medium circles with glow */}
         {[
-          { top: "15%", left: "25%", opacity: 0.3, duration: 20, delay: 0, size: "w-2 h-2" },
-          { top: "35%", left: "75%", opacity: 0.4, duration: 18, delay: 1, size: "w-2 h-2" },
-          { top: "50%", left: "35%", opacity: 0.5, duration: 22, delay: 2, size: "w-2 h-2" },
-          { top: "65%", left: "65%", opacity: 0.3, duration: 19, delay: 3, size: "w-2 h-2" },
-          { top: "80%", left: "15%", opacity: 0.4, duration: 21, delay: 4, size: "w-2 h-2" }
+          {
+            top: "15%",
+            left: "25%",
+            opacity: 0.3,
+            duration: 20,
+            delay: 0,
+            size: "w-2 h-2",
+          },
+          {
+            top: "35%",
+            left: "75%",
+            opacity: 0.4,
+            duration: 18,
+            delay: 1,
+            size: "w-2 h-2",
+          },
+          {
+            top: "50%",
+            left: "35%",
+            opacity: 0.5,
+            duration: 22,
+            delay: 2,
+            size: "w-2 h-2",
+          },
+          {
+            top: "65%",
+            left: "65%",
+            opacity: 0.3,
+            duration: 19,
+            delay: 3,
+            size: "w-2 h-2",
+          },
+          {
+            top: "80%",
+            left: "15%",
+            opacity: 0.4,
+            duration: 21,
+            delay: 4,
+            size: "w-2 h-2",
+          },
         ].map((config, i) => (
           <div
             key={`circle-${i}`}
-            className={`absolute ${config.size} bg-gradient-to-r from-cyan-500/30 to-blue-500/30 dark:from-cyan-400/30 dark:to-blue-400/30 rounded-full shadow-[0_0_10px_rgba(8,112,184,0.3)]`}
+            className={`absolute ${config.size} rounded-full bg-gradient-to-r from-cyan-500/30 to-blue-500/30 shadow-[0_0_10px_rgba(8,112,184,0.3)] dark:from-cyan-400/30 dark:to-blue-400/30`}
             style={{
               top: config.top,
               left: config.left,
@@ -107,14 +284,42 @@ export default function LoginPage() {
 
         {/* Large hexagons */}
         {[
-          { top: "10%", left: "45%", opacity: 0.3, duration: 25, delay: 0, size: "w-3 h-3" },
-          { top: "45%", left: "55%", opacity: 0.4, duration: 23, delay: 1, size: "w-3 h-3" },
-          { top: "60%", left: "25%", opacity: 0.5, duration: 27, delay: 2, size: "w-3 h-3" },
-          { top: "75%", left: "75%", opacity: 0.3, duration: 24, delay: 3, size: "w-3 h-3" }
+          {
+            top: "10%",
+            left: "45%",
+            opacity: 0.3,
+            duration: 25,
+            delay: 0,
+            size: "w-3 h-3",
+          },
+          {
+            top: "45%",
+            left: "55%",
+            opacity: 0.4,
+            duration: 23,
+            delay: 1,
+            size: "w-3 h-3",
+          },
+          {
+            top: "60%",
+            left: "25%",
+            opacity: 0.5,
+            duration: 27,
+            delay: 2,
+            size: "w-3 h-3",
+          },
+          {
+            top: "75%",
+            left: "75%",
+            opacity: 0.3,
+            duration: 24,
+            delay: 3,
+            size: "w-3 h-3",
+          },
         ].map((config, i) => (
           <div
             key={`hex-${i}`}
-            className={`absolute ${config.size} bg-gradient-to-r from-purple-500/20 to-pink-500/20 dark:from-purple-400/20 dark:to-pink-400/20 clip-hexagon`}
+            className={`absolute ${config.size} clip-hexagon bg-gradient-to-r from-purple-500/20 to-pink-500/20 dark:from-purple-400/20 dark:to-pink-400/20`}
             style={{
               top: config.top,
               left: config.left,
@@ -130,11 +335,11 @@ export default function LoginPage() {
           { top: "20%", left: "60%", opacity: 0.6, duration: 2, delay: 0 },
           { top: "40%", left: "20%", opacity: 0.5, duration: 2.5, delay: 0.5 },
           { top: "60%", left: "80%", opacity: 0.7, duration: 3, delay: 1 },
-          { top: "80%", left: "40%", opacity: 0.4, duration: 2.2, delay: 1.5 }
+          { top: "80%", left: "40%", opacity: 0.4, duration: 2.2, delay: 1.5 },
         ].map((config, i) => (
           <div
             key={`sparkle-${i}`}
-            className="absolute w-1 h-1 bg-white dark:bg-cyan-400"
+            className="absolute h-1 w-1 bg-white dark:bg-cyan-400"
             style={{
               top: config.top,
               left: config.left,
@@ -148,17 +353,19 @@ export default function LoginPage() {
 
       <div className="relative z-10 w-full max-w-md px-4">
         {/* Logo with glow effect */}
-        <div className="flex justify-center mb-8">
-          <div className="flex items-center relative">
+        <div className="mb-8 flex justify-center">
+          <div className="relative flex items-center">
             <div className="absolute inset-0 bg-cyan-500/30 blur-xl"></div>
-            <div className="flex items-center relative">
-              <div className="bg-[#00d2e6] text-white rounded-tl-[20px] text-[2rem] font-bold px-4 pt-[0.3rem] pb-[0.2rem] mr-1">Clinic</div>
-              <div className="ml-1 text-[2rem] font-bold text-gray-800 dark:text-white flex items-start">
+            <div className="relative flex items-center">
+              <div className="mr-1 rounded-tl-[20px] bg-[#00d2e6] px-4 pb-[0.2rem] pt-[0.3rem] text-[2rem] font-bold text-white">
+                Clinic
+              </div>
+              <div className="ml-1 flex items-start text-[2rem] font-bold text-gray-800 dark:text-white">
                 <span>of</span>
-                <span className="ml-2 relative">
+                <span className="relative ml-2">
                   AI
                   <span className="absolute right-[-0.7rem] top-[0.1rem] flex">
-                    <span className="bg-gray-800 dark:bg-black rounded-full w-[0.4rem] h-[0.4rem] border border-gray-800 dark:border-white ml-0.5" />
+                    <span className="ml-0.5 h-[0.4rem] w-[0.4rem] rounded-full border border-gray-800 bg-gray-800 dark:border-white dark:bg-black" />
                   </span>
                 </span>
               </div>
@@ -179,6 +386,8 @@ export default function LoginPage() {
           onNameChange={setName}
           rememberMe={rememberMe}
           onRememberMeChange={setRememberMe}
+          onGoogleLogin={handleGoogleLogin}
+          onDiscordLogin={handleDiscordLogin}
         />
       </div>
 
@@ -259,9 +468,51 @@ export default function LoginPage() {
         }
 
         .clip-hexagon {
-          clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+          clip-path: polygon(
+            50% 0%,
+            100% 25%,
+            100% 75%,
+            50% 100%,
+            0% 75%,
+            0% 25%
+          );
         }
       `}</style>
+      <div className="px-8 pb-8">
+        <p className="mt-8 text-center text-xs text-gray-500 dark:text-gray-400">
+          By continuing, you agree to our{" "}
+          <Link
+            href="/login"
+            className="text-cyan-600 transition-colors hover:text-cyan-500 dark:text-cyan-400 dark:hover:text-cyan-300"
+          >
+            Terms of Service
+          </Link>{" "}
+          and{" "}
+          <Link
+            href="/login"
+            className="text-cyan-600 transition-colors hover:text-cyan-500 dark:text-cyan-400 dark:hover:text-cyan-300"
+          >
+            Privacy Policy
+          </Link>
+        </p>
+      </div>
     </div>
-  )
+  );
+}
+
+// Loading fallback
+function LoginFallback() {
+  return (
+    <div className="flex min-h-screen items-center justify-center bg-gray-50 dark:bg-[hsl(222.2,84%,4.9%)]">
+      <div className="h-12 w-12 animate-spin rounded-full border-b-2 border-t-2 border-cyan-500"></div>
+    </div>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={<LoginFallback />}>
+      <LoginContent />
+    </Suspense>
+  );
 }

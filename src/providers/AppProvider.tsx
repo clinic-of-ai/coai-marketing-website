@@ -1,4 +1,5 @@
 import { ThemeProvider } from "next-themes";
+import { AuthProvider } from "./auth-provider";
 
 interface AppProviderProps {
   children: React.ReactNode;
@@ -12,7 +13,9 @@ export function AppProvider({ children }: AppProviderProps) {
       enableSystem
       disableTransitionOnChange
     >
-      {children}
+      <AuthProvider>
+        {children}
+      </AuthProvider>
     </ThemeProvider>
   );
 }

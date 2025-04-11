@@ -1,32 +1,64 @@
-"use client";
+'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, Suspense } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
-import { ArrowLeft, Send } from 'lucide-react';
+import { ArrowLeft, Unlock } from 'lucide-react';
 import { useAuth } from '@/providers/auth-provider';
 import { useNotification } from '@/components/video-platform/notification';
 
-export default function ForgotPasswordPage() {
-  const [email, setEmail] = useState('');
+function ResetPasswordContent() {
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [isSubmitted, setIsSubmitted] = useState(false);
-  const { forgotPassword } = useAuth();
+  const [isSuccess, setIsSuccess] = useState(false);
+  const { updatePassword } = useAuth();
+  const router = useRouter();
+  const searchParams = useSearchParams();
   const notification = useNotification();
+
+  // Check if the URL has valid reset parameters from Supabase
+  useEffect(() => {
+    // The presence of these query parameters indicates a valid reset link
+    const hasType = searchParams.get('type') === 'recovery';
+    
+    if (!hasType) {
+      notification.error('Invalid Reset Link', 'This password reset link is invalid or has expired.');
+      router.push('/auth/login');
+    }
+  }, [searchParams, notification, router]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Validate passwords match
+    if (password !== confirmPassword) {
+      notification.error('Passwords do not match', 'Please make sure both passwords match.');
+      return;
+    }
+    
+    if (password.length < 6) {
+      notification.error('Password too short', 'Password must be at least 6 characters long.');
+      return;
+    }
+    
     setIsLoading(true);
-
+    
     try {
-      const { success, error } = await forgotPassword(email);
-
-      if (success) {
-        setIsSubmitted(true);
+      const { success, error } = await updatePassword(password);
+      
+      if (!success) {
+        notification.error('Password Reset Failed', error || 'Unable to reset password');
       } else {
-        notification.error('Password Reset Failed', error || 'Unable to process your request. Please try again.');
+        setIsSuccess(true);
+        notification.success('Password Updated', 'Your password has been successfully reset.');
+        // Redirect to login after 3 seconds
+        setTimeout(() => {
+          router.push('/auth/login');
+        }, 3000);
       }
     } catch (error) {
-      console.error('Reset password error:', error);
+      console.error('Password reset error:', error);
       notification.error('Password Reset Failed', 'An unexpected error occurred.');
     } finally {
       setIsLoading(false);
@@ -66,28 +98,46 @@ export default function ForgotPasswordPage() {
         </div>
 
         <div className="bg-white/80 dark:bg-black/40 backdrop-blur-xl rounded-2xl border border-gray-200 dark:border-white/10 shadow-[0_0_40px_rgba(8,_112,_184,_0.2)] overflow-hidden p-8">
-          {!isSubmitted ? (
+          {!isSuccess ? (
             <>
               <div className="text-center mb-6">
-                <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">Reset Password</h1>
+                <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">Reset Your Password</h1>
                 <p className="text-gray-600 dark:text-gray-300">
-                  Enter your email address and we'll send you instructions to reset your password.
+                  Enter your new password below
                 </p>
               </div>
 
               <form onSubmit={handleSubmit} className="space-y-5">
                 <div className="space-y-2">
-                  <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                    Email Address
+                  <label htmlFor="password" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                    New Password
                   </label>
                   <div className="relative group">
                     <input
-                      id="email"
-                      type="email"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
+                      id="password"
+                      type="password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
                       className="w-full bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-xl px-4 py-3.5 text-gray-800 dark:text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-transparent transition-all"
-                      placeholder="name@example.com"
+                      placeholder="••••••••"
+                      required
+                    />
+                    <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-cyan-500/20 to-blue-500/20 opacity-0 group-focus-within:opacity-100 -z-10 blur-xl transition-opacity"></div>
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <label htmlFor="confirm-password" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                    Confirm Password
+                  </label>
+                  <div className="relative group">
+                    <input
+                      id="confirm-password"
+                      type="password"
+                      value={confirmPassword}
+                      onChange={(e) => setConfirmPassword(e.target.value)}
+                      className="w-full bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-xl px-4 py-3.5 text-gray-800 dark:text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-transparent transition-all"
+                      placeholder="••••••••"
                       required
                     />
                     <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-cyan-500/20 to-blue-500/20 opacity-0 group-focus-within:opacity-100 -z-10 blur-xl transition-opacity"></div>
@@ -103,8 +153,8 @@ export default function ForgotPasswordPage() {
                     <div className="h-5 w-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
                   ) : (
                     <>
-                      Send Reset Link
-                      <Send className="h-5 w-5" />
+                      Reset Password
+                      <Unlock className="h-5 w-5" />
                     </>
                   )}
                 </button>
@@ -117,19 +167,16 @@ export default function ForgotPasswordPage() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                 </svg>
               </div>
-              <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">Check Your Email</h2>
+              <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">Password Reset Complete</h2>
               <p className="text-gray-600 dark:text-gray-300 mb-6">
-                We've sent a password reset link to <strong>{email}</strong>. Please check your inbox and follow the instructions.
-              </p>
-              <p className="text-sm text-gray-500 dark:text-gray-400">
-                Didn't receive the email? Check your spam folder or try again.
+                Your password has been successfully reset. You will be redirected to the login page shortly.
               </p>
             </div>
           )}
 
           <div className="mt-6 text-center">
             <Link
-              href="/login"
+              href="/auth/login"
               className="inline-flex items-center text-sm text-cyan-600 dark:text-cyan-400 hover:text-cyan-500 dark:hover:text-cyan-300 transition-colors"
             >
               <ArrowLeft className="h-4 w-4 mr-1" />
@@ -141,3 +188,20 @@ export default function ForgotPasswordPage() {
     </div>
   );
 }
+
+// Loading fallback
+function ResetPasswordFallback() {
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-[hsl(222.2,84%,4.9%)]">
+      <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-cyan-500"></div>
+    </div>
+  );
+}
+
+export default function ResetPasswordPage() {
+  return (
+    <Suspense fallback={<ResetPasswordFallback />}>
+      <ResetPasswordContent />
+    </Suspense>
+  );
+} 

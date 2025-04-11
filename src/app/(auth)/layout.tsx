@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import NextTopLoader from "nextjs-toploader";
 import { NotificationContainer } from "@/components/video-platform/notification";
 import { ThemeProvider } from "@/providers/theme-provider";
+import { useAuth } from "@/providers/auth-provider";
 import "@/styles/globals.css";
 
 export default function AuthLayout({
@@ -13,23 +14,14 @@ export default function AuthLayout({
   children: React.ReactNode;
 }) {
   const router = useRouter();
+  const { isAuthenticated, isLoading } = useAuth();
 
   useEffect(() => {
-    // Check if user is already authenticated
-    const checkAuth = async () => {
-      try {
-        // Add your authentication check logic here
-        const isAuthenticated = false; // Replace with actual auth check
-        if (isAuthenticated) {
-          router.push('/dashboard');
-        }
-      } catch (error) {
-        console.error('Auth check failed:', error);
-      }
-    };
-
-    checkAuth();
-  }, [router]);
+    // If user is already authenticated, redirect to dashboard
+    if (!isLoading && isAuthenticated) {
+      router.push('/');
+    }
+  }, [isAuthenticated, isLoading, router]);
 
   return (
     <ThemeProvider>

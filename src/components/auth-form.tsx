@@ -1,13 +1,13 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import Link from 'next/link';
-import { Eye, EyeOff, ArrowRight } from 'lucide-react';
-import { useTheme } from '@/providers/theme-provider';
+import { useState } from "react";
+import Link from "next/link";
+import { Eye, EyeOff, ArrowRight } from "lucide-react";
+import { useTheme } from "@/providers/theme-provider";
 
 type AuthFormProps = {
-  activeTab: 'login' | 'signup';
-  onTabChange: (tab: 'login' | 'signup') => void;
+  activeTab: "login" | "signup";
+  onTabChange: (tab: "login" | "signup") => void;
   onSubmit: (e: React.FormEvent) => void;
   isLoading: boolean;
   email: string;
@@ -18,6 +18,8 @@ type AuthFormProps = {
   onNameChange: (name: string) => void;
   rememberMe: boolean;
   onRememberMeChange: (remember: boolean) => void;
+  onGoogleLogin?: () => void;
+  onDiscordLogin?: () => void;
 };
 
 export function AuthForm({
@@ -33,6 +35,8 @@ export function AuthForm({
   onNameChange,
   rememberMe,
   onRememberMeChange,
+  onGoogleLogin,
+  onDiscordLogin,
 }: AuthFormProps) {
   const [showPassword, setShowPassword] = useState(false);
   const { theme } = useTheme();
@@ -42,24 +46,24 @@ export function AuthForm({
   };
 
   return (
-    <div className="bg-white/80 dark:bg-black/40 backdrop-blur-xl rounded-2xl border border-gray-200 dark:border-white/10 shadow-[0_0_40px_rgba(8,_112,_184,_0.2)] overflow-hidden">
+    <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white/80 shadow-[0_0_40px_rgba(8,_112,_184,_0.2)] backdrop-blur-xl dark:border-white/10 dark:bg-black/40">
       {/* Tabs with animated indicator */}
-      <div className="flex relative mb-6">
+      <div className="relative mb-6 flex">
         <button
-          className={`flex-1 py-5 text-center transition-colors relative z-10 ${
-            activeTab === "login" 
-              ? "text-gray-800 dark:text-white font-medium" 
-              : "text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-white"
+          className={`relative z-10 flex-1 py-5 text-center transition-colors ${
+            activeTab === "login"
+              ? "font-medium text-gray-800 dark:text-white"
+              : "text-gray-500 hover:text-gray-800 dark:text-gray-400 dark:hover:text-white"
           }`}
           onClick={() => onTabChange("login")}
         >
           Login
         </button>
         <button
-          className={`flex-1 py-5 text-center transition-colors relative z-10 ${
-            activeTab === "signup" 
-              ? "text-gray-800 dark:text-white font-medium" 
-              : "text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-white"
+          className={`relative z-10 flex-1 py-5 text-center transition-colors ${
+            activeTab === "signup"
+              ? "font-medium text-gray-800 dark:text-white"
+              : "text-gray-500 hover:text-gray-800 dark:text-gray-400 dark:hover:text-white"
           }`}
           onClick={() => onTabChange("signup")}
         >
@@ -75,77 +79,90 @@ export function AuthForm({
       </div>
 
       <div className="px-8 pb-8">
-        <form onSubmit={onSubmit} className="space-y-5 mb-8">
+        <form onSubmit={onSubmit} className="mb-8 space-y-5">
           {activeTab === "signup" && (
             <div className="space-y-2">
-              <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+              <label
+                htmlFor="name"
+                className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300"
+              >
                 Full Name
               </label>
-              <div className="relative group">
+              <div className="group relative">
                 <input
                   id="name"
                   type="text"
                   value={name}
                   onChange={(e) => onNameChange(e.target.value)}
-                  className="w-full bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-xl px-4 py-3.5 text-gray-800 dark:text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-transparent transition-all"
+                  className="w-full rounded-xl border border-gray-200 bg-white px-4 py-3.5 text-gray-800 placeholder-gray-500 transition-all focus:border-transparent focus:outline-none focus:ring-2 focus:ring-cyan-500/50 dark:border-white/10 dark:bg-white/5 dark:text-white"
                   placeholder="Enter your name"
                   required
                 />
-                <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-cyan-500/20 to-blue-500/20 opacity-0 group-focus-within:opacity-100 -z-10 blur-xl transition-opacity"></div>
+                <div className="absolute inset-0 -z-10 rounded-xl bg-gradient-to-r from-cyan-500/20 to-blue-500/20 opacity-0 blur-xl transition-opacity group-focus-within:opacity-100"></div>
               </div>
             </div>
           )}
 
           <div className="space-y-2">
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+            <label
+              htmlFor="email"
+              className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300"
+            >
               Email Address
             </label>
-            <div className="relative group">
+            <div className="group relative">
               <input
                 id="email"
                 type="email"
                 value={email}
                 onChange={(e) => onEmailChange(e.target.value)}
-                className="w-full bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-xl px-4 py-3.5 text-gray-800 dark:text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-transparent transition-all"
+                className="w-full rounded-xl border border-gray-200 bg-white px-4 py-3.5 text-gray-800 placeholder-gray-500 transition-all focus:border-transparent focus:outline-none focus:ring-2 focus:ring-cyan-500/50 dark:border-white/10 dark:bg-white/5 dark:text-white"
                 placeholder="name@example.com"
                 required
               />
-              <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-cyan-500/20 to-blue-500/20 opacity-0 group-focus-within:opacity-100 -z-10 blur-xl transition-opacity"></div>
+              <div className="absolute inset-0 -z-10 rounded-xl bg-gradient-to-r from-cyan-500/20 to-blue-500/20 opacity-0 blur-xl transition-opacity group-focus-within:opacity-100"></div>
             </div>
           </div>
 
           <div className="space-y-2">
-            <div className="flex justify-between mb-1">
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+            <div className="mb-1 flex justify-between">
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+              >
                 Password
               </label>
               {activeTab === "login" && (
                 <Link
                   href="/forgot-password"
-                  className="text-sm text-cyan-600 dark:text-cyan-400 hover:text-cyan-500 dark:hover:text-cyan-300 transition-colors"
+                  className="text-sm text-cyan-600 transition-colors hover:text-cyan-500 dark:text-cyan-400 dark:hover:text-cyan-300"
                 >
                   Forgot password?
                 </Link>
               )}
             </div>
-            <div className="relative group">
+            <div className="group relative">
               <input
                 id="password"
                 type={showPassword ? "text" : "password"}
                 value={password}
                 onChange={(e) => onPasswordChange(e.target.value)}
-                className="w-full bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-xl px-4 py-3.5 text-gray-800 dark:text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-transparent transition-all"
+                className="w-full rounded-xl border border-gray-200 bg-white px-4 py-3.5 text-gray-800 placeholder-gray-500 transition-all focus:border-transparent focus:outline-none focus:ring-2 focus:ring-cyan-500/50 dark:border-white/10 dark:bg-white/5 dark:text-white"
                 placeholder="••••••••"
                 required
               />
               <button
                 type="button"
                 onClick={togglePasswordVisibility}
-                className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-white transition-colors"
+                className="absolute right-4 top-1/2 -translate-y-1/2 transform text-gray-400 transition-colors hover:text-gray-600 dark:hover:text-white"
               >
-                {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+                {showPassword ? (
+                  <EyeOff className="h-5 w-5" />
+                ) : (
+                  <Eye className="h-5 w-5" />
+                )}
               </button>
-              <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-cyan-500/20 to-blue-500/20 opacity-0 group-focus-within:opacity-100 -z-10 blur-xl transition-opacity"></div>
+              <div className="absolute inset-0 -z-10 rounded-xl bg-gradient-to-r from-cyan-500/20 to-blue-500/20 opacity-0 blur-xl transition-opacity group-focus-within:opacity-100"></div>
             </div>
           </div>
 
@@ -157,11 +174,14 @@ export function AuthForm({
                   type="checkbox"
                   checked={rememberMe}
                   onChange={(e) => onRememberMeChange(e.target.checked)}
-                  className="h-4 w-4 rounded border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-cyan-500 focus:ring-cyan-500/50"
+                  className="h-4 w-4 rounded border-gray-300 bg-white text-cyan-500 focus:ring-cyan-500/50 dark:border-gray-600 dark:bg-gray-700"
                 />
-                <div className="absolute inset-0 rounded bg-cyan-500/20 opacity-0 peer-checked:opacity-100 -z-10 blur-sm transition-opacity"></div>
+                <div className="absolute inset-0 -z-10 rounded bg-cyan-500/20 opacity-0 blur-sm transition-opacity peer-checked:opacity-100"></div>
               </div>
-              <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-700 dark:text-gray-300">
+              <label
+                htmlFor="remember-me"
+                className="ml-2 block text-sm text-gray-700 dark:text-gray-300"
+              >
                 Remember me
               </label>
             </div>
@@ -170,10 +190,10 @@ export function AuthForm({
           <button
             type="submit"
             disabled={isLoading}
-            className="w-full mt-6 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 text-white py-3.5 px-4 rounded-xl font-medium transition-all shadow-[0_0_15px_rgba(8,_112,_184,_0.5)] hover:shadow-[0_0_25px_rgba(8,_112,_184,_0.7)] flex items-center justify-center gap-2"
+            className="mt-6 flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 px-4 py-3.5 font-medium text-white shadow-[0_0_15px_rgba(8,_112,_184,_0.5)] transition-all hover:from-cyan-600 hover:to-blue-700 hover:shadow-[0_0_25px_rgba(8,_112,_184,_0.7)]"
           >
             {isLoading ? (
-              <div className="h-5 w-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+              <div className="h-5 w-5 animate-spin rounded-full border-2 border-white border-t-transparent"></div>
             ) : (
               <>
                 {activeTab === "login" ? "Sign In" : "Create Account"}
@@ -183,14 +203,20 @@ export function AuthForm({
           </button>
         </form>
 
-        <div className="relative flex items-center justify-center mb-8">
-          <div className="border-t border-gray-200 dark:border-white/10 absolute w-full"></div>
-          <span className="bg-gray-200 dark:bg-gray-700 backdrop-blur-sm text-gray-500 dark:text-gray-400 text-sm px-4 relative">Or continue with</span>
+        <div className="relative mb-8 flex items-center justify-center">
+          <div className="absolute w-full border-t border-gray-200 dark:border-white/10"></div>
+          <span className="relative bg-gray-200 px-4 text-sm text-gray-500 backdrop-blur-sm dark:bg-gray-700 dark:text-gray-400">
+            Or continue with
+          </span>
         </div>
 
         {/* Social login buttons */}
         <div className="space-y-4">
-          <button className="w-full flex items-center justify-center gap-3 bg-white/5 hover:bg-white/10 text-gray-800 dark:text-white py-3.5 px-4 rounded-xl border border-gray-200 dark:border-white/10 transition-all hover:shadow-[0_0_10px_rgba(8,_112,_184,_0.3)]">
+          <button
+            type="button"
+            onClick={onGoogleLogin}
+            className="flex w-full items-center justify-center gap-3 rounded-xl border border-gray-200 bg-white/5 px-4 py-3.5 text-gray-800 transition-all hover:bg-white/10 hover:shadow-[0_0_10px_rgba(8,_112,_184,_0.3)] dark:border-white/10 dark:text-white"
+          >
             <svg className="h-5 w-5" viewBox="0 0 24 24">
               <path
                 d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
@@ -212,36 +238,37 @@ export function AuthForm({
             Continue with Google
           </button>
 
-          <button className="w-full flex items-center justify-center gap-3 bg-[#5865F2]/10 hover:bg-[#5865F2]/20 text-gray-800 dark:text-white py-3.5 px-4 rounded-xl border border-[#5865F2]/30 transition-all hover:shadow-[0_0_15px_rgba(88,101,242,0.4)]">
-            <svg className="h-5 w-5 text-[#5865F2]" viewBox="0 0 24 24" fill="currentColor">
+          <button
+            type="button"
+            onClick={onDiscordLogin}
+            className="flex w-full items-center justify-center gap-3 rounded-xl border border-[#5865F2]/30 bg-[#5865F2]/10 px-4 py-3.5 text-gray-800 transition-all hover:bg-[#5865F2]/20 hover:shadow-[0_0_15px_rgba(88,101,242,0.4)] dark:text-white"
+          >
+            <svg
+              className="h-5 w-5 text-[#5865F2]"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+            >
               <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z" />
             </svg>
             Continue with Discord
           </button>
         </div>
 
-        <p className="text-center text-sm text-gray-500 dark:text-gray-400 mt-8">
-          {activeTab === "login" ? "Don't have an account? " : "Already have an account? "}
+        <p className="mt-8 text-center text-sm text-gray-500 dark:text-gray-400">
+          {activeTab === "login"
+            ? "Don't have an account? "
+            : "Already have an account? "}
           <button
             type="button"
-            onClick={() => onTabChange(activeTab === "login" ? "signup" : "login")}
-            className="text-cyan-600 dark:text-cyan-400 hover:text-cyan-500 dark:hover:text-cyan-300 transition-colors"
+            onClick={() =>
+              onTabChange(activeTab === "login" ? "signup" : "login")
+            }
+            className="text-cyan-600 transition-colors hover:text-cyan-500 dark:text-cyan-400 dark:hover:text-cyan-300"
           >
             {activeTab === "login" ? "Sign up" : "Sign in"}
           </button>
         </p>
-
-        <p className="text-center text-xs text-gray-500 dark:text-gray-400 mt-8">
-          By continuing, you agree to our{" "}
-          <Link href="/auth/login" className="text-cyan-600 dark:text-cyan-400 hover:text-cyan-500 dark:hover:text-cyan-300 transition-colors">
-            Terms of Service
-          </Link>{" "}
-          and{" "}
-          <Link href="/auth/login" className="text-cyan-600 dark:text-cyan-400 hover:text-cyan-500 dark:hover:text-cyan-300 transition-colors">
-            Privacy Policy
-          </Link>
-        </p>
       </div>
     </div>
   );
-} 
+}
