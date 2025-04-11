@@ -4,7 +4,6 @@ import type React from "react"
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { useNotification } from "@/components/video-platform/notification"
-import { ThemeToggle } from "@/components/theme-toggle"
 import { AuthForm } from "@/components/auth-form"
 
 export default function LoginPage() {
@@ -42,25 +41,21 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center relative overflow-hidden bg-gray-50 dark:bg-[hsl(222.2,84%,4.9%)] transition-colors duration-300">
-      {/* Theme toggle button */}
-      <div className="absolute top-4 right-4">
-        <ThemeToggle />
-      </div>
 
       {/* Static background pattern */}
       <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] bg-[length:50px_50px] opacity-[0.03] dark:opacity-[0.03]" />
 
       {/* Static gradient blobs */}
       <div
-        className="absolute w-[500px] h-[500px] rounded-full bg-gradient-to-br from-purple-700/30 via-violet-600/20 to-transparent blur-3xl dark:from-purple-700/30 dark:via-violet-600/20"
+        className="absolute h-[500px] w-[500px] rounded-full bg-gradient-to-br from-purple-700/30 via-violet-600/20 to-transparent blur-3xl"
         style={{
           top: `calc(50% - 250px)`,
           left: `calc(50% - 250px)`,
         }}
       />
-      <div className="absolute top-1/4 right-1/4 w-[600px] h-[600px] rounded-full bg-gradient-to-r from-cyan-500/20 via-blue-500/10 to-transparent blur-3xl animate-pulse dark:from-cyan-500/20 dark:via-blue-500/10" />
-      <div className="absolute bottom-1/4 left-1/3 w-[500px] h-[500px] rounded-full bg-gradient-to-r from-fuchsia-600/20 via-pink-600/10 to-transparent blur-3xl animate-pulse [animation-delay:2s] dark:from-fuchsia-600/20 dark:via-pink-600/10" />
-
+      <div className="absolute right-1/4 top-1/4 h-[600px] w-[600px] animate-pulse rounded-full bg-gradient-to-r from-cyan-500/20 via-blue-500/10 to-transparent blur-3xl" />
+      <div className="absolute bottom-1/4 left-1/3 h-[500px] w-[500px] animate-pulse rounded-full bg-gradient-to-r from-fuchsia-600/20 via-pink-600/10 to-transparent blur-3xl [animation-delay:2s]" />
+      
       {/* Enhanced particles with multiple shapes and patterns */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         {/* Small dots */}
