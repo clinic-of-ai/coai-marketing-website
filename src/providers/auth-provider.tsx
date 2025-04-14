@@ -284,31 +284,37 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           return { success: false, error: 'Email and password are required' };
         }
         
+        // Validate Turnstile token if required for login
+        if (!credentials.captchaToken) {
+          return { success: false, error: 'Security verification is required' };
+        }
+        
         const { user, error } = await signInWithEmail(credentials);
         
         if (error) {
           return { success: false, error: error.message };
         }
         
-        // Get the intended redirect URL from localStorage if available
+        if (!user) {
+          return { success: false, error: 'Failed to authenticate user' };
+        }
+        
+        // Check for redirect URL in localStorage
         let redirectUrl = '/';
         if (typeof window !== 'undefined') {
           const storedRedirect = localStorage.getItem('auth_redirect_url');
           if (storedRedirect) {
             redirectUrl = storedRedirect;
-            localStorage.removeItem('auth_redirect_url'); // Clear the stored URL
+            localStorage.removeItem('auth_redirect_url');
           }
         }
         
-        return { 
-          success: true,
-          redirectUrl
-        };
+        return { success: true, redirectUrl };
       } catch (error) {
         console.error('Login error:', error);
         return { 
           success: false, 
-          error: error instanceof Error ? error.message : 'Failed to sign in' 
+          error: error instanceof Error ? error.message : 'An unknown error occurred during sign in' 
         };
       }
     });
@@ -321,27 +327,33 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           return { success: false, error: 'Email and password are required' };
         }
         
-        // Password strength validation
-        if (credentials.password.length < 8) {
-          return { success: false, error: 'Password must be at least 8 characters long' };
-        }
-        
-        // Basic password complexity check
-        const hasUpperCase = /[A-Z]/.test(credentials.password);
-        const hasLowerCase = /[a-z]/.test(credentials.password);
-        const hasNumbers = /[0-9]/.test(credentials.password);
-        
-        if (!(hasUpperCase && hasLowerCase && hasNumbers)) {
-          return { 
-            success: false, 
-            error: 'Password must contain uppercase, lowercase letters and numbers' 
-          };
+        // Validate Turnstile token if required for signup
+        if (!credentials.captchaToken) {
+          return { success: false, error: 'Security verification is required' };
         }
         
         const { user, error } = await signUpWithEmail(credentials);
         
         if (error) {
+          // Special case for email confirmation required
+          if (error.message.includes('email') && error.message.includes('confirm')) {
+            return { success: true, email: credentials.email };
+          }
+          
           return { success: false, error: error.message };
+        }
+        
+        if (!user) {
+          return { success: false, error: 'Failed to create user account' };
+        }
+        
+        // If email confirmation is required
+        if (user && !user.confirmed_at) {
+          return { 
+            success: true, 
+            email: credentials.email, 
+            message: 'Please check your email to confirm your account' 
+          };
         }
         
         return { success: true };
@@ -349,7 +361,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         console.error('Signup error:', error);
         return { 
           success: false, 
-          error: error instanceof Error ? error.message : 'Failed to sign up' 
+          error: error instanceof Error ? error.message : 'An unknown error occurred during sign up' 
         };
       }
     });
@@ -448,17 +460,17 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           return { success: false, error: 'Please enter a valid email address' };
         }
         
+        // Check if the turnstile token is provided (if required)
         if (!turnstileToken) {
           return { success: false, error: 'Security verification is required' };
         }
         
-        const { error } = await resetPassword(email, turnstileToken);
+        const result = await resetPassword(email);
         
-        if (error) {
-          return { success: false, error: error.message };
-        }
-        
-        return { success: true };
+        return { 
+          success: result.success, 
+          error: result.error || undefined 
+        };
       } catch (error) {
         console.error('Password reset error:', error);
         return { 

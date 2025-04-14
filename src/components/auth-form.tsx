@@ -4,14 +4,13 @@ import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { Eye, EyeOff, ArrowRight } from "lucide-react";
 import { useTheme } from "@/providers/theme-provider";
-import { Turnstile, TurnstileHandle } from "./ui/turnstile";
-import config from "@/app/config";
 import { useNotification } from "@/components/video-platform/notification";
+import { Turnstile } from "next-turnstile";
 
 type AuthFormProps = {
   activeTab: "login" | "signup";
   onTabChange: (tab: "login" | "signup") => void;
-  onSubmit: (e: React.FormEvent, turnstileToken?: string) => void;
+  onSubmit: (e: React.FormEvent, token?: string) => void;
   isLoading: boolean;
   email: string;
   password: string;
@@ -43,10 +42,8 @@ export function AuthForm({
 }: AuthFormProps) {
   const [showPassword, setShowPassword] = useState(false);
   const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
-  const [turnstileError, setTurnstileError] = useState(false);
   const { theme } = useTheme();
   const notification = useNotification();
-  const turnstileRef = useRef<TurnstileHandle>(null);
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -55,7 +52,7 @@ export function AuthForm({
   const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Form validation - basic client-side validation before Turnstile check
+    // Form validation - basic client-side validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     
     if (!email.trim()) {
@@ -114,48 +111,17 @@ export function AuthForm({
       }
     }
     
+    // Check if Turnstile token is available
     if (!turnstileToken) {
-      setTurnstileError(true);
       notification.error(
-        "Verification Required",
-        "Please complete the security verification before proceeding."
+        "Captcha Required",
+        "Please complete the captcha verification."
       );
       return;
     }
     
     onSubmit(e, turnstileToken);
   };
-
-  const handleTurnstileVerify = (token: string) => {
-    setTurnstileToken(token);
-    setTurnstileError(false);
-  };
-
-  const handleTurnstileError = () => {
-    setTurnstileToken(null);
-    setTurnstileError(true);
-    notification.error(
-      "Verification Failed",
-      "Security verification failed. Please try again."
-    );
-  };
-
-  const handleTurnstileExpire = () => {
-    setTurnstileToken(null);
-    setTurnstileError(false);
-    notification.warning(
-      "Verification Expired",
-      "Security verification has expired. Please complete it again."
-    );
-  };
-
-  // Reset Turnstile when tab changes
-  useEffect(() => {
-    setTurnstileToken(null);
-    if (turnstileRef.current) {
-      turnstileRef.current.reset();
-    }
-  }, [activeTab]);
 
   return (
     <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white/80 shadow-[0_0_40px_rgba(8,_112,_184,_0.2)] backdrop-blur-xl dark:border-white/10 dark:bg-black/40">
@@ -299,16 +265,12 @@ export function AuthForm({
             </div>
           )}
 
-          {/* Cloudflare Turnstile */}
-          <div className={`mt-5 flex justify-center ${turnstileError ? 'animate-shake' : ''}`}>
+          {/* Cloudflare Turnstile Captcha */}
+          <div className="my-4 flex justify-center">
             <Turnstile
-              ref={turnstileRef}
-              siteKey={config.turnstile.siteKey}
-              onVerify={handleTurnstileVerify}
-              onError={handleTurnstileError}
-              onExpire={handleTurnstileExpire}
-              theme={theme === 'dark' ? 'dark' : 'light'}
-              className="transform transition-all duration-300"
+              siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || "1x00000000000000000000AA"}
+              onVerify={(token: string) => setTurnstileToken(token)}
+              theme={theme === "dark" ? "dark" : "light"}
             />
           </div>
 

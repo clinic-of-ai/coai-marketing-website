@@ -7,14 +7,14 @@ export type AuthUser = User;
 export type SignInCredentials = {
   email: string;
   password: string;
-  turnstileToken?: string;
+  captchaToken?: string;
 };
 
 export type SignUpCredentials = {
   email: string;
   password: string;
   name?: string;
-  turnstileToken?: string;
+  captchaToken?: string;
 };
 
 export type AuthError = {
@@ -39,7 +39,7 @@ export async function isAuthenticated(): Promise<boolean> {
 }
 
 // Authentication methods
-export async function signInWithEmail({ email, password, turnstileToken }: SignInCredentials): Promise<{ user: AuthUser | null; error: AuthError | null }> {
+export async function signInWithEmail({ email, password, captchaToken }: SignInCredentials): Promise<{ user: AuthUser | null; error: AuthError | null; redirectUrl?: string }> {
   try {
     if (!email || !password) {
       return { 
@@ -48,45 +48,19 @@ export async function signInWithEmail({ email, password, turnstileToken }: SignI
       };
     }
 
-    // Verify turnstile token first if provided
-    if (turnstileToken) {
-      try {
-        const response = await fetch('/api/turnstile/verify', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ token: turnstileToken }),
-        });
-        
-        const result = await response.json();
-        
-        if (!result.success) {
-          return { 
-            user: null, 
-            error: { 
-              message: 'Security verification failed. Please try again.',
-              status: 400
-            } 
-          };
-        }
-      } catch (error) {
-        return { 
-          user: null, 
-          error: { 
-            message: 'Security verification failed. Please try again later.',
-            status: 500
-          } 
-        };
-      }
-    } else {
-      // If token is required but not provided
-      return { 
-        user: null, 
-        error: { 
-          message: 'Security verification is required',
-          status: 400
-        } 
+    if (!captchaToken) {
+      return {
+        user: null,
+        error: { message: 'Captcha verification is required' }
+      };
+    }
+
+    // Verify captcha token with Cloudflare
+    const captchaVerified = await verifyCaptcha(captchaToken);
+    if (!captchaVerified) {
+      return {
+        user: null,
+        error: { message: 'Captcha verification failed' }
       };
     }
 
@@ -108,12 +82,28 @@ export async function signInWithEmail({ email, password, turnstileToken }: SignI
   }
 }
 
-export async function signUpWithEmail({ email, password, name, turnstileToken }: SignUpCredentials): Promise<{ user: AuthUser | null; error: AuthError | null }> {
+export async function signUpWithEmail({ email, password, name, captchaToken }: SignUpCredentials): Promise<{ user: AuthUser | null; error: AuthError | null }> {
   try {
     if (!email || !password) {
       return { 
         user: null, 
         error: { message: 'Email and password are required' } 
+      };
+    }
+    
+    if (!captchaToken) {
+      return {
+        user: null,
+        error: { message: 'Captcha verification is required' }
+      };
+    }
+
+    // Verify captcha token with Cloudflare
+    const captchaVerified = await verifyCaptcha(captchaToken);
+    if (!captchaVerified) {
+      return {
+        user: null,
+        error: { message: 'Captcha verification failed' }
       };
     }
     
@@ -134,48 +124,6 @@ export async function signUpWithEmail({ email, password, name, turnstileToken }:
       return { 
         user: null, 
         error: { message: 'Password must contain uppercase, lowercase letters and numbers' } 
-      };
-    }
-    
-    // Verify turnstile token
-    if (turnstileToken) {
-      try {
-        const response = await fetch('/api/turnstile/verify', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ token: turnstileToken }),
-        });
-        
-        const result = await response.json();
-        
-        if (!result.success) {
-          return { 
-            user: null, 
-            error: { 
-              message: 'Security verification failed. Please try again.',
-              status: 400
-            } 
-          };
-        }
-      } catch (error) {
-        return { 
-          user: null, 
-          error: { 
-            message: 'Security verification failed. Please try again later.',
-            status: 500
-          } 
-        };
-      }
-    } else {
-      // If token is required but not provided
-      return { 
-        user: null, 
-        error: { 
-          message: 'Security verification is required',
-          status: 400
-        } 
       };
     }
     
@@ -207,6 +155,25 @@ export async function signUpWithEmail({ email, password, name, turnstileToken }:
       user: null, 
       error: { message: err instanceof Error ? err.message : 'An unknown error occurred during sign up' } 
     };
+  }
+}
+
+// Function to verify captcha token with Cloudflare
+async function verifyCaptcha(token: string): Promise<boolean> {
+  try {
+    const response = await fetch('/api/verify-turnstile', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ token }),
+    });
+
+    const data = await response.json();
+    return data.success;
+  } catch (error) {
+    console.error('Error verifying captcha:', error);
+    return false;
   }
 }
 
@@ -272,55 +239,16 @@ export function getBaseUrl(): string {
   return 'https://www.clinicofai.com';
 }
 
-export async function resetPassword(email: string, turnstileToken?: string): Promise<{ error: AuthError | null }> {
+export async function resetPassword(email: string): Promise<{ success: boolean; error: string | null }> {
   try {
     if (!email) {
-      return { error: { message: 'Email is required' } };
+      return { success: false, error: 'Email is required' };
     }
     
     // Email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
-      return { error: { message: 'Please enter a valid email address' } };
-    }
-    
-    // Verify turnstile token
-    if (turnstileToken) {
-      try {
-        const response = await fetch('/api/turnstile/verify', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ token: turnstileToken }),
-        });
-        
-        const result = await response.json();
-        
-        if (!result.success) {
-          return { 
-            error: { 
-              message: 'Security verification failed. Please try again.',
-              status: 400
-            } 
-          };
-        }
-      } catch (error) {
-        return { 
-          error: { 
-            message: 'Security verification failed. Please try again later.',
-            status: 500
-          } 
-        };
-      }
-    } else {
-      // If token is required but not provided
-      return { 
-        error: { 
-          message: 'Security verification is required',
-          status: 400
-        } 
-      };
+      return { success: false, error: 'Please enter a valid email address' };
     }
     
     const baseUrl = getBaseUrl();
@@ -329,13 +257,14 @@ export async function resetPassword(email: string, turnstileToken?: string): Pro
     });
     
     if (error) {
-      return { error: { message: error.message, status: error.status } };
+      return { success: false, error: error.message };
     }
     
-    return { error: null };
+    return { success: true, error: null };
   } catch (err) {
     return { 
-      error: { message: err instanceof Error ? err.message : 'An unknown error occurred during password reset' } 
+      success: false,
+      error: err instanceof Error ? err.message : 'An unknown error occurred during password reset' 
     };
   }
 }
@@ -467,4 +396,4 @@ export async function checkSupabaseConnection(): Promise<boolean> {
     console.error('Supabase auth connection check failed:', err);
     return false;
   }
-} 
+}

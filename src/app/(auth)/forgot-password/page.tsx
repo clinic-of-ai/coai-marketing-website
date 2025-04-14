@@ -5,34 +5,35 @@ import Link from 'next/link';
 import { ArrowLeft, Send } from 'lucide-react';
 import { useAuth } from '@/providers/auth-provider';
 import { useNotification } from '@/components/video-platform/notification';
-import { Turnstile } from '@/components/ui/turnstile';
-import config from '@/app/config';
+import { useTheme } from '@/providers/theme-provider';
 
 export default function ForgotPasswordPage() {
   const [email, setEmail] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
-  const [turnstileError, setTurnstileError] = useState(false);
   const { forgotPassword } = useAuth();
   const notification = useNotification();
+  const { theme } = useTheme();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!turnstileToken) {
-      setTurnstileError(true);
-      notification.error(
-        "Verification Required",
-        "Please complete the security verification before proceeding."
-      );
+    if (!email.trim()) {
+      notification.error('Email Required', 'Please enter your email address.');
+      return;
+    }
+    
+    // Email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      notification.error('Invalid Email', 'Please enter a valid email address.');
       return;
     }
     
     setIsLoading(true);
 
     try {
-      const { success, error } = await forgotPassword(email, turnstileToken);
+      const { success, error } = await forgotPassword(email);
 
       if (success) {
         setIsSubmitted(true);
@@ -45,25 +46,6 @@ export default function ForgotPasswordPage() {
     } finally {
       setIsLoading(false);
     }
-  };
-
-  const handleTurnstileVerify = (token: string) => {
-    setTurnstileToken(token);
-    setTurnstileError(false);
-  };
-
-  const handleTurnstileError = () => {
-    setTurnstileToken(null);
-    setTurnstileError(true);
-    notification.error(
-      "Verification Failed",
-      "Security verification failed. Please try again."
-    );
-  };
-
-  const handleTurnstileExpire = () => {
-    setTurnstileToken(null);
-    setTurnstileError(false);
   };
 
   return (
@@ -125,17 +107,6 @@ export default function ForgotPasswordPage() {
                     />
                     <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-cyan-500/20 to-blue-500/20 opacity-0 group-focus-within:opacity-100 -z-10 blur-xl transition-opacity"></div>
                   </div>
-                </div>
-
-                {/* Cloudflare Turnstile */}
-                <div className={`mt-5 flex justify-center ${turnstileError ? 'animate-shake' : ''}`}>
-                  <Turnstile
-                    siteKey={config.turnstile.siteKey}
-                    onVerify={handleTurnstileVerify}
-                    onError={handleTurnstileError}
-                    onExpire={handleTurnstileExpire}
-                    className="transform transition-all duration-300"
-                  />
                 </div>
 
                 <button
