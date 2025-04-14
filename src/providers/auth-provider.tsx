@@ -284,11 +284,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           return { success: false, error: 'Email and password are required' };
         }
         
-        // Validate Turnstile token if required for login
-        if (!credentials.captchaToken) {
-          return { success: false, error: 'Security verification is required' };
-        }
-        
         const { user, error, redirectUrl: suggestedRedirect } = await signInWithEmail(credentials);
         
         if (error) {
@@ -355,11 +350,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       try {
         if (!credentials.email || !credentials.password) {
           return { success: false, error: 'Email and password are required' };
-        }
-        
-        // Validate Turnstile token if required for signup
-        if (!credentials.captchaToken) {
-          return { success: false, error: 'Security verification is required' };
         }
         
         const { user, error } = await signUpWithEmail(credentials);
