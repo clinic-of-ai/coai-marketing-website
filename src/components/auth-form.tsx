@@ -1,10 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { Eye, EyeOff, ArrowRight } from "lucide-react";
 import { useTheme } from "@/providers/theme-provider";
-import { Turnstile } from "./ui/turnstile";
+import { Turnstile, TurnstileHandle } from "./ui/turnstile";
 import config from "@/app/config";
 import { useNotification } from "@/components/video-platform/notification";
 
@@ -46,6 +46,7 @@ export function AuthForm({
   const [turnstileError, setTurnstileError] = useState(false);
   const { theme } = useTheme();
   const notification = useNotification();
+  const turnstileRef = useRef<TurnstileHandle>(null);
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -53,6 +54,65 @@ export function AuthForm({
 
   const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Form validation - basic client-side validation before Turnstile check
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    
+    if (!email.trim()) {
+      notification.error(
+        "Email Required",
+        "Please enter your email address."
+      );
+      return;
+    }
+    
+    if (!emailRegex.test(email)) {
+      notification.error(
+        "Invalid Email",
+        "Please enter a valid email address."
+      );
+      return;
+    }
+    
+    if (!password) {
+      notification.error(
+        "Password Required",
+        "Please enter your password."
+      );
+      return;
+    }
+    
+    if (activeTab === "signup") {
+      // Extra validation for signup
+      if (!name.trim()) {
+        notification.error(
+          "Name Required",
+          "Please enter your full name."
+        );
+        return;
+      }
+      
+      if (password.length < 8) {
+        notification.error(
+          "Password Too Short",
+          "Password must be at least 8 characters long."
+        );
+        return;
+      }
+      
+      // Basic password complexity check
+      const hasUpperCase = /[A-Z]/.test(password);
+      const hasLowerCase = /[a-z]/.test(password);
+      const hasNumbers = /[0-9]/.test(password);
+      
+      if (!(hasUpperCase && hasLowerCase && hasNumbers)) {
+        notification.error(
+          "Password Requirements",
+          "Password must include uppercase, lowercase letters and numbers."
+        );
+        return;
+      }
+    }
     
     if (!turnstileToken) {
       setTurnstileError(true);
@@ -83,7 +143,19 @@ export function AuthForm({
   const handleTurnstileExpire = () => {
     setTurnstileToken(null);
     setTurnstileError(false);
+    notification.warning(
+      "Verification Expired",
+      "Security verification has expired. Please complete it again."
+    );
   };
+
+  // Reset Turnstile when tab changes
+  useEffect(() => {
+    setTurnstileToken(null);
+    if (turnstileRef.current) {
+      turnstileRef.current.reset();
+    }
+  }, [activeTab]);
 
   return (
     <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white/80 shadow-[0_0_40px_rgba(8,_112,_184,_0.2)] backdrop-blur-xl dark:border-white/10 dark:bg-black/40">
@@ -230,10 +302,12 @@ export function AuthForm({
           {/* Cloudflare Turnstile */}
           <div className={`mt-5 flex justify-center ${turnstileError ? 'animate-shake' : ''}`}>
             <Turnstile
+              ref={turnstileRef}
               siteKey={config.turnstile.siteKey}
               onVerify={handleTurnstileVerify}
               onError={handleTurnstileError}
               onExpire={handleTurnstileExpire}
+              theme={theme === 'dark' ? 'dark' : 'light'}
               className="transform transition-all duration-300"
             />
           </div>

@@ -17,12 +17,15 @@ import { CoAILogo } from "@/components/ui/logo/CoAILogo";
 
 import { NavBar } from "@/components/common/navigation";
 import { MobileNavigation } from "@/components/common/navigation/mobile-menu";
+import { useAuth } from "@/providers/auth-provider";
+import { Button } from "@/components/ui/button";
 
 import { navLinks, type NavLink } from "@/constants/nav-links";
 
 export function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
+  const { user, isAuthenticated, logout } = useAuth();
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -51,6 +54,13 @@ export function Header() {
 
   const closeMobileMenu = () => {
     setIsMobileMenuOpen(false);
+  };
+
+  const handleLogout = async () => {
+    const { success } = await logout();
+    if (success) {
+      // Additional actions after logout if needed
+    }
   };
 
   return (
@@ -127,6 +137,26 @@ export function Header() {
                 Company →
               </p>
             </Link>
+            {isAuthenticated ? (
+              <button
+                className="text-[16px] font-semibold text-black dark:text-white"
+                onClick={() => {
+                  handleLogout();
+                  closeMobileMenu();
+                }}
+              >
+                Logout
+              </button>
+            ) : (
+              <Link href="/login" passHref>
+                <p
+                  className="text-[16px] font-semibold text-black dark:text-white"
+                  onClick={closeMobileMenu}
+                >
+                  Login
+                </p>
+              </Link>
+            )}
           </div>
         </div>
 
@@ -143,6 +173,21 @@ export function Header() {
               </NavigationMenuItem>
             </NavigationMenuList>
           </NavigationMenu>
+          
+          {isAuthenticated ? (
+            <Button 
+              variant="ghost" 
+              onClick={handleLogout}
+              className="hidden lg:flex"
+            >
+              Logout
+            </Button>
+          ) : (
+            <Link href="/login" className="hidden lg:block">
+              <Button variant="outline">Login</Button>
+            </Link>
+          )}
+          
           <ThemeToggleButton />
         </div>
       </div>
