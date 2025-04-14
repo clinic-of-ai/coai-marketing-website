@@ -19,6 +19,7 @@ import {
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { Bell, LogOut, Menu, Moon, Search, Settings, Sun, Upload, User, Video } from "lucide-react"
 import { useTheme } from "next-themes"
+import { useAuth } from "@/providers/auth-provider"
 
 interface PageLayoutProps {
   children: ReactNode
@@ -30,7 +31,8 @@ interface PageLayoutProps {
 
 export default function PageLayout({ children, title, count, hidesearch = false, onSearch }: PageLayoutProps) {
   const { setTheme, theme } = useTheme()
-  const isAuthenticated = true // This would come from your auth context
+  const { user } = useAuth();
+  const isAdmin = user?.email === process.env.NEXT_PUBLIC_ADMIN_NAME;
   const [searchQuery, setSearchQuery] = useState("")
   const [debouncedSearchQuery, setDebouncedSearchQuery] = useState("")
 
@@ -92,7 +94,7 @@ export default function PageLayout({ children, title, count, hidesearch = false,
                     <span className="sr-only">Toggle theme</span>
                   </Button> */}
 
-                  {isAuthenticated ? (
+                  {isAdmin ? (
                     <>
                       <Button variant="ghost" size="icon" asChild>
                         <a href="/video-platform/upload">
