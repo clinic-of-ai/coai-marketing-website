@@ -1,12 +1,12 @@
-"use client"
+"use client";
 
-import type React from "react"
+import type React from "react";
 
-import { useState, ReactNode, useEffect } from "react"
-import Sidebar from "@/components/video-platform/sidebar"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { useState, ReactNode, useEffect } from "react";
+import Sidebar from "@/components/video-platform/sidebar";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -15,44 +15,61 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
-import { Bell, LogOut, Menu, Moon, Search, Settings, Sun, Upload, User, Video } from "lucide-react"
-import { useTheme } from "next-themes"
-import { useAuth } from "@/providers/auth-provider"
+} from "@/components/ui/dropdown-menu";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import {
+  Bell,
+  LogOut,
+  Menu,
+  Moon,
+  Search,
+  Settings,
+  Sun,
+  Upload,
+  User,
+  Video,
+} from "lucide-react";
+import { useTheme } from "next-themes";
+import { useAuth } from "@/providers/auth-provider";
 
 interface PageLayoutProps {
-  children: ReactNode
-  title: string
-  count: number
-  hidesearch: boolean
-  onSearch?: (query: string) => void
+  children: ReactNode;
+  title: string;
+  count: number;
+  hidesearch: boolean;
+  onSearch?: (query: string) => void;
 }
 
-export default function PageLayout({ children, title, count, hidesearch = false, onSearch }: PageLayoutProps) {
-  const { setTheme, theme } = useTheme()
+export default function PageLayout({
+  children,
+  title,
+  count,
+  hidesearch = false,
+  onSearch,
+}: PageLayoutProps) {
+  const { setTheme, theme } = useTheme();
   const { user } = useAuth();
   const isAdmin = user?.email === process.env.NEXT_PUBLIC_ADMIN_NAME;
-  const [searchQuery, setSearchQuery] = useState("")
-  const [debouncedSearchQuery, setDebouncedSearchQuery] = useState("")
+  const [searchQuery, setSearchQuery] = useState("");
+  const [debouncedSearchQuery, setDebouncedSearchQuery] = useState("");
 
   // Debounce search to avoid too many updates
   useEffect(() => {
     const timer = setTimeout(() => {
       if (onSearch) {
-        onSearch(searchQuery)
+        onSearch(searchQuery);
       }
-    }, 300)
+    }, 300);
 
-    return () => clearTimeout(timer)
-  }, [searchQuery, onSearch])
+    return () => clearTimeout(timer);
+  }, [searchQuery, onSearch]);
 
   const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
     if (onSearch) {
-      onSearch(searchQuery)
+      onSearch(searchQuery);
     }
-  }
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -77,12 +94,13 @@ export default function PageLayout({ children, title, count, hidesearch = false,
                         <span className="sr-only">Toggle menu</span>
                       </Button>
                     </SheetTrigger>
-                    <SheetContent side="left" className="p-0 w-[280px]">
+                    <SheetContent side="left" className="w-[280px] p-0">
                       <Sidebar />
                     </SheetContent>
                   </Sheet>
                   <h1 className="text-2xl font-bold">
-                    {title} <span className="text-muted-foreground">({count})</span>
+                    {title}{" "}
+                    <span className="text-muted-foreground">({count})</span>
                   </h1>
                 </div>
 
@@ -95,27 +113,29 @@ export default function PageLayout({ children, title, count, hidesearch = false,
                   </Button> */}
 
                   {isAdmin ? (
-                    <>
-                      <Button variant="ghost" size="icon" asChild>
-                        <a href="/video-platform/upload">
-                          <Upload className="h-5 w-5" />
-                          <span className="sr-only">Upload</span>
-                        </a>
-                      </Button>
+                    <Button variant="ghost" size="icon" asChild>
+                      <a href="/video-platform/upload">
+                        <Upload className="h-5 w-5" />
+                        <span className="sr-only">Upload</span>
+                      </a>
+                    </Button>
+                  ) : (
+                    <></>
+                  )}
 
-                      <Button variant="ghost" size="icon" asChild>
-                        <a href="/live">
-                          <Video className="h-5 w-5" />
-                          <span className="sr-only">Go Live</span>
-                        </a>
-                      </Button>
+                  <Button variant="ghost" size="icon" asChild>
+                    <a href="/live">
+                      <Video className="h-5 w-5" />
+                      <span className="sr-only">Go Live</span>
+                    </a>
+                  </Button>
 
-                      {/* <Button variant="ghost" size="icon">
+                  {/* <Button variant="ghost" size="icon">
                         <Bell className="h-5 w-5" />
                         <span className="sr-only">Notifications</span>
                       </Button> */}
 
-                      {/* <DropdownMenu>
+                  {/* <DropdownMenu>
                         <DropdownMenuTrigger asChild>
                           <Button variant="ghost" size="icon" className="rounded-full">
                             <Avatar className="h-8 w-8">
@@ -148,24 +168,22 @@ export default function PageLayout({ children, title, count, hidesearch = false,
                           </DropdownMenuItem>
                         </DropdownMenuContent>
                       </DropdownMenu> */}
-                    </>
-                  ) : (
-                    <></>
-                  )}
                 </div>
               </div>
 
               {/* Search bar */}
-              {!hidesearch && <form onSubmit={handleSearch} className="relative w-full">
-                <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-                <Input
-                  type="search"
-                  placeholder="Search"
-                  className="w-full pl-10 pr-4"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                />
-              </form>}
+              {!hidesearch && (
+                <form onSubmit={handleSearch} className="relative w-full">
+                  <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                  <Input
+                    type="search"
+                    placeholder="Search"
+                    className="w-full pl-10 pr-4"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                  />
+                </form>
+              )}
             </div>
 
             {/* Page content */}
@@ -174,6 +192,5 @@ export default function PageLayout({ children, title, count, hidesearch = false,
         </main>
       </div>
     </div>
-  )
+  );
 }
-
