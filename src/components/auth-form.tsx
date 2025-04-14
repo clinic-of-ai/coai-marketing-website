@@ -4,11 +4,14 @@ import { useState } from "react";
 import Link from "next/link";
 import { Eye, EyeOff, ArrowRight } from "lucide-react";
 import { useTheme } from "@/providers/theme-provider";
+import { Turnstile } from "./ui/turnstile";
+import config from "@/app/config";
+import { useNotification } from "@/components/video-platform/notification";
 
 type AuthFormProps = {
   activeTab: "login" | "signup";
   onTabChange: (tab: "login" | "signup") => void;
-  onSubmit: (e: React.FormEvent) => void;
+  onSubmit: (e: React.FormEvent, turnstileToken?: string) => void;
   isLoading: boolean;
   email: string;
   password: string;
@@ -39,10 +42,47 @@ export function AuthForm({
   onDiscordLogin,
 }: AuthFormProps) {
   const [showPassword, setShowPassword] = useState(false);
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
+  const [turnstileError, setTurnstileError] = useState(false);
   const { theme } = useTheme();
+  const notification = useNotification();
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
+  };
+
+  const handleFormSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!turnstileToken) {
+      setTurnstileError(true);
+      notification.error(
+        "Verification Required",
+        "Please complete the security verification before proceeding."
+      );
+      return;
+    }
+    
+    onSubmit(e, turnstileToken);
+  };
+
+  const handleTurnstileVerify = (token: string) => {
+    setTurnstileToken(token);
+    setTurnstileError(false);
+  };
+
+  const handleTurnstileError = () => {
+    setTurnstileToken(null);
+    setTurnstileError(true);
+    notification.error(
+      "Verification Failed",
+      "Security verification failed. Please try again."
+    );
+  };
+
+  const handleTurnstileExpire = () => {
+    setTurnstileToken(null);
+    setTurnstileError(false);
   };
 
   return (
@@ -79,7 +119,7 @@ export function AuthForm({
       </div>
 
       <div className="px-8 pb-8">
-        <form onSubmit={onSubmit} className="mb-8 space-y-5">
+        <form onSubmit={handleFormSubmit} className="mb-8 space-y-5">
           {activeTab === "signup" && (
             <div className="space-y-2">
               <label
@@ -186,6 +226,17 @@ export function AuthForm({
               </label>
             </div>
           )}
+
+          {/* Cloudflare Turnstile */}
+          <div className={`mt-5 flex justify-center ${turnstileError ? 'animate-shake' : ''}`}>
+            <Turnstile
+              siteKey={config.turnstile.siteKey}
+              onVerify={handleTurnstileVerify}
+              onError={handleTurnstileError}
+              onExpire={handleTurnstileExpire}
+              className="transform transition-all duration-300"
+            />
+          </div>
 
           <button
             type="submit"

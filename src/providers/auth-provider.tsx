@@ -24,9 +24,9 @@ type AuthContextType = {
   login: (credentials: SignInCredentials) => Promise<{ success: boolean; error?: string }>;
   signup: (credentials: SignUpCredentials) => Promise<{ success: boolean; error?: string }>;
   logout: () => Promise<{ success: boolean; error?: string }>;
-  googleLogin: () => Promise<void>;
-  discordLogin: () => Promise<void>;
-  forgotPassword: (email: string) => Promise<{ success: boolean; error?: string }>;
+  googleLogin: () => Promise<{ success: boolean; error?: string }>;
+  discordLogin: () => Promise<{ success: boolean; error?: string }>;
+  forgotPassword: (email: string, turnstileToken?: string) => Promise<{ success: boolean; error?: string }>;
   updatePassword: (newPassword: string) => Promise<{ success: boolean; error?: string }>;
 };
 
@@ -37,19 +37,27 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    let isMounted = true;
+    
     const initializeAuth = async () => {
       try {
         const currentUser = await getCurrentUser();
-        setUser(currentUser);
+        if (isMounted) {
+          setUser(currentUser);
+        }
       } catch (error) {
         console.error('Error initializing auth:', error);
       } finally {
-        setIsLoading(false);
+        if (isMounted) {
+          setIsLoading(false);
+        }
       }
     };
 
     // Listen for auth state changes
     const { data: { subscription } } = onAuthStateChange((event, session) => {
+      if (!isMounted) return;
+      
       if (event === 'SIGNED_IN' || event === 'USER_UPDATED') {
         setUser(session?.user ?? null);
       } else if (event === 'SIGNED_OUT') {
@@ -61,6 +69,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     // Clean up subscription
     return () => {
+      isMounted = false;
       subscription.unsubscribe();
     };
   }, []);
@@ -120,16 +129,44 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   const googleLogin = async () => {
-    await signInWithGoogle();
+    try {
+      const { error } = await signInWithGoogle();
+      
+      if (error) {
+        return { success: false, error: error.message };
+      }
+      
+      return { success: true };
+    } catch (error) {
+      console.error('Google login error:', error);
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : 'Failed to sign in with Google'
+      };
+    }
   };
 
   const discordLogin = async () => {
-    await signInWithDiscord();
+    try {
+      const { error } = await signInWithDiscord();
+      
+      if (error) {
+        return { success: false, error: error.message };
+      }
+      
+      return { success: true };
+    } catch (error) {
+      console.error('Discord login error:', error);
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : 'Failed to sign in with Discord'
+      };
+    }
   };
 
-  const forgotPassword = async (email: string) => {
+  const forgotPassword = async (email: string, turnstileToken?: string) => {
     try {
-      const { error } = await resetPassword(email);
+      const { error } = await resetPassword(email, turnstileToken);
       
       if (error) {
         return { success: false, error: error.message };

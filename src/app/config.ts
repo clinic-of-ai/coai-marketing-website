@@ -36,5 +36,9 @@ export default {
       id: "Nx1uj9hpUtMgXrp6FcgY_1732720304666",
       url: "https://api.leadconnectorhq.com/widget/booking/Nx1uj9hpUtMgXrp6FcgY"
     }
+  },
+  turnstile: {
+    siteKey: process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || "1x00000000000000000000AA", // Replace with actual site key
+    secretKey: process.env.TURNSTILE_SECRET_KEY // Server-side only
   }
 } as const;
