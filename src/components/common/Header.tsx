@@ -21,8 +21,10 @@ import { useAuth } from "@/providers/auth-provider";
 import { Button } from "@/components/ui/button";
 
 import { navLinks, type NavLink } from "@/constants/nav-links";
+import { useNotification } from "@/components/video-platform/notification";
 
 export function Header() {
+  const notification = useNotification();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
   const { user, isAuthenticated, logout } = useAuth();
@@ -59,7 +61,8 @@ export function Header() {
   const handleLogout = async () => {
     const { success } = await logout();
     if (success) {
-      // Additional actions after logout if needed
+      notification.success("Success","Logout Successfully");
+      window.location.href = '/login';
     }
   };
 
