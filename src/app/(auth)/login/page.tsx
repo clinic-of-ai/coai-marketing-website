@@ -45,19 +45,9 @@ function LoginContent() {
     }
   }, [isAuthenticated, router, searchParams, notification]);
 
-  const handleSubmit = async (e: React.FormEvent, turnstileToken?: string) => {
+  const handleSubmit = async (e: React.FormEvent, captchaToken?: string) => {
     e.preventDefault();
     setIsLoading(true);
-
-    // Ensure we have a turnstile token
-    if (!turnstileToken) {
-      notification.error(
-        "Verification Required",
-        "Please complete the security verification before proceeding."
-      );
-      setIsLoading(false);
-      return;
-    }
 
     try {
       if (activeTab === "login") {
@@ -65,7 +55,7 @@ function LoginContent() {
         const { success, error, redirectUrl } = await login({ 
           email, 
           password,
-          turnstileToken
+          captchaToken
         });
 
         if (success) {
@@ -87,7 +77,7 @@ function LoginContent() {
           email, 
           password, 
           name,
-          turnstileToken
+          captchaToken
         });
 
         if (success) {
