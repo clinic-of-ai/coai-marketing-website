@@ -49,10 +49,17 @@ export function AuthForm({
   const { theme } = useTheme();
   const notification = useNotification();
   const [captchaToken, setCaptchaToken] = useState<string | null>(null);
+  const [captchaKey, setCaptchaKey] = useState<number>(0);
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
+
+  // Reset captcha when tab changes
+  useEffect(() => {
+    setCaptchaToken(null);
+    setCaptchaKey(prevKey => prevKey + 1);
+  }, [activeTab]);
 
   const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -270,17 +277,20 @@ export function AuthForm({
             </div>
           )}
 
-          {/* Cloudflare Turnstile Captcha */}
-          <div className="flex justify-center my-4">
-            <Turnstile
-              siteKey={siteKey}
-              onVerify={(token: string) => {
-                setCaptchaToken(token);
-                if (onCaptchaVerify) onCaptchaVerify(token);
-              }}
-              theme={theme === "dark" ? "dark" : "light"}
-            />
-          </div>
+          {/* Cloudflare Turnstile Captcha - hidden when verified */}
+          {!captchaToken && (
+            <div className="flex justify-center my-4">
+              <Turnstile
+                key={captchaKey}
+                siteKey={siteKey}
+                onVerify={(token: string) => {
+                  setCaptchaToken(token);
+                  if (onCaptchaVerify) onCaptchaVerify(token);
+                }}
+                theme={theme === "dark" ? "dark" : "light"}
+              />
+            </div>
+          )}
 
           <button
             type="submit"
