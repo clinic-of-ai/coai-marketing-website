@@ -234,7 +234,6 @@ export function AuthForm({
               onVerify={handleTurnstileVerify}
               onError={handleTurnstileError}
               onExpire={handleTurnstileExpire}
-              action={activeTab === "login" ? config.turnstile.actions.login : config.turnstile.actions.signup}
               className="transform transition-all duration-300"
             />
           </div>

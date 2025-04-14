@@ -134,7 +134,6 @@ export default function ForgotPasswordPage() {
                     onVerify={handleTurnstileVerify}
                     onError={handleTurnstileError}
                     onExpire={handleTurnstileExpire}
-                    action={config.turnstile.actions.forgotPassword}
                     className="transform transition-all duration-300"
                   />
                 </div>
