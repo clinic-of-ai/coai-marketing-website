@@ -38,19 +38,6 @@ function ResetPasswordContent() {
   const searchParams = useSearchParams();
   const notification = useNotification();
 
-  // Check if the URL has valid reset parameters from Supabase
-  useEffect(() => {
-    // Check for required parameters that indicate a valid reset link
-    const hasType = searchParams.get('type') === 'recovery';
-    const hasAccessToken = !!searchParams.get('access_token');
-    
-    if (!hasType || !hasAccessToken) {
-      notification.error('Invalid Reset Link', 'This password reset link is invalid or has expired.');
-      setTimeout(() => {
-        router.push('/login');
-      }, 2000);
-    }
-  }, [searchParams, notification, router]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
