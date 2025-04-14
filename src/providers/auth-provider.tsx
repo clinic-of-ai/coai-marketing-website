@@ -32,7 +32,7 @@ type AuthContextType = {
   logout: () => Promise<{ success: boolean; error?: string }>;
   googleLogin: () => Promise<{ success: boolean; error?: string }>;
   discordLogin: () => Promise<{ success: boolean; error?: string }>;
-  forgotPassword: (email: string, turnstileToken?: string) => Promise<{ success: boolean; error?: string }>;
+  forgotPassword: (email: string) => Promise<{ success: boolean; error?: string }>;
   updatePassword: (newPassword: string) => Promise<{ success: boolean; error?: string }>;
   refreshSession: () => Promise<boolean>;
   clearSession: () => Promise<void>;
@@ -289,9 +289,30 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           return { success: false, error: 'Security verification is required' };
         }
         
-        const { user, error } = await signInWithEmail(credentials);
+        const { user, error, redirectUrl: suggestedRedirect } = await signInWithEmail(credentials);
         
         if (error) {
+          // Specific error handling for known error patterns
+          if (error.message.includes('Invalid login credentials')) {
+            return { success: false, error: 'The email or password you entered is incorrect' };
+          }
+          
+          if (error.message.includes('Email not confirmed')) {
+            return { 
+              success: false, 
+              error: 'Please check your email and confirm your account before logging in',
+              needsVerification: true
+            };
+          }
+          
+          // Rate limiting detection
+          if (error.status === 429 || error.message.includes('rate limit')) {
+            return { 
+              success: false, 
+              error: 'Too many login attempts. Please try again later'
+            };
+          }
+          
           return { success: false, error: error.message };
         }
         
@@ -300,7 +321,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         }
         
         // Check for redirect URL in localStorage
-        let redirectUrl = '/';
+        let redirectUrl = suggestedRedirect || '/';
         if (typeof window !== 'undefined') {
           const storedRedirect = localStorage.getItem('auth_redirect_url');
           if (storedRedirect) {
@@ -312,6 +333,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         return { success: true, redirectUrl };
       } catch (error) {
         console.error('Login error:', error);
+        
+        // Network error detection
+        if (!isOnline || (error instanceof Error && error.message.includes('network'))) {
+          return { 
+            success: false, 
+            error: 'Cannot connect to authentication service. Please check your internet connection' 
+          };
+        }
+        
         return { 
           success: false, 
           error: error instanceof Error ? error.message : 'An unknown error occurred during sign in' 
@@ -337,7 +367,25 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         if (error) {
           // Special case for email confirmation required
           if (error.message.includes('email') && error.message.includes('confirm')) {
-            return { success: true, email: credentials.email };
+            return { 
+              success: true, 
+              email: credentials.email,
+              requiresEmailConfirmation: true 
+            };
+          }
+          
+          // Email already in use
+          if (error.message.includes('already registered')) {
+            return { 
+              success: false, 
+              error: 'This email is already registered. Please log in instead',
+              alreadyRegistered: true 
+            };
+          }
+          
+          // Password strength errors
+          if (error.message.includes('Password') && error.message.includes('character')) {
+            return { success: false, error: error.message };
           }
           
           return { success: false, error: error.message };
@@ -352,13 +400,23 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           return { 
             success: true, 
             email: credentials.email, 
-            message: 'Please check your email to confirm your account' 
+            message: 'Please check your email to confirm your account',
+            requiresEmailConfirmation: true
           };
         }
         
         return { success: true };
       } catch (error) {
         console.error('Signup error:', error);
+        
+        // Network error detection
+        if (!isOnline || (error instanceof Error && error.message.includes('network'))) {
+          return { 
+            success: false, 
+            error: 'Cannot connect to authentication service. Please check your internet connection' 
+          };
+        }
+        
         return { 
           success: false, 
           error: error instanceof Error ? error.message : 'An unknown error occurred during sign up' 
@@ -447,7 +505,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     });
   };
 
-  const forgotPassword = async (email: string, turnstileToken?: string) => {
+  const forgotPassword = async (email: string) => {
     return executeAuthOperation(async () => {
       try {
         if (!email) {
@@ -460,10 +518,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           return { success: false, error: 'Please enter a valid email address' };
         }
         
-        // Check if the turnstile token is provided (if required)
-        if (!turnstileToken) {
-          return { success: false, error: 'Security verification is required' };
-        }
         
         const result = await resetPassword(email);
         
