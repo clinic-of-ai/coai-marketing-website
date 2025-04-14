@@ -270,7 +270,7 @@ export function AuthForm({
             <Turnstile
               siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || "1x00000000000000000000AA"}
               onVerify={(token: string) => setTurnstileToken(token)}
-              theme={theme === "dark" ? "dark" : "light"}
+              theme={theme =="dark" ? "dark" : "light" }
             />
           </div>
 
