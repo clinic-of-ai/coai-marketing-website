@@ -55,7 +55,7 @@ export async function signInWithEmail({ email, password, captchaToken }: SignInC
       };
     }
 
-    // Verify captcha token with Cloudflare
+    // Verify captcha token before attempting to sign in
     const captchaVerified = await verifyCaptcha(captchaToken);
     if (!captchaVerified) {
       return {
@@ -64,6 +64,7 @@ export async function signInWithEmail({ email, password, captchaToken }: SignInC
       };
     }
 
+    // After captcha verification, proceed with sign in
     const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password,
@@ -98,7 +99,7 @@ export async function signUpWithEmail({ email, password, name, captchaToken }: S
       };
     }
 
-    // Verify captcha token with Cloudflare
+    // Verify captcha token before attempting to sign up
     const captchaVerified = await verifyCaptcha(captchaToken);
     if (!captchaVerified) {
       return {
@@ -158,9 +159,11 @@ export async function signUpWithEmail({ email, password, name, captchaToken }: S
   }
 }
 
-// Function to verify captcha token with Cloudflare
+// Improved captcha verification with better error handling
 async function verifyCaptcha(token: string): Promise<boolean> {
   try {
+    if (!token) return false;
+
     const response = await fetch('/api/verify-turnstile', {
       method: 'POST',
       headers: {
@@ -169,8 +172,14 @@ async function verifyCaptcha(token: string): Promise<boolean> {
       body: JSON.stringify({ token }),
     });
 
+    if (!response.ok) {
+      const errorData = await response.json();
+      console.error('Captcha verification error:', errorData);
+      return false;
+    }
+
     const data = await response.json();
-    return data.success;
+    return data.success === true;
   } catch (error) {
     console.error('Error verifying captcha:', error);
     return false;
