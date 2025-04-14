@@ -6,6 +6,7 @@ import RelatedVideos from "@/components/video-platform/related-videos"
 import { Skeleton } from "@/components/ui/skeleton"
 import { getVideoById, getAllVideos } from "@/libs/api"
 import { extractYouTubeVideoId } from "@/libs/utils";
+import AuthenticatedVideoWrapper from "./auth-wrapper"
 
 // Generate static params for all videos at build time
 export async function generateStaticParams() {
@@ -35,8 +36,6 @@ export default async function WatchPage({ params }: { params: { id: string } }) 
   // Fetch the video data
   const video = await getVideoData(params.id);
 
-  const videoId = extractYouTubeVideoId(video.youtube_url);
-
   if (!video) {
     return (
       <PageLayout title="Video Not Found" count={0} hidesearch={false}>
@@ -53,41 +52,46 @@ export default async function WatchPage({ params }: { params: { id: string } }) 
     );
   }
 
+  const videoId = extractYouTubeVideoId(video.youtube_url);
+
   return (
     <PageLayout title={video.title} count={5} hidesearch={true}>
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2 space-y-4">
-          <Suspense fallback={<VideoPlayerSkeleton />}>
-            <div className="space-y-2">
-              <h2 className="text-lg font-medium">Video Preview</h2>
-              <div className="bg-black rounded-lg overflow-hidden shadow-lg">
-                {video.youtube_url ?
-                  (<div className="relative w-full pt-[56.25%]">
-                    <iframe
-                      className="absolute inset-0 w-full h-full"
-                      src={`https://www.youtube.com/embed/${videoId}`}
-                      title="YouTube video player"
-                      frameBorder="0"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowFullScreen
-                    ></iframe>
-                  </div>) : (<></>)}
+      {/* Wrap the video content in an authentication wrapper */}
+      <AuthenticatedVideoWrapper>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div className="lg:col-span-2 space-y-4">
+            <Suspense fallback={<VideoPlayerSkeleton />}>
+              <div className="space-y-2">
+                <h2 className="text-lg font-medium">Video Preview</h2>
+                <div className="bg-black rounded-lg overflow-hidden shadow-lg">
+                  {video.youtube_url ?
+                    (<div className="relative w-full pt-[56.25%]">
+                      <iframe
+                        className="absolute inset-0 w-full h-full"
+                        src={`https://www.youtube.com/embed/${videoId}`}
+                        title="YouTube video player"
+                        frameBorder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                      ></iframe>
+                    </div>) : (<></>)}
+                </div>
               </div>
-            </div>
-          </Suspense>
-          <Suspense fallback={<VideoInfoSkeleton />}>
-            <VideoInfo videoId={params.id} video={video} />
-          </Suspense>
+            </Suspense>
+            <Suspense fallback={<VideoInfoSkeleton />}>
+              <VideoInfo videoId={params.id} video={video} />
+            </Suspense>
+          </div>
+          <div className="space-y-4">
+            <h2 className="text-xl font-bold">
+              Related Videos <span className="text-muted-foreground">(6)</span>
+            </h2>
+            <Suspense fallback={<RelatedVideosSkeleton />}>
+              <RelatedVideos videoId={params.id} />
+            </Suspense>
+          </div>
         </div>
-        <div className="space-y-4">
-          <h2 className="text-xl font-bold">
-            Related Videos <span className="text-muted-foreground">(6)</span>
-          </h2>
-          <Suspense fallback={<RelatedVideosSkeleton />}>
-            <RelatedVideos videoId={params.id} />
-          </Suspense>
-        </div>
-      </div>
+      </AuthenticatedVideoWrapper>
     </PageLayout>
   )
 }
@@ -98,21 +102,9 @@ function VideoPlayerSkeleton() {
 
 function VideoInfoSkeleton() {
   return (
-    <div className="space-y-2">
+    <div className="space-y-4 mt-4">
       <Skeleton className="h-8 w-3/4" />
-      <div className="flex justify-between">
-        <div className="flex gap-2">
-          <Skeleton className="h-10 w-10 rounded-full" />
-          <div className="space-y-1">
-            <Skeleton className="h-4 w-32" />
-            <Skeleton className="h-3 w-24" />
-          </div>
-        </div>
-        <div className="flex gap-2">
-          <Skeleton className="h-10 w-20 rounded-full" />
-          <Skeleton className="h-10 w-20 rounded-full" />
-        </div>
-      </div>
+      <Skeleton className="h-6 w-1/4" />
       <Skeleton className="h-24 w-full" />
     </div>
   )
@@ -120,19 +112,17 @@ function VideoInfoSkeleton() {
 
 function RelatedVideosSkeleton() {
   return (
-    <div className="space-y-4">
-      {Array(6)
-        .fill(0)
-        .map((_, i) => (
-          <div key={i} className="flex gap-2">
-            <Skeleton className="h-24 w-40 rounded-md" />
-            <div className="space-y-1 flex-1">
-              <Skeleton className="h-4 w-full" />
-              <Skeleton className="h-3 w-3/4" />
-              <Skeleton className="h-3 w-1/2" />
-            </div>
+    <div className="space-y-3">
+      {[...Array(6)].map((_, i) => (
+        <div key={i} className="flex gap-3">
+          <Skeleton className="w-32 h-20 rounded-md flex-shrink-0" />
+          <div className="space-y-2 flex-grow">
+            <Skeleton className="h-4 w-full" />
+            <Skeleton className="h-4 w-2/3" />
+            <Skeleton className="h-3 w-1/3" />
           </div>
-        ))}
+        </div>
+      ))}
     </div>
   )
 }

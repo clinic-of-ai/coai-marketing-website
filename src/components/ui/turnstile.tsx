@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useCallback, forwardRef, useImperativeHandle } from 'react';
 
 export type TurnstileProps = {
   siteKey: string;
@@ -9,92 +9,160 @@ export type TurnstileProps = {
   onExpire?: () => void;
   action?: string;
   className?: string;
+  theme?: 'light' | 'dark' | 'auto';
 };
 
-export function Turnstile({
-  siteKey,
-  onVerify,
-  onError,
-  onExpire,
-  action,
-  className = '',
-}: TurnstileProps) {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [loaded, setLoaded] = useState(false);
-  const [widgetId, setWidgetId] = useState<string | null>(null);
+export type TurnstileHandle = {
+  reset: () => void;
+};
 
-  useEffect(() => {
-    // Load the Turnstile script if it hasn't been loaded yet
-    if (!window.turnstile) {
-      const script = document.createElement('script');
-      script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
-      script.async = true;
-      script.defer = true;
+// Global script loading tracking to avoid duplicate script loading
+let isScriptLoading = false;
+let isScriptLoaded = false;
+const scriptCallbacks: Array<(success: boolean) => void> = [];
+
+// Load the script once for all instances
+function loadTurnstileScript(): Promise<void> {
+  return new Promise((resolve, reject) => {
+    if (isScriptLoaded) {
+      resolve();
+      return;
+    }
+
+    if (isScriptLoading) {
+      scriptCallbacks.push((success) => success ? resolve() : reject(new Error('Failed to load Turnstile script')));
+      return;
+    }
+
+    isScriptLoading = true;
+    const script = document.createElement('script');
+    script.id = 'cf-turnstile-script';
+    script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
+    script.async = true;
+    script.defer = true;
+    
+    script.onload = () => {
+      isScriptLoaded = true;
+      isScriptLoading = false;
+      resolve();
       
-      script.onload = () => setLoaded(true);
-      script.onerror = () => onError?.();
+      // Call all pending callbacks
+      scriptCallbacks.forEach(callback => callback(true));
+      scriptCallbacks.length = 0;
+    };
+    
+    script.onerror = (e) => {
+      isScriptLoading = false;
+      reject(e);
       
-      document.head.appendChild(script);
-      
-      return () => {
-        // Cleanup script on component unmount
+      // Call all pending callbacks with error
+      scriptCallbacks.forEach(callback => callback(false));
+      scriptCallbacks.length = 0;
+    };
+    
+    document.head.appendChild(script);
+  });
+}
+
+export const Turnstile = forwardRef<TurnstileHandle, TurnstileProps>(
+  function Turnstile({
+    siteKey,
+    onVerify,
+    onError,
+    onExpire,
+    action,
+    className = '',
+    theme = 'light'
+  }, ref) {
+    const containerRef = useRef<HTMLDivElement>(null);
+    const [widgetId, setWidgetId] = useState<string | null>(null);
+    const callbacksRef = useRef({ onVerify, onError, onExpire });
+
+    // Keep callbacks up-to-date without triggering effect reruns
+    useEffect(() => {
+      callbacksRef.current = { onVerify, onError, onExpire };
+    }, [onVerify, onError, onExpire]);
+
+    // Reset the widget
+    const reset = useCallback(() => {
+      if (widgetId && window.turnstile) {
         try {
-          const scriptEl = document.querySelector('script[src*="turnstile"]');
-          if (scriptEl && scriptEl.parentNode) {
-            scriptEl.parentNode.removeChild(scriptEl);
-          }
+          window.turnstile.reset(widgetId);
         } catch (e) {
-          console.error('Error removing Turnstile script:', e);
+          console.error('Error resetting Turnstile widget:', e);
+          callbacksRef.current.onError?.();
+        }
+      }
+    }, [widgetId]);
+
+    // Expose the reset method to the parent component
+    useImperativeHandle(ref, () => ({
+      reset
+    }), [reset]);
+
+    useEffect(() => {
+      let mounted = true;
+      
+      const initializeTurnstile = async () => {
+        try {
+          await loadTurnstileScript();
+          
+          if (!mounted || !containerRef.current || !window.turnstile) return;
+          
+          // Clean up any existing widget
+          if (widgetId) {
+            try {
+              window.turnstile.reset(widgetId);
+            } catch (e) {
+              console.error('Error resetting Turnstile widget:', e);
+            }
+          }
+          
+          const id = window.turnstile.render(containerRef.current, {
+            sitekey: siteKey,
+            callback: (token: string) => {
+              callbacksRef.current.onVerify(token);
+            },
+            'error-callback': () => {
+              callbacksRef.current.onError?.();
+            },
+            'expired-callback': () => {
+              callbacksRef.current.onExpire?.();
+            },
+            theme,
+            action: action || undefined,
+          });
+          
+          if (mounted) {
+            setWidgetId(id);
+          }
+        } catch (error) {
+          console.error('Error rendering Turnstile widget:', error);
+          if (mounted) {
+            callbacksRef.current.onError?.();
+          }
         }
       };
-    } else {
-      setLoaded(true);
-    }
-  }, [onError]);
 
-  useEffect(() => {
-    // Render the widget when the script is loaded
-    if (loaded && containerRef.current && !widgetId && window.turnstile) {
-      try {
-        const id = window.turnstile.render(containerRef.current, {
-          sitekey: siteKey,
-          callback: (token: string) => {
-            onVerify(token);
-          },
-          'error-callback': () => {
-            onError?.();
-          },
-          'expired-callback': () => {
-            onExpire?.();
-          },
-          theme: 'light',
-          action: action || undefined,
-        });
+      initializeTurnstile();
+      
+      return () => {
+        mounted = false;
         
-        setWidgetId(id);
-      } catch (error) {
-        console.error('Error rendering Turnstile widget:', error);
-        onError?.();
-      }
-    }
-    
-    return () => {
-      // Reset the widget on unmount
-      if (widgetId && window.turnstile) {
-        window.turnstile.reset(widgetId);
-      }
-    };
-  }, [loaded, siteKey, onVerify, onError, onExpire, widgetId, action]);
+        // Clean up the widget on unmount
+        if (widgetId && window.turnstile) {
+          try {
+            window.turnstile.reset(widgetId);
+          } catch (e) {
+            console.error('Error cleaning up Turnstile widget:', e);
+          }
+        }
+      };
+    }, [siteKey, theme, action, widgetId]);
 
-  // Function to reset the widget
-  const reset = () => {
-    if (widgetId && window.turnstile) {
-      window.turnstile.reset(widgetId);
-    }
-  };
-
-  return <div ref={containerRef} className={className}></div>;
-}
+    return <div ref={containerRef} className={className}></div>;
+  }
+);
 
 // Add TypeScript type definitions for the Turnstile global variable
 declare global {

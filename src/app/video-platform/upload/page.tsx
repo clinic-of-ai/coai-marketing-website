@@ -8,8 +8,13 @@ import { VideoUploadTab } from "@/components/video-platform/upload/VideoUploadTa
 import { VideoManageTab } from "@/components/video-platform/upload/VideoManageTab"
 import { Video, mapSupabaseVideoToUIVideo } from "@/components/video-platform/upload/types"
 import { getAllDBVideos } from "@/libs/api"
+import { useRequireAuth } from "@/hooks/useRequireAuth"
+import { Skeleton } from "@/components/ui/skeleton"
 
 export default function UploadPage() {
+  // Require authentication for this page
+  const { isAuthenticated, isLoading: authLoading } = useRequireAuth()
+  
   const [currentTab, setCurrentTab] = useState("upload")
   const [videos, setVideos] = useState<Video[]>([])
   const [windowWidth, setWindowWidth] = useState(typeof window !== "undefined" ? window.innerWidth : 1200)
@@ -17,6 +22,9 @@ export default function UploadPage() {
 
   // Fetch videos from the database
   useEffect(() => {
+    // Only fetch videos if authenticated
+    if (!isAuthenticated) return
+    
     const fetchVideos = async () => {
       try {
         const dbVideos = await getAllDBVideos()
@@ -31,7 +39,7 @@ export default function UploadPage() {
     }
 
     fetchVideos()
-  }, [])
+  }, [isAuthenticated])
 
   // Update window width on resize
   useEffect(() => {
@@ -42,6 +50,24 @@ export default function UploadPage() {
     window.addEventListener("resize", handleResize)
     return () => window.removeEventListener("resize", handleResize)
   }, [])
+
+  // Show loading state while checking authentication
+  if (authLoading) {
+    return (
+      <div className="min-h-screen bg-background">
+        <div className="max-w-[1400px] mx-auto p-4 md:p-6">
+          <div className="flex items-center justify-between mb-8">
+            <Skeleton className="h-8 w-48" />
+            <Skeleton className="h-10 w-40" />
+          </div>
+          <div className="grid grid-cols-1 gap-6">
+            <Skeleton className="h-64 w-full" />
+            <Skeleton className="h-64 w-full" />
+          </div>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="min-h-screen bg-background">
@@ -77,36 +103,17 @@ export default function UploadPage() {
           </div>
         </div>
 
-        {loading ? (
-          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-          <div className="relative flex items-center justify-center w-[150px] h-[150px] rounded-full border-[3px] border-blue-500 border-opacity-10 text-blue-500 font-sans uppercase tracking-widest shadow-xl">
-            COAI
-            <div className="absolute top-0 left-0 w-full h-full rounded-full border-[3px] border-transparent border-t-blue-500 border-r-blue-500 animate-spin-slow"></div>
-            <div className="absolute top-1/2 left-1/2 w-1/2 h-[4px] origin-left bg-transparent animate-spin-loader-line">
-              <div className="absolute -right-[8px] -top-[6px] w-4 h-4 rounded-full bg-blue-400 shadow-blue-glow"></div>
-            </div>
-          </div>
+        <div className="bg-card rounded-xl p-6 shadow-sm border">
+          {currentTab === "upload" ? (
+            <VideoUploadTab videos={videos} setVideos={setVideos} setCurrentTab={setCurrentTab} />
+          ) : (
+            <VideoManageTab 
+              videos={videos} 
+              setVideos={setVideos} 
+              windowWidth={windowWidth} 
+            />
+          )}
         </div>
-        ) : (
-          <>
-            {currentTab === "upload" && (
-              <VideoUploadTab 
-                videos={videos}
-                setVideos={setVideos}
-                setCurrentTab={setCurrentTab}
-              />
-            )}
-
-            {currentTab === "manage" && (
-              <VideoManageTab 
-                key={`video-manage-${videos.length}`}
-                videos={videos}
-                setVideos={setVideos}
-                windowWidth={windowWidth}
-              />
-            )}
-          </>
-        )}
       </div>
     </div>
   )

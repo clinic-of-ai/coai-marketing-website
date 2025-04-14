@@ -38,7 +38,7 @@ export default {
     }
   },
   turnstile: {
-    siteKey: process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || "1x00000000000000000000AA", // Replace with actual site key
-    secretKey: process.env.TURNSTILE_SECRET_KEY // Server-side only
+    siteKey: process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || "1x00000000000000000000AA", // Public key for client-side
+    // Do not expose secret key here - it must only be accessed from server components/API routes
   }
 } as const;

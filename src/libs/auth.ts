@@ -41,8 +41,55 @@ export async function isAuthenticated(): Promise<boolean> {
 // Authentication methods
 export async function signInWithEmail({ email, password, turnstileToken }: SignInCredentials): Promise<{ user: AuthUser | null; error: AuthError | null }> {
   try {
-    // Store the turnstile token in a variable we can pass to metadata if needed
-    // Currently Supabase doesn't directly support turnstile in signInWithPassword
+    if (!email || !password) {
+      return { 
+        user: null, 
+        error: { message: 'Email and password are required' } 
+      };
+    }
+
+    // Verify turnstile token first if provided
+    if (turnstileToken) {
+      try {
+        const response = await fetch('/api/turnstile/verify', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ token: turnstileToken }),
+        });
+        
+        const result = await response.json();
+        
+        if (!result.success) {
+          return { 
+            user: null, 
+            error: { 
+              message: 'Security verification failed. Please try again.',
+              status: 400
+            } 
+          };
+        }
+      } catch (error) {
+        return { 
+          user: null, 
+          error: { 
+            message: 'Security verification failed. Please try again later.',
+            status: 500
+          } 
+        };
+      }
+    } else {
+      // If token is required but not provided
+      return { 
+        user: null, 
+        error: { 
+          message: 'Security verification is required',
+          status: 400
+        } 
+      };
+    }
+
     const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password,
@@ -70,10 +117,65 @@ export async function signUpWithEmail({ email, password, name, turnstileToken }:
       };
     }
     
-    if (password.length < 6) {
+    // Enhanced password validation
+    if (password.length < 8) {
       return { 
         user: null, 
-        error: { message: 'Password must be at least 6 characters long' } 
+        error: { message: 'Password must be at least 8 characters long' } 
+      };
+    }
+    
+    // Password complexity check
+    const hasUpperCase = /[A-Z]/.test(password);
+    const hasLowerCase = /[a-z]/.test(password);
+    const hasNumbers = /[0-9]/.test(password);
+    
+    if (!(hasUpperCase && hasLowerCase && hasNumbers)) {
+      return { 
+        user: null, 
+        error: { message: 'Password must contain uppercase, lowercase letters and numbers' } 
+      };
+    }
+    
+    // Verify turnstile token
+    if (turnstileToken) {
+      try {
+        const response = await fetch('/api/turnstile/verify', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ token: turnstileToken }),
+        });
+        
+        const result = await response.json();
+        
+        if (!result.success) {
+          return { 
+            user: null, 
+            error: { 
+              message: 'Security verification failed. Please try again.',
+              status: 400
+            } 
+          };
+        }
+      } catch (error) {
+        return { 
+          user: null, 
+          error: { 
+            message: 'Security verification failed. Please try again later.',
+            status: 500
+          } 
+        };
+      }
+    } else {
+      // If token is required but not provided
+      return { 
+        user: null, 
+        error: { 
+          message: 'Security verification is required',
+          status: 400
+        } 
       };
     }
     
@@ -83,8 +185,6 @@ export async function signUpWithEmail({ email, password, name, turnstileToken }:
       options: {
         data: {
           full_name: name,
-          // Include turnstile token in user metadata
-          turnstile_token: turnstileToken,
         },
       },
     });
@@ -118,6 +218,21 @@ export async function signOut(): Promise<{ error: AuthError | null }> {
       return { error: { message: error.message, status: error.status } };
     }
     
+    // Clear any local storage or session storage items
+    if (typeof window !== 'undefined') {
+      // Clear auth-related local storage
+      const keysToRemove = [];
+      for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (key && (key.startsWith('supabase.') || key.startsWith('auth.'))) {
+          keysToRemove.push(key);
+        }
+      }
+      
+      // Remove keys in a separate loop to avoid skipping items
+      keysToRemove.forEach(key => localStorage.removeItem(key));
+    }
+    
     return { error: null };
   } catch (err) {
     return { 
@@ -128,12 +243,33 @@ export async function signOut(): Promise<{ error: AuthError | null }> {
 
 // Helper to get the base URL safely in both client and server contexts
 export function getBaseUrl(): string {
+  // Browser context
   if (typeof window !== 'undefined') {
     return window.location.origin;
   }
-  // Fallback for server-side rendering
-  const url = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.clinicofai.com';
-  return url;
+  
+  // Server-side rendering context
+  // Check for environment variables in order of preference
+  const envUrl = process.env.NEXT_PUBLIC_SITE_URL || 
+                process.env.VERCEL_URL || 
+                process.env.NEXT_PUBLIC_VERCEL_URL;
+  
+  if (envUrl) {
+    // Handle Vercel preview deployments which provide URL without protocol
+    if (envUrl.startsWith('http')) {
+      return envUrl;
+    } else {
+      return `https://${envUrl}`;
+    }
+  }
+  
+  // Fallback for local development
+  if (process.env.NODE_ENV === 'development') {
+    return 'http://localhost:3000';
+  }
+  
+  // Final production fallback
+  return 'https://www.clinicofai.com';
 }
 
 export async function resetPassword(email: string, turnstileToken?: string): Promise<{ error: AuthError | null }> {
@@ -142,10 +278,54 @@ export async function resetPassword(email: string, turnstileToken?: string): Pro
       return { error: { message: 'Email is required' } };
     }
     
+    // Email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      return { error: { message: 'Please enter a valid email address' } };
+    }
+    
+    // Verify turnstile token
+    if (turnstileToken) {
+      try {
+        const response = await fetch('/api/turnstile/verify', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ token: turnstileToken }),
+        });
+        
+        const result = await response.json();
+        
+        if (!result.success) {
+          return { 
+            error: { 
+              message: 'Security verification failed. Please try again.',
+              status: 400
+            } 
+          };
+        }
+      } catch (error) {
+        return { 
+          error: { 
+            message: 'Security verification failed. Please try again later.',
+            status: 500
+          } 
+        };
+      }
+    } else {
+      // If token is required but not provided
+      return { 
+        error: { 
+          message: 'Security verification is required',
+          status: 400
+        } 
+      };
+    }
+    
     const baseUrl = getBaseUrl();
     const { error } = await supabase.auth.resetPasswordForEmail(email, {
       redirectTo: `${baseUrl}/auth/reset-password`,
-      captchaToken: turnstileToken,
     });
     
     if (error) {
@@ -166,8 +346,20 @@ export async function updatePassword(new_password: string): Promise<{ error: Aut
       return { error: { message: 'New password is required' } };
     }
     
-    if (new_password.length < 6) {
-      return { error: { message: 'Password must be at least 6 characters long' } };
+    // Enhanced password validation
+    if (new_password.length < 8) {
+      return { error: { message: 'Password must be at least 8 characters long' } };
+    }
+    
+    // Password complexity check
+    const hasUpperCase = /[A-Z]/.test(new_password);
+    const hasLowerCase = /[a-z]/.test(new_password);
+    const hasNumbers = /[0-9]/.test(new_password);
+    
+    if (!(hasUpperCase && hasLowerCase && hasNumbers)) {
+      return { 
+        error: { message: 'Password must contain uppercase, lowercase letters and numbers' } 
+      };
     }
     
     const { error } = await supabase.auth.updateUser({
@@ -236,4 +428,43 @@ export function onAuthStateChange(callback: (event: AuthChangeEvent, session: an
   return supabase.auth.onAuthStateChange((event, session) => {
     callback(event, session);
   });
+}
+
+// Session management
+export async function refreshSession(): Promise<{ success: boolean; error: AuthError | null }> {
+  try {
+    const { data, error } = await supabase.auth.refreshSession();
+    
+    if (error) {
+      return { 
+        success: false, 
+        error: { message: error.message, status: error.status } 
+      };
+    }
+    
+    return { success: true, error: null };
+  } catch (err) {
+    return { 
+      success: false, 
+      error: { message: err instanceof Error ? err.message : 'Failed to refresh session' } 
+    };
+  }
+}
+
+// Check if Supabase authentication service is available
+export async function checkSupabaseConnection(): Promise<boolean> {
+  try {
+    // Try to get the current session as a lightweight check
+    const { data, error } = await supabase.auth.getSession();
+    
+    // Try for offline detection
+    if (!navigator.onLine) {
+      return false;
+    }
+    
+    return !error;
+  } catch (err) {
+    console.error('Supabase auth connection check failed:', err);
+    return false;
+  }
 } 

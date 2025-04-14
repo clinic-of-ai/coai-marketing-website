@@ -24,9 +24,17 @@ function LoginContent() {
 
   // Check for authentication and error parameters
   useEffect(() => {
-    // If user is already authenticated, redirect to home
+    // Get the intended destination from URL params or use default
+    const redirectTo = searchParams.get("redirectTo") || "/";
+    
+    // Store the redirect URL in localStorage for use after login
+    if (redirectTo && redirectTo !== "/" && typeof window !== 'undefined') {
+      localStorage.setItem('auth_redirect_url', redirectTo);
+    }
+    
+    // If user is already authenticated, redirect to intended destination
     if (isAuthenticated) {
-      router.push("/");
+      router.push(redirectTo);
       return;
     }
 
@@ -54,7 +62,7 @@ function LoginContent() {
     try {
       if (activeTab === "login") {
         // Perform login
-        const { success, error } = await login({ 
+        const { success, error, redirectUrl } = await login({ 
           email, 
           password,
           turnstileToken
@@ -65,7 +73,8 @@ function LoginContent() {
             "Welcome back!",
             "You've successfully logged in to your account.",
           );
-          router.push("/");
+          // Use the redirectUrl from the login response if available
+          router.push(redirectUrl || "/");
         } else {
           notification.error(
             "Login Failed",
