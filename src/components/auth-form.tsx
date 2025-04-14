@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
-import { Eye, EyeOff, ArrowRight, X } from "lucide-react";
+import { Eye, EyeOff, ArrowRight } from "lucide-react";
 import { useTheme } from "@/providers/theme-provider";
 import { useNotification } from "@/components/video-platform/notification";
 import { Turnstile } from "next-turnstile";
@@ -42,16 +42,16 @@ export function AuthForm({
 }: AuthFormProps) {
   const [showPassword, setShowPassword] = useState(false);
   const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
-  const [showCaptchaModal, setShowCaptchaModal] = useState(false);
   const { theme } = useTheme();
   const notification = useNotification();
-  const formRef = useRef<HTMLFormElement>(null);
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
 
-  const validateForm = (): boolean => {
+  const handleFormSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    
     // Form validation - basic client-side validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     
@@ -60,7 +60,7 @@ export function AuthForm({
         "Email Required",
         "Please enter your email address."
       );
-      return false;
+      return;
     }
     
     if (!emailRegex.test(email)) {
@@ -68,7 +68,7 @@ export function AuthForm({
         "Invalid Email",
         "Please enter a valid email address."
       );
-      return false;
+      return;
     }
     
     if (!password) {
@@ -76,7 +76,7 @@ export function AuthForm({
         "Password Required",
         "Please enter your password."
       );
-      return false;
+      return;
     }
     
     if (activeTab === "signup") {
@@ -86,7 +86,7 @@ export function AuthForm({
           "Name Required",
           "Please enter your full name."
         );
-        return false;
+        return;
       }
       
       if (password.length < 8) {
@@ -94,7 +94,7 @@ export function AuthForm({
           "Password Too Short",
           "Password must be at least 8 characters long."
         );
-        return false;
+        return;
       }
       
       // Basic password complexity check
@@ -107,69 +107,20 @@ export function AuthForm({
           "Password Requirements",
           "Password must include uppercase, lowercase letters and numbers."
         );
-        return false;
+        return;
       }
     }
     
-    return true;
-  };
-
-  const handleFormSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    if (!validateForm()) {
+    // Check if Turnstile token is available
+    if (!turnstileToken) {
+      notification.error(
+        "Captcha Required",
+        "Please complete the captcha verification."
+      );
       return;
     }
     
-    // Open captcha modal instead of submitting form
-    setShowCaptchaModal(true);
-  };
-  
-  const handleCaptchaVerified = (token: string) => {
-    setTurnstileToken(token);
-    setShowCaptchaModal(false);
-    
-    // Now submit the form with the token
-    if (formRef.current) {
-      onSubmit(new Event('submit') as unknown as React.FormEvent, token);
-    }
-  };
-  
-  const handleCloseModal = () => {
-    setShowCaptchaModal(false);
-  };
-
-  // Captcha modal component
-  const CaptchaModal = () => {
-    if (!showCaptchaModal) return null;
-    
-    return (
-      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
-        <div className="relative w-full max-w-md rounded-2xl bg-white p-6 shadow-xl dark:bg-gray-800">
-          <button 
-            onClick={handleCloseModal}
-            className="absolute right-4 top-4 text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300"
-          >
-            <X className="h-5 w-5" />
-          </button>
-          
-          <h2 className="mb-4 text-center text-xl font-semibold text-gray-800 dark:text-white">
-            Security Verification
-          </h2>
-          <p className="mb-6 text-center text-gray-600 dark:text-gray-300">
-            Please complete the captcha below to continue
-          </p>
-          
-          <div className="flex justify-center">
-            <Turnstile
-              siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || "1x00000000000000000000AA"}
-              onVerify={handleCaptchaVerified}
-              theme={theme === "dark" ? "dark" : "light"}
-            />
-          </div>
-        </div>
-      </div>
-    );
+    onSubmit(e, turnstileToken);
   };
 
   return (
@@ -206,7 +157,7 @@ export function AuthForm({
       </div>
 
       <div className="px-8 pb-8">
-        <form ref={formRef} onSubmit={handleFormSubmit} className="mb-8 space-y-5">
+        <form onSubmit={handleFormSubmit} className="mb-8 space-y-5">
           {activeTab === "signup" && (
             <div className="space-y-2">
               <label
@@ -314,6 +265,15 @@ export function AuthForm({
             </div>
           )}
 
+          {/* Cloudflare Turnstile Captcha */}
+          <div className="my-4 flex justify-center">
+            <Turnstile
+              siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || "1x00000000000000000000AA"}
+              onVerify={(token: string) => setTurnstileToken(token)}
+              theme={theme =="dark" ? "dark" : "light" }
+            />
+          </div>
+
           <button
             type="submit"
             disabled={isLoading}
@@ -396,9 +356,6 @@ export function AuthForm({
           </button>
         </p>
       </div>
-      
-      {/* Render Captcha Modal */}
-      <CaptchaModal />
     </div>
   );
 }
