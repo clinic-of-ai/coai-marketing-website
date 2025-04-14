@@ -49,7 +49,6 @@ export function AuthForm({
   const { theme } = useTheme();
   const notification = useNotification();
   const [captchaToken, setCaptchaToken] = useState<string | null>(null);
-  const [showCaptchaModal, setShowCaptchaModal] = useState(false);
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -117,17 +116,16 @@ export function AuthForm({
       }
     }
     
-    // Show captcha modal instead of checking for token
-    setShowCaptchaModal(true);
-  };
-
-  const handleCaptchaVerify = (token: string) => {
-    setCaptchaToken(token);
-    if (onCaptchaVerify) onCaptchaVerify(token);
-    setShowCaptchaModal(false);
+    // Verify captcha is completed
+    if (!captchaToken) {
+      notification.error(
+        "Captcha Required",
+        "Please complete the captcha verification."
+      );
+      return;
+    }
     
-    // Submit the form after captcha verification
-    onSubmit(new Event('submit') as unknown as React.FormEvent);
+    onSubmit(e);
   };
 
   return (
@@ -272,6 +270,18 @@ export function AuthForm({
             </div>
           )}
 
+          {/* Cloudflare Turnstile Captcha */}
+          <div className="flex justify-center my-4">
+            <Turnstile
+              siteKey={siteKey}
+              onVerify={(token: string) => {
+                setCaptchaToken(token);
+                if (onCaptchaVerify) onCaptchaVerify(token);
+              }}
+              theme={theme === "dark" ? "dark" : "light"}
+            />
+          </div>
+
           <button
             type="submit"
             disabled={isLoading}
@@ -354,36 +364,6 @@ export function AuthForm({
           </button>
         </p>
       </div>
-
-      {/* Full screen captcha modal */}
-      {showCaptchaModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm">
-          <div className="relative rounded-2xl bg-white p-8 shadow-2xl dark:bg-gray-900">
-            <button
-              onClick={() => setShowCaptchaModal(false)}
-              className="absolute right-4 top-4 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <line x1="18" y1="6" x2="6" y2="18"></line>
-                <line x1="6" y1="6" x2="18" y2="18"></line>
-              </svg>
-            </button>
-            <h3 className="mb-6 text-center text-xl font-medium text-gray-900 dark:text-white">
-              Security Verification
-            </h3>
-            <p className="mb-6 text-center text-gray-600 dark:text-gray-300">
-              Please complete the security check to continue
-            </p>
-            <div className="flex justify-center">
-              <Turnstile
-                siteKey={siteKey}
-                onVerify={handleCaptchaVerify}
-                theme={theme === "dark" ? "dark" : "light"}
-              />
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 }
