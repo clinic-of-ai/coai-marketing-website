@@ -7,6 +7,7 @@ export type TurnstileProps = {
   onVerify: (token: string) => void;
   onError?: () => void;
   onExpire?: () => void;
+  action?: string;
   className?: string;
 };
 
@@ -15,6 +16,7 @@ export function Turnstile({
   onVerify,
   onError,
   onExpire,
+  action,
   className = '',
 }: TurnstileProps) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -36,7 +38,14 @@ export function Turnstile({
       
       return () => {
         // Cleanup script on component unmount
-        document.head.removeChild(script);
+        try {
+          const scriptEl = document.querySelector('script[src*="turnstile"]');
+          if (scriptEl && scriptEl.parentNode) {
+            scriptEl.parentNode.removeChild(scriptEl);
+          }
+        } catch (e) {
+          console.error('Error removing Turnstile script:', e);
+        }
       };
     } else {
       setLoaded(true);
@@ -59,6 +68,7 @@ export function Turnstile({
             onExpire?.();
           },
           theme: 'light',
+          action: action || undefined,
         });
         
         setWidgetId(id);
@@ -74,7 +84,7 @@ export function Turnstile({
         window.turnstile.reset(widgetId);
       }
     };
-  }, [loaded, siteKey, onVerify, onError, onExpire, widgetId]);
+  }, [loaded, siteKey, onVerify, onError, onExpire, widgetId, action]);
 
   // Function to reset the widget
   const reset = () => {
@@ -98,6 +108,7 @@ declare global {
           'error-callback'?: () => void;
           'expired-callback'?: () => void;
           theme?: 'light' | 'dark' | 'auto';
+          action?: string;
         }
       ) => string;
       reset: (widgetId: string) => void;
