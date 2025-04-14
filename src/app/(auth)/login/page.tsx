@@ -37,14 +37,28 @@ function LoginContent() {
     }
   }, [isAuthenticated, router, searchParams, notification]);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent, turnstileToken?: string) => {
     e.preventDefault();
     setIsLoading(true);
+
+    // Ensure we have a turnstile token
+    if (!turnstileToken) {
+      notification.error(
+        "Verification Required",
+        "Please complete the security verification before proceeding."
+      );
+      setIsLoading(false);
+      return;
+    }
 
     try {
       if (activeTab === "login") {
         // Perform login
-        const { success, error } = await login({ email, password });
+        const { success, error } = await login({ 
+          email, 
+          password,
+          turnstileToken
+        });
 
         if (success) {
           notification.success(
@@ -60,7 +74,12 @@ function LoginContent() {
         }
       } else {
         // Perform sign up
-        const { success, error } = await signup({ email, password, name });
+        const { success, error } = await signup({ 
+          email, 
+          password, 
+          name,
+          turnstileToken
+        });
 
         if (success) {
           notification.success(
@@ -88,12 +107,19 @@ function LoginContent() {
 
   const handleGoogleLogin = async () => {
     try {
-      await googleLogin();
-      // The redirect will happen automatically
+      const { success, error } = await googleLogin();
+      
+      if (!success) {
+        notification.error(
+          "Google login failed",
+          error || "Unable to start Google authentication."
+        );
+      }
+      // If successful, redirect will happen automatically
     } catch (error) {
       notification.error(
         "Google login failed",
-        "Unable to start Google authentication.",
+        "Unable to start Google authentication."
       );
       console.error("Google login error:", error);
     }
@@ -101,12 +127,19 @@ function LoginContent() {
 
   const handleDiscordLogin = async () => {
     try {
-      await discordLogin();
-      // The redirect will happen automatically
+      const { success, error } = await discordLogin();
+      
+      if (!success) {
+        notification.error(
+          "Discord login failed",
+          error || "Unable to start Discord authentication."
+        );
+      }
+      // If successful, redirect will happen automatically
     } catch (error) {
       notification.error(
         "Discord login failed",
-        "Unable to start Discord authentication.",
+        "Unable to start Discord authentication."
       );
       console.error("Discord login error:", error);
     }

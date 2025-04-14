@@ -149,7 +149,7 @@ export default function PageLayout({ children, title, count, hidesearch = false,
                     </>
                   ) : (
                     <Button asChild>
-                      <a href="//login">Sign in</a>
+                      <a href="/login">Sign in</a>
                     </Button>
                   )}
                 </div>

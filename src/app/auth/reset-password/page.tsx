@@ -6,6 +6,27 @@ import Link from 'next/link';
 import { ArrowLeft, Unlock } from 'lucide-react';
 import { useAuth } from '@/providers/auth-provider';
 import { useNotification } from '@/components/video-platform/notification';
+import { LoadingSpinner } from '@/components/ui/loading-spinner';
+
+// Password strength validator
+function validatePassword(password: string): { isValid: boolean; message: string } {
+  if (password.length < 8) {
+    return { isValid: false, message: 'Password must be at least 8 characters long' };
+  }
+  
+  const hasLowercase = /[a-z]/.test(password);
+  const hasUppercase = /[A-Z]/.test(password);
+  const hasNumber = /\d/.test(password);
+  
+  if (!(hasLowercase && hasUppercase && hasNumber)) {
+    return { 
+      isValid: false, 
+      message: 'Password must contain at least one lowercase letter, one uppercase letter, and one number' 
+    };
+  }
+  
+  return { isValid: true, message: '' };
+}
 
 function ResetPasswordContent() {
   const [password, setPassword] = useState('');
@@ -19,12 +40,15 @@ function ResetPasswordContent() {
 
   // Check if the URL has valid reset parameters from Supabase
   useEffect(() => {
-    // The presence of these query parameters indicates a valid reset link
+    // Check for required parameters that indicate a valid reset link
     const hasType = searchParams.get('type') === 'recovery';
+    const hasAccessToken = !!searchParams.get('access_token');
     
-    if (!hasType) {
+    if (!hasType || !hasAccessToken) {
       notification.error('Invalid Reset Link', 'This password reset link is invalid or has expired.');
-      router.push('//login');
+      setTimeout(() => {
+        router.push('/login');
+      }, 2000);
     }
   }, [searchParams, notification, router]);
 
@@ -37,8 +61,10 @@ function ResetPasswordContent() {
       return;
     }
     
-    if (password.length < 6) {
-      notification.error('Password too short', 'Password must be at least 6 characters long.');
+    // Validate password strength
+    const passwordValidation = validatePassword(password);
+    if (!passwordValidation.isValid) {
+      notification.error('Password too weak', passwordValidation.message);
       return;
     }
     
@@ -54,7 +80,7 @@ function ResetPasswordContent() {
         notification.success('Password Updated', 'Your password has been successfully reset.');
         // Redirect to login after 3 seconds
         setTimeout(() => {
-          router.push('//login');
+          router.push('/login');
         }, 3000);
       }
     } catch (error) {
@@ -176,7 +202,7 @@ function ResetPasswordContent() {
 
           <div className="mt-6 text-center">
             <Link
-              href="//login"
+              href="/login"
               className="inline-flex items-center text-sm text-cyan-600 dark:text-cyan-400 hover:text-cyan-500 dark:hover:text-cyan-300 transition-colors"
             >
               <ArrowLeft className="h-4 w-4 mr-1" />
@@ -191,11 +217,7 @@ function ResetPasswordContent() {
 
 // Loading fallback
 function ResetPasswordFallback() {
-  return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-[hsl(222.2,84%,4.9%)]">
-      <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-cyan-500"></div>
-    </div>
-  );
+  return <LoadingSpinner show={true} />;
 }
 
 export default function ResetPasswordPage() {
