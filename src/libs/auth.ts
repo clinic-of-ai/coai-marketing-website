@@ -7,14 +7,14 @@ export type AuthUser = User;
 export type SignInCredentials = {
   email: string;
   password: string;
-  captchaToken?: string;
+  captchaToken?: string | null;
 };
 
 export type SignUpCredentials = {
   email: string;
   password: string;
   name?: string;
-  captchaToken?: string;
+  captchaToken?: string | null;
 };
 
 export type AuthError = {
@@ -48,6 +48,7 @@ export async function signInWithEmail({ email, password, captchaToken }: SignInC
       };
     }
 
+    // Validate captcha
     if (!captchaToken) {
       return {
         user: null,
@@ -55,16 +56,7 @@ export async function signInWithEmail({ email, password, captchaToken }: SignInC
       };
     }
 
-    // Verify captcha token before attempting to sign in
-    const captchaVerified = await verifyCaptcha(captchaToken);
-    if (!captchaVerified) {
-      return {
-        user: null,
-        error: { message: 'Captcha verification failed' }
-      };
-    }
-
-    // After captcha verification, proceed with sign in
+    // Proceed with sign in
     const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password,
@@ -92,19 +84,11 @@ export async function signUpWithEmail({ email, password, name, captchaToken }: S
       };
     }
     
+    // Validate captcha
     if (!captchaToken) {
       return {
         user: null,
         error: { message: 'Captcha verification is required' }
-      };
-    }
-
-    // Verify captcha token before attempting to sign up
-    const captchaVerified = await verifyCaptcha(captchaToken);
-    if (!captchaVerified) {
-      return {
-        user: null,
-        error: { message: 'Captcha verification failed' }
       };
     }
     
@@ -156,33 +140,6 @@ export async function signUpWithEmail({ email, password, name, captchaToken }: S
       user: null, 
       error: { message: err instanceof Error ? err.message : 'An unknown error occurred during sign up' } 
     };
-  }
-}
-
-// Improved captcha verification with better error handling
-async function verifyCaptcha(token: string): Promise<boolean> {
-  try {
-    if (!token) return false;
-
-    const response = await fetch('/api/verify-turnstile', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ token }),
-    });
-
-    if (!response.ok) {
-      const errorData = await response.json();
-      console.error('Captcha verification error:', errorData);
-      return false;
-    }
-
-    const data = await response.json();
-    return data.success === true;
-  } catch (error) {
-    console.error('Error verifying captcha:', error);
-    return false;
   }
 }
 

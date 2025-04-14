@@ -15,6 +15,7 @@ function LoginContent() {
   const [name, setName] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
 
   const router = useRouter();
   const notification = useNotification();
@@ -45,7 +46,7 @@ function LoginContent() {
     }
   }, [isAuthenticated, router, searchParams, notification]);
 
-  const handleSubmit = async (e: React.FormEvent, captchaToken?: string) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
 
@@ -142,6 +143,10 @@ function LoginContent() {
       );
       console.error("Discord login error:", error);
     }
+  };
+
+  const handleCaptchaVerify = (token: string) => {
+    setCaptchaToken(token);
   };
 
   return (
@@ -420,6 +425,7 @@ function LoginContent() {
           onRememberMeChange={setRememberMe}
           onGoogleLogin={handleGoogleLogin}
           onDiscordLogin={handleDiscordLogin}
+          onCaptchaVerify={handleCaptchaVerify}
         />
       </div>
 
