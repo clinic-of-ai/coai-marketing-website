@@ -123,12 +123,12 @@ export default function PageLayout({
                     <></>
                   )}
 
-                  <Button variant="ghost" size="icon" asChild>
+                  {/* <Button variant="ghost" size="icon" asChild>
                     <a href="/live">
                       <Video className="h-5 w-5" />
                       <span className="sr-only">Go Live</span>
                     </a>
-                  </Button>
+                  </Button> */}
 
                   {/* <Button variant="ghost" size="icon">
                         <Bell className="h-5 w-5" />
