@@ -40,12 +40,18 @@ function ResetPasswordContent() {
   const notification = useNotification();
 
   useEffect(() => {
-    // Check for error parameters in URL
-    const error = searchParams.get('error');
-    const errorCode = searchParams.get('error_code');
-    const errorDescription = searchParams.get('error_description');
+    // Check for error parameters in URL or hash fragment
+    const error = searchParams.get('error') || window.location.hash.includes('error=access_denied');
+    const errorCode = searchParams.get('error_code') || window.location.hash.includes('error_code=otp_expired');
     
-    if (error === 'access_denied' && errorCode === 'otp_expired') {
+    // Extract error description from hash if present
+    let errorDescription = searchParams.get('error_description');
+    if (!errorDescription && window.location.hash) {
+      const hashParams = new URLSearchParams(window.location.hash.substring(1));
+      errorDescription = hashParams.get('error_description');
+    }
+    
+    if ((error || error === 'access_denied') && (errorCode || errorCode === 'otp_expired')) {
       setIsLinkExpired(true);
       notification.error(
         'Link Expired', 
