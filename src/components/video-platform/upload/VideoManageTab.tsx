@@ -69,6 +69,7 @@ export function VideoManageTab({ videos, setVideos, windowWidth }: VideoManageTa
       if (paginatedVideos.length === 1 && currentPage > 1) {
         setCurrentPage(currentPage - 1);
       }
+      notification.success("Success", "Video deleted successfully.")
     } catch (error) {
       console.error("Error deleting video:", error);
       alert("Failed to delete video. Please try again.");

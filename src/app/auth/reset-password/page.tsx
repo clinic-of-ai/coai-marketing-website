@@ -33,11 +33,26 @@ function ResetPasswordContent() {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [isLinkExpired, setIsLinkExpired] = useState(false);
   const { updatePassword } = useAuth();
   const router = useRouter();
   const searchParams = useSearchParams();
   const notification = useNotification();
 
+  useEffect(() => {
+    // Check for error parameters in URL
+    const error = searchParams.get('error');
+    const errorCode = searchParams.get('error_code');
+    const errorDescription = searchParams.get('error_description');
+    
+    if (error === 'access_denied' && errorCode === 'otp_expired') {
+      setIsLinkExpired(true);
+      notification.error(
+        'Link Expired', 
+        errorDescription?.replace(/\+/g, ' ') || 'Email link is invalid or has expired'
+      );
+    }
+  }, [searchParams, notification]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -111,7 +126,25 @@ function ResetPasswordContent() {
         </div>
 
         <div className="bg-white/80 dark:bg-black/40 backdrop-blur-xl rounded-2xl border border-gray-200 dark:border-white/10 shadow-[0_0_40px_rgba(8,_112,_184,_0.2)] overflow-hidden p-8">
-          {!isSuccess ? (
+          {isLinkExpired ? (
+            <div className="text-center py-6">
+              <div className="w-16 h-16 bg-red-100 dark:bg-red-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-red-600 dark:text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+              <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">Link Expired</h2>
+              <p className="text-gray-600 dark:text-gray-300 mb-6">
+                The password reset link has expired or is invalid. Please request a new password reset link.
+              </p>
+              <Link
+                href="/forgot-password"
+                className="inline-flex items-center justify-center px-4 py-2 bg-cyan-500 text-white rounded-lg hover:bg-cyan-600 transition-colors"
+              >
+                Request New Link
+              </Link>
+            </div>
+          ) : !isSuccess ? (
             <>
               <div className="text-center mb-6">
                 <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">Reset Your Password</h1>
