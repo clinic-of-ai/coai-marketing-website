@@ -26,7 +26,7 @@ export function Hero(props: HeroProps) {
             <p className="prose max-w-[554px] text-muted-foreground">
               {props.paragraph}
             </p>
-            <div className="flex flex-wrap gap-4">
+            <div className="flex flex-col space-y-4 sm:flex-row sm:space-x-4 sm:space-y-0">
               <BookingForm
                 iframeUrl={props.cta.formUrl}
                 iframeId={props.cta.formId}
@@ -34,9 +34,9 @@ export function Hero(props: HeroProps) {
                 <AnimatedArrowButton>{props.cta.label}</AnimatedArrowButton>
               </BookingForm>
               
-              <Link href="/overview.html" passHref>
+              <a href="/overview.html" className="block">
                 <AnimatedArrowButton>View Gamefiction Commands</AnimatedArrowButton>
-              </Link>
+              </a>
             </div>
           </div>
         </div>
