@@ -9,6 +9,7 @@ import { SolutionOffering } from "./_components/solution-offering";
 import { Industries } from "./_components/industries";
 import { Insight } from "./_components/insight";
 import { GetStartedSection } from "./_components/get-started-section";
+import { GameButton } from "./_components/game-button"; // Add this import
 
 import content from "./_data";
 
@@ -16,6 +17,7 @@ export default function Home() {
   return (
     <>
       <Hero {...content.hero} />
+      <GameButton /> {/* Add this line right after the Hero */}
       <VideoIntroduction {...content.videoIntro} />
       <OurPartners {...content.ourPartners} />
       <ClientGains {...content.clientGains} />
