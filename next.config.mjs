@@ -11,6 +11,19 @@ const nextConfig = {
 	},
 	// Disable static page generation for specific routes
 	unstable_excludeFiles: ['src/app/page.tsx'],
+	// Add this rewrites section
+	async rewrites() {
+		return [
+			{
+				source: '/overview.html',
+				destination: '/overview.html'
+			},
+			{
+				source: '/guide.html',
+				destination: '/guide.html'
+			}
+		];
+	},
 	images: {
 		remotePatterns: [
 			{
