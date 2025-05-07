@@ -140,6 +140,15 @@ export function Header() {
                 Company →
               </p>
             </Link>
+            {/* Add new link here */}
+            <Link href="/overview.html" passHref>
+              <p
+                className="text-[16px] font-semibold text-black dark:text-white"
+                onClick={closeMobileMenu}
+              >
+                Gamefiction Commands
+              </p>
+            </Link>
             {isAuthenticated ? (
               <button
                 className="text-[16px] font-semibold text-black dark:text-white"
@@ -171,6 +180,14 @@ export function Header() {
                 <Link href={"/video-platform"} legacyBehavior passHref>
                   <NavigationMenuLink className={navigationMenuTriggerStyle()}>
                     Video Platform
+                  </NavigationMenuLink>
+                </Link>
+              </NavigationMenuItem>
+              {/* Add new menu item here */}
+              <NavigationMenuItem>
+                <Link href={"/overview.html"} legacyBehavior passHref>
+                  <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                    Gamefiction Commands
                   </NavigationMenuLink>
                 </Link>
               </NavigationMenuItem>
