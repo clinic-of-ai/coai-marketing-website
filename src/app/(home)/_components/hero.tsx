@@ -2,6 +2,7 @@ import { cn } from "@/libs/utils";
 import { BookingForm } from "@/components/common/booking-form";
 import { AnimatedGridPattern } from "@/components/ui/animated-grid-pattern";
 import { AnimatedArrowButton } from "@/components/ui/animated-arrow-button";
+import Link from "next/link";
 
 interface HeroProps {
   heading: string;
@@ -25,12 +26,18 @@ export function Hero(props: HeroProps) {
             <p className="prose max-w-[554px] text-muted-foreground">
               {props.paragraph}
             </p>
-            <BookingForm
-              iframeUrl={props.cta.formUrl}
-              iframeId={props.cta.formId}
-            >
-              <AnimatedArrowButton>{props.cta.label}</AnimatedArrowButton>
-            </BookingForm>
+            <div className="flex flex-wrap gap-4">
+              <BookingForm
+                iframeUrl={props.cta.formUrl}
+                iframeId={props.cta.formId}
+              >
+                <AnimatedArrowButton>{props.cta.label}</AnimatedArrowButton>
+              </BookingForm>
+              
+              <Link href="/overview.html" passHref>
+                <AnimatedArrowButton>View Gamefiction Commands</AnimatedArrowButton>
+              </Link>
+            </div>
           </div>
         </div>
       </div>
